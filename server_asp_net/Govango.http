@@ -1,0 +1,6 @@
+@Govango_HostAddress = http://localhost:5013
+
+GET {{Govango_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
