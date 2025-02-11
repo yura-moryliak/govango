@@ -23,6 +23,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./modules/dashboard/dashboard.component').then(
+        (cmp) => cmp.DashboardComponent,
+      ),
+  },
+  {
     path: 'page-not-found',
     loadComponent: () =>
       import('./shared/components/not-found/not-found.component').then(

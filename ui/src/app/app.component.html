@@ -1,1 +1,9 @@
+<div>
+  <h1>{{ 'Hello' | translate }}</h1>
+  <p>{{ 'Welcome' | translate }}</p>
+</div>
+
+<button (click)="switchLang('en')">EN</button>
+<button (click)="switchLang('ua')">UA</button>
+
 <router-outlet></router-outlet>
