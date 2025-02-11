@@ -17,6 +17,19 @@ services:
     networks:
       - govango_network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: govango_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: govango_user
+      PMA_PASSWORD: govango_pass
+    ports:
+      - "8080:80"
+    networks:
+      - govango_network
+
 networks:
   govango_network:
 
