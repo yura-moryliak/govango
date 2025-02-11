@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'gvg-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet, TranslatePipe],
+  imports: [RouterOutlet],
   styleUrl: './app.component.scss',
 })
 export class AppComponent {}
