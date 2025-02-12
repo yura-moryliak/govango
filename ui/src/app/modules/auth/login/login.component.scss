@@ -1,0 +1,69 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 31.25em;
+    background-color: var(--p-surface-900);
+    padding: 2.188em;
+    border-radius: 0.5em;
+
+    p-iftalabel {
+      margin-bottom: 3em;
+    }
+
+    input[pInputText] {
+      width: 100%;
+    }
+
+    p-password {
+      margin-bottom: 1em;
+      ::ng-deep {
+        .p-inputwrapper,
+        input {
+          width: 100%;
+        }
+      }
+    }
+
+    p-button {
+      margin-bottom: 3em;
+      ::ng-deep {
+        button {
+          width: 100%;
+        }
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    .extras {
+      small {
+        display: flex;
+        justify-content: space-between;
+
+        a {
+          text-decoration: none;
+          color: var(--primary-400);
+
+          &:hover {
+            color: var(--p-primary-600);
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 37.5em) {
+      width: 100%;
+      padding: 2em;
+      background: none;
+    }
+  }
+}

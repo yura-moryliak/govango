@@ -1,4 +1,8 @@
 {
-  "Hello": "Hello",
-  "Welcome": "Welcome to our application!"
+  "Email or phone number": "Email or phone number",
+  "Password": "Password",
+  "Login": "Login",
+  "Forgot password?": "Forgot password?",
+  "Register": "Register",
+  "Login with Google": "Login with Google"
 }
