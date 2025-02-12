@@ -12,7 +12,6 @@ import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { TranslatePipe } from '@ngx-translate/core';
-import { NgClass } from '@angular/common';
 
 interface LoginFormGroupInterface {
   emailOrPhone: FormControl<string | null>;
@@ -30,7 +29,6 @@ interface LoginFormGroupInterface {
     RouterLink,
     ReactiveFormsModule,
     TranslatePipe,
-    NgClass,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
