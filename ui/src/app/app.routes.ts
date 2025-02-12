@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { RegisterComponent } from './modules/auth/register/register.component';
-import { ForgetPasswordComponent } from './modules/forget-password/forget-password.component';
 
 export const routes: Routes = [
   {
@@ -21,13 +20,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./modules/auth/register/register.component').then(
         (cmp): typeof RegisterComponent => cmp.RegisterComponent,
-      ),
-  },
-  {
-    path: 'forgot-password',
-    loadComponent: () =>
-      import('./modules/forget-password/forget-password.component').then(
-        (cmp): typeof ForgetPasswordComponent => cmp.ForgetPasswordComponent,
       ),
   },
   {
