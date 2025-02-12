@@ -1,4 +1,8 @@
 {
-  "Hello": "Привіт",
-  "Welcome": "Вітаємо в застосунку!"
+  "Email or phone number": "Пошта або номер телефону",
+  "Password": "Пароль",
+  "Login": "Увійти",
+  "Forgot password?": "Забули пароль?",
+  "Register": "Зареєструватись",
+  "Login with Google": "Увійти через Google"
 }

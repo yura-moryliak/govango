@@ -1,1 +1,76 @@
-<p>login works!</p>
+<h1>GoVanGo</h1>
+
+<form novalidate [formGroup]="form">
+  <p-iftalabel>
+    <input
+      pInputText
+      id="email_or_phone_number"
+      autocomplete="off"
+      formControlName="emailOrPhone"
+      [ngClass]="{
+        'p-invalid':
+          form.controls.emailOrPhone.invalid &&
+          !form.controls.emailOrPhone.untouched,
+      }"
+    />
+    <label for="email_or_phone_number">{{
+      "Email or phone number" | translate
+    }}</label>
+
+    @if (
+      form.controls.emailOrPhone.invalid &&
+      !form.controls.emailOrPhone.untouched
+    ) {
+      @if (form.controls.emailOrPhone.errors?.["required"]) {
+        <small class="validation-error">{{
+          "This field is required" | translate
+        }}</small>
+      }
+    }
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <p-password
+      inputId="password"
+      [toggleMask]="true"
+      [feedback]="false"
+      styleClass="password-control"
+      formControlName="password"
+      [ngClass]="{
+        'ng invalid ng-dirty':
+          form.controls.password.invalid && !form.controls.password.untouched,
+      }"
+    />
+    <label for="password">{{ "Password" | translate }}</label>
+
+    @if (form.controls.password.invalid && !form.controls.password.untouched) {
+      @if (form.controls.password.errors?.["required"]) {
+        <small class="validation-error">{{
+          "This field is required" | translate
+        }}</small>
+      }
+    }
+  </p-iftalabel>
+
+  <p-button
+    label="{{ 'Login' | translate }}"
+    [loading]="false"
+    (onClick)="login()"
+    [disabled]="form.invalid"
+  ></p-button>
+
+  <div class="extras">
+    <small>
+      <a routerLink="/forgot-password">{{ "Forgot password?" | translate }}</a>
+      <a routerLink="/register">{{ "Register" | translate }}</a>
+    </small>
+  </div>
+
+  <p-divider />
+
+  <p-button
+    icon="pi pi-google"
+    label="{{ 'Login with Google' | translate }}"
+    variant="text"
+  />
+</form>
