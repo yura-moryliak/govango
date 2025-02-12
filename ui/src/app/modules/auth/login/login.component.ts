@@ -11,7 +11,6 @@ import { IftaLabel } from 'primeng/iftalabel';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
-import { TranslatePipe } from '@ngx-translate/core';
 
 interface LoginFormGroupInterface {
   emailOrPhone: FormControl<string | null>;
@@ -28,7 +27,6 @@ interface LoginFormGroupInterface {
     Divider,
     RouterLink,
     ReactiveFormsModule,
-    TranslatePipe,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
