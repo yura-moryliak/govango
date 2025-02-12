@@ -1,4 +1,4 @@
-<h2>GoVanGo</h2>
+<h1>GoVanGo</h1>
 
 <form novalidate [formGroup]="form">
   <p-iftalabel>
@@ -7,8 +7,15 @@
       id="email_or_phone_number"
       autocomplete="off"
       formControlName="emailOrPhone"
+      [ngClass]="{'p-invalid': form.controls.emailOrPhone.invalid && !form.controls.emailOrPhone.untouched}"
     />
     <label for="email_or_phone_number">{{ 'Email or phone number' | translate }}</label>
+
+    @if (form.controls.emailOrPhone.invalid && !form.controls.emailOrPhone.untouched) {
+      @if (form.controls.emailOrPhone.errors?.['required']) {
+        <small class="validation-error">{{ 'This field is required' | translate }}</small>
+      }
+    }
   </p-iftalabel>
 
   <p-iftalabel>
@@ -20,6 +27,12 @@
       formControlName="password"
     />
     <label for="password">{{ 'Password' | translate }}</label>
+
+    @if (form.controls.password.invalid && !form.controls.password.untouched) {
+      @if (form.controls.password.errors?.['required']) {
+        <small class="validation-error">{{ 'This field is required' | translate }}</small>
+      }
+    }
   </p-iftalabel>
 
   <p-button

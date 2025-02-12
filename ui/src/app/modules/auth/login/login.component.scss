@@ -14,12 +14,16 @@
     border-radius: 0.5em;
     margin-bottom: 2em;
 
-    input[pInputText] {
-      width: 100%;
+    p-iftalabel {
       margin-bottom: 3em;
     }
 
+    input[pInputText] {
+      width: 100%;
+    }
+
     p-password {
+      margin-bottom: 1em;
       ::ng-deep {
         .p-inputwrapper,
         input {
@@ -29,13 +33,12 @@
     }
 
     p-button {
+      margin-bottom: 3em;
       ::ng-deep {
         button {
           width: 100%;
         }
       }
-      margin-top: 3em;
-      margin-bottom: 3em;
 
       &:last-of-type {
         margin-bottom: 0;
@@ -43,6 +46,7 @@
     }
 
     .extras {
+
       small {
         display: flex;
         justify-content: space-between;
