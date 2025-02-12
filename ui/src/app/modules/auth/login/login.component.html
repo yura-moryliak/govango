@@ -8,7 +8,7 @@
       autocomplete="off"
       formControlName="emailOrPhone"
     />
-    <label for="email_or_phone_number">Email or phone number</label>
+    <label for="email_or_phone_number">{{ 'Email or phone number' | translate }}</label>
   </p-iftalabel>
 
   <p-iftalabel>
@@ -19,11 +19,11 @@
       styleClass="password-control"
       formControlName="password"
     />
-    <label for="password">Password</label>
+    <label for="password">{{ 'Password' | translate }}</label>
   </p-iftalabel>
 
   <p-button
-    label="Login"
+    label="{{ 'Login' | translate }}"
     [loading]="false"
     (onClick)="login()"
     [disabled]="form.invalid"
@@ -31,12 +31,12 @@
 
   <div class="extras">
     <small>
-      <a routerLink="">Forgot password?</a>
-      <a routerLink="/register">Register</a>
+      <a routerLink="">{{ 'Forgot password?' | translate }}</a>
+      <a routerLink="/register">{{ 'Register' | translate }}</a>
     </small>
   </div>
 
   <p-divider />
 
-  <p-button icon="pi pi-google" label="Login with Google" variant="outlined" />
+  <p-button icon="pi pi-google" label="{{ 'Login with Google' | translate }}" variant="text" />
 </form>
