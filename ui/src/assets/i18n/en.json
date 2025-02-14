@@ -4,5 +4,13 @@
   "Login": "Login",
   "Forgot password?": "Forgot password?",
   "Register": "Register",
-  "Login with Google": "Login with Google"
+  "Login with Google": "Login with Google",
+  "User Info": "Хто ви?",
+  "User Credentials": "Ваші облікові дані",
+  "User Car Info": "Інформація про ваше авто",
+  "Are you a car owner?": "Are you a car owner?",
+  "City": "City",
+  "First name": "First name",
+  "Last name": "Last name",
+  "Next": "Next"
 }

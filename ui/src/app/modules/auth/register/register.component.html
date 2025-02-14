@@ -1,10 +1,10 @@
 <h1>GoVanGo</h1>
 
 <section>
-  <p-stepper [value]="activeStep" class="horizontal-stepper" [linear]="true">
+  <p-stepper [value]="(activeStep$ | async)!" class="horizontal-stepper" [linear]="true">
     <p-step-list>
       @for (step of steps; track $index) {
-        <p-step [value]="$index + 1">{{ step.label }}</p-step>
+        <p-step [value]="$index + 1">{{ step.label | translate }}</p-step>
       }
     </p-step-list>
   </p-stepper>

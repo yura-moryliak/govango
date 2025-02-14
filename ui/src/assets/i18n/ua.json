@@ -1,8 +1,16 @@
 {
-  "Email or phone number": "Пошта або номер телефону",
-  "Password": "Пароль",
+  "Email or phone number": "Ваші пошта чи номер телефону",
+  "Password": "Ваш пароль",
   "Login": "Увійти",
   "Forgot password?": "Забули пароль?",
   "Register": "Зареєструватись",
-  "Login with Google": "Увійти через Google"
+  "Login with Google": "Увійти через Google",
+  "User Info": "Хто ви?",
+  "User Credentials": "Облікові дані",
+  "User Car Info": "Дані про авто",
+  "Are you a car owner?": "Ви власник авто?",
+  "City": "Ваше місто",
+  "First name": "Ім'я",
+  "Last name": "Прізвище",
+  "Next": "Далі"
 }

@@ -49,7 +49,7 @@ export const appConfig: ApplicationConfig = {
       [RegisterState],
       withNgxsStoragePlugin({
         keys: [RegisterState],
-        namespace: 'tm',
+        namespace: 'govango',
       }),
       withNgxsLoggerPlugin({ disabled: environment.production }),
     ),
