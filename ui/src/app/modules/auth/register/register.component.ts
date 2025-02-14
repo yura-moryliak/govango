@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Step, StepList, Stepper } from 'primeng/stepper';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { Divider } from 'primeng/divider';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface RegisterStep {
   label: string;
@@ -9,7 +11,15 @@ interface RegisterStep {
 
 @Component({
   selector: 'gvg-register',
-  imports: [StepList, Stepper, Step, RouterOutlet],
+  imports: [
+    StepList,
+    Stepper,
+    Step,
+    RouterOutlet,
+    Divider,
+    RouterLink,
+    TranslatePipe,
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,4 +30,6 @@ export class RegisterComponent {
     { label: 'User Credentials Data', route: 'user-credentials-data' },
     { label: 'User Car Info', route: 'user-car-info' },
   ];
+
+  activeStep: number = 1;
 }
