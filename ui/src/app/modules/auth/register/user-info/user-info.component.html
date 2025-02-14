@@ -1,1 +1,82 @@
-<p>user-info works!</p>
+<form novalidate [formGroup]="form">
+  <div class="custom-form-control">
+    <span>Are you a car owner?</span>
+    <p-toggleswitch formControlName="isCarOwner" />
+  </div>
+
+  <p-iftalabel>
+    <p-select
+      [filter]="true"
+      [options]="citiesList"
+      filterBy="name"
+      inputId="city"
+      optionLabel="name"
+      formControlName="city"
+      [ngClass]="{
+        'ng-dirty ng-invalid':
+          form.controls.city.invalid && !form.controls.city.untouched,
+      }"
+    />
+    <label for="city">City</label>
+
+    @if (form.controls.city.invalid && !form.controls.city.untouched) {
+      @if (form.controls.city.errors?.["required"]) {
+        <small class="validation-error">{{
+          "This field is required" | translate
+        }}</small>
+      }
+    }
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input
+      pInputText
+      id="firstName"
+      formControlName="firstName"
+      autocomplete="off"
+      [ngClass]="{
+        'p-invalid':
+          form.controls.firstName.invalid && !form.controls.firstName.untouched,
+      }"
+    />
+    <label for="firstName">First name</label>
+
+    @if (
+      form.controls.firstName.invalid && !form.controls.firstName.untouched
+    ) {
+      @if (form.controls.firstName.errors?.["required"]) {
+        <small class="validation-error">{{
+          "This field is required" | translate
+        }}</small>
+      }
+    }
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input
+      pInputText
+      id="lastName"
+      formControlName="lastName"
+      autocomplete="off"
+      [ngClass]="{
+        'p-invalid':
+          form.controls.lastName.invalid && !form.controls.lastName.untouched,
+      }"
+    />
+    <label for="lastName">Last name</label>
+
+    @if (form.controls.lastName.invalid && !form.controls.lastName.untouched) {
+      @if (form.controls.lastName.errors?.["required"]) {
+        <small class="validation-error">{{
+          "This field is required" | translate
+        }}</small>
+      }
+    }
+  </p-iftalabel>
+
+  <p-button
+    label="Next"
+    (onClick)="goToNextStep()"
+    [disabled]="form.invalid"
+  ></p-button>
+</form>

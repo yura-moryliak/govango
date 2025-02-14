@@ -1,34 +1,13 @@
 import { State, StateToken } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-
-interface UserInfoDataInterface {
-  isCarOwner: boolean;
-  firstName: string;
-  lastName: string;
-  city: string;
-}
-
-interface UserCredentialsDataInterface {
-  phoneNumber: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface UserCarInfoInterface {
-  registrationNumber: string;
-  make: string;
-  model: string;
-  length: number;
-  weight: number;
-  height: number;
-  carryCapacity: number;
-}
+import { UserInfoDataInterface } from './interfaces/user-info-data.interface';
+import { UserCredentialsDataInterface } from './interfaces/user-credentials-data.interface';
+import { UserCarInfoDataInterface } from './interfaces/user-car-info-data.interface';
 
 export interface RegisterStateModel {
   userInfoData: UserInfoDataInterface;
   userCredentialsData: UserCredentialsDataInterface;
-  userCarInfo: UserCarInfoInterface;
+  userCarInfo: UserCarInfoDataInterface;
 }
 
 export const REGISTER_STATE_TOKEN = new StateToken<RegisterStateModel>(

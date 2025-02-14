@@ -1,7 +1,6 @@
 <h1>GoVanGo</h1>
 
 <section>
-
   <p-stepper [value]="activeStep" class="horizontal-stepper" [linear]="true">
     <p-step-list>
       @for (step of steps; track $index) {
@@ -20,5 +19,4 @@
       <a routerLink="/login">{{ "Login" | translate }}</a>
     </small>
   </div>
-
 </section>

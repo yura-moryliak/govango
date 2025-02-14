@@ -5,8 +5,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [],
   templateUrl: './user-credentials-data.component.html',
   styleUrl: './user-credentials-data.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserCredentialsDataComponent {
-
-}
+export class UserCredentialsDataComponent {}
