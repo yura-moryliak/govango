@@ -6,7 +6,7 @@ import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-p
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'register', // TODO Change it after implementing registration
     pathMatch: 'full',
   },
   {
@@ -21,6 +21,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./modules/auth/register/register.component').then(
         (cmp): typeof RegisterComponent => cmp.RegisterComponent,
+      ),
+    loadChildren: () =>
+      import('./modules/auth/register/register-step.routes').then(
+        (r) => r.REGISTER_STEP_ROUTES,
       ),
   },
   {
