@@ -10,11 +10,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Divider } from 'primeng/divider';
 import { Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
+import { delay, Observable, Subscription } from 'rxjs';
 import { RegisterState } from './register.state';
 import { UserInfoDataInterface } from './interfaces/user-info-data.interface';
 import { AsyncPipe } from '@angular/common';
-import { RegisterActions } from './register.actions';
 
 interface RegisterStep {
   label: string;
@@ -57,13 +56,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     { label: 'User Credentials', route: 'user-credentials-data' },
   ];
 
-  activeStep$ = this.store.select(RegisterState.activeStep);
+  activeStep$: Observable<number> = this.store
+    .select(RegisterState.activeStep)
+    .pipe(delay(10));
 
   ngOnInit(): void {
-    this.store.dispatch(
-      new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
-    );
-
     this.sub.add(
       this.store
         .select(RegisterState.userDataInfo)

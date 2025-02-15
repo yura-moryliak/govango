@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form">
   <div class="custom-form-control">
-    <span>{{ 'Are you a car owner?' | translate }}</span>
+    <span>{{ "Are you a car owner?" | translate }}</span>
     <p-toggleswitch formControlName="isCarOwner" />
   </div>
 
@@ -17,7 +17,7 @@
           form.controls.city.invalid && !form.controls.city.untouched,
       }"
     />
-    <label for="city">{{ 'City' | translate }}</label>
+    <label for="city">{{ "City" | translate }}</label>
 
     @if (form.controls.city.invalid && !form.controls.city.untouched) {
       @if (form.controls.city.errors?.["required"]) {
@@ -39,7 +39,7 @@
           form.controls.firstName.invalid && !form.controls.firstName.untouched,
       }"
     />
-    <label for="firstName">{{ 'First name' | translate }}</label>
+    <label for="firstName">{{ "First name" | translate }}</label>
 
     @if (
       form.controls.firstName.invalid && !form.controls.firstName.untouched
@@ -63,7 +63,7 @@
           form.controls.lastName.invalid && !form.controls.lastName.untouched,
       }"
     />
-    <label for="lastName">{{ 'Last name' | translate }}</label>
+    <label for="lastName">{{ "Last name" | translate }}</label>
 
     @if (form.controls.lastName.invalid && !form.controls.lastName.untouched) {
       @if (form.controls.lastName.errors?.["required"]) {
@@ -75,7 +75,7 @@
   </p-iftalabel>
 
   <p-button
-    label="{{'Next' | translate}}"
+    label="{{ 'Next' | translate }}"
     (onClick)="goToNextStep()"
     [disabled]="form.invalid"
   ></p-button>

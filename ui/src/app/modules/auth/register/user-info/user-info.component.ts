@@ -25,7 +25,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { RegisterActions } from '../register.actions';
 import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import { RegisterState } from '../register.state';
 import { Router } from '@angular/router';
 import { RegisterStepEnum } from '../register.component';
@@ -68,21 +68,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   citiesList: CitiesListInterface[] = StaticAssetsService.citiesList;
 
   ngOnInit(): void {
-    this.sub.add(
-      this.store
-        .select(RegisterState.userDataInfo)
-        .subscribe((userDataInfo: UserInfoDataInterface) =>
-          this.form.patchValue(userDataInfo),
-        ),
+    this.store.dispatch(
+      new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
     );
+
+    this.populateForm();
+    this.saveFormChanges();
   }
 
   async goToNextStep(): Promise<void> {
-    this.store.dispatch(
-      new RegisterActions.AddUserInfoData(
-        this.form.value as UserInfoDataInterface,
-      ),
-    );
     this.store.dispatch(
       new RegisterActions.SetActiveStep(RegisterStepEnum.UserCredentialsData),
     );
@@ -91,5 +85,29 @@ export class UserInfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  private populateForm(): void {
+    this.sub.add(
+      this.store
+        .selectOnce(RegisterState.userDataInfo)
+        .subscribe((userDataInfo: UserInfoDataInterface) =>
+          this.form.patchValue(userDataInfo, { emitEvent: false }),
+        ),
+    );
+  }
+
+  private saveFormChanges(): void {
+    this.sub.add(
+      this.form.valueChanges
+        .pipe(debounceTime(300))
+        .subscribe((changes) =>
+          this.store.dispatch(
+            new RegisterActions.AddUserInfoData(
+              changes as UserInfoDataInterface,
+            ),
+          ),
+        ),
+    );
   }
 }

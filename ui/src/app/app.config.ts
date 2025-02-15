@@ -16,6 +16,7 @@ import { RegisterState } from './modules/auth/register/register.state';
 import { withNgxsStoragePlugin } from '@ngxs/storage-plugin';
 import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { environment } from '../environments/environment';
+import { MessageService } from 'primeng/api';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -53,5 +54,6 @@ export const appConfig: ApplicationConfig = {
       }),
       withNgxsLoggerPlugin({ disabled: environment.production }),
     ),
+    MessageService,
   ],
 };

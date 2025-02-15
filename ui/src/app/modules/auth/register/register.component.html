@@ -1,22 +1,26 @@
 <h1>GoVanGo</h1>
 
 <section>
-  <p-stepper [value]="(activeStep$ | async)!" class="horizontal-stepper" [linear]="true">
-    <p-step-list>
-      @for (step of steps; track $index) {
-        <p-step [value]="$index + 1">{{ step.label | translate }}</p-step>
-      }
-    </p-step-list>
-  </p-stepper>
+  @if (activeStep$ | async; as activeStep) {
+    <p-stepper [value]="activeStep" class="horizontal-stepper" [linear]="true">
+      <p-step-list>
+        @for (step of steps; track $index) {
+          <p-step [value]="$index + 1">{{ step.label | translate }}</p-step>
+        }
+      </p-step-list>
+    </p-stepper>
 
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 
-  <p-divider />
+    <p-divider />
 
-  <div class="extras">
-    <small>
-      <a routerLink="/forgot-password">{{ "Forgot password?" | translate }}</a>
-      <a routerLink="/login">{{ "Login" | translate }}</a>
-    </small>
-  </div>
+    <div class="extras">
+      <small>
+        <a routerLink="/forgot-password">{{
+          "Forgot password?" | translate
+        }}</a>
+        <a routerLink="/login">{{ "Login" | translate }}</a>
+      </small>
+    </div>
+  }
 </section>

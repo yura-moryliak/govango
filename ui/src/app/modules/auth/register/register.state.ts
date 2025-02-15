@@ -5,13 +5,20 @@ import { UserCredentialsDataInterface } from './interfaces/user-credentials-data
 import { UserCarInfoDataInterface } from './interfaces/user-car-info-data.interface';
 import { RegisterActions } from './register.actions';
 import { RegisterStepEnum } from './register.component';
+import { delay, of, tap } from 'rxjs';
 
 export interface RegisterStateModel {
-  userInfoData: UserInfoDataInterface;
-  userCredentialsData: UserCredentialsDataInterface;
-  userCarInfo: UserCarInfoDataInterface;
+  step1: {
+    userInfoData: UserInfoDataInterface;
+  };
+  step2: {
+    userCredentialsData: UserCredentialsDataInterface;
+    formInvalid: boolean;
+  };
+  step3?: {
+    userCarInfo: UserCarInfoDataInterface;
+  };
   activeStep: RegisterStepEnum;
-  isRegistrationCompleted: boolean;
 }
 
 export const REGISTER_STATE_TOKEN = new StateToken<RegisterStateModel>(
@@ -19,29 +26,35 @@ export const REGISTER_STATE_TOKEN = new StateToken<RegisterStateModel>(
 );
 
 const initialRegisterState: RegisterStateModel = {
-  userInfoData: {
-    isCarOwner: false,
-    firstName: '',
-    lastName: '',
-    city: '',
+  step1: {
+    userInfoData: {
+      isCarOwner: false,
+      firstName: '',
+      lastName: '',
+      city: '',
+    },
   },
-  userCredentialsData: {
-    phoneNumber: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+  step2: {
+    userCredentialsData: {
+      phoneNumber: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    formInvalid: false,
   },
-  userCarInfo: {
-    registrationNumber: '',
-    make: '',
-    model: '',
-    length: 0,
-    weight: 0,
-    height: 0,
-    carryCapacity: 0,
+  step3: {
+    userCarInfo: {
+      registrationNumber: '',
+      make: '',
+      model: '',
+      length: 0,
+      weight: 0,
+      height: 0,
+      carryCapacity: 0,
+    },
   },
   activeStep: 1,
-  isRegistrationCompleted: false,
 };
 
 @State<RegisterStateModel>({
@@ -57,29 +70,31 @@ export class RegisterState {
 
   @Selector()
   static userDataInfo(state: RegisterStateModel): UserInfoDataInterface {
-    return state.userInfoData;
+    return state.step1.userInfoData;
   }
 
   @Selector()
   static userCredentialsData(
     state: RegisterStateModel,
   ): UserCredentialsDataInterface {
-    return state.userCredentialsData;
+    return state.step2.userCredentialsData;
   }
 
   @Selector()
-  static userCarInfo(state: RegisterStateModel): UserCarInfoDataInterface {
-    return state.userCarInfo;
+  static userCarInfo(
+    state: RegisterStateModel,
+  ): UserCarInfoDataInterface | undefined {
+    return state.step3?.userCarInfo;
   }
 
   @Selector()
   static isCarOwner(state: RegisterStateModel): boolean {
-    return state.userInfoData.isCarOwner;
+    return state.step1.userInfoData.isCarOwner;
   }
 
   @Selector()
-  static isRegistrationCompleted(state: RegisterStateModel): boolean {
-    return state.isRegistrationCompleted;
+  static isFormInvalid(state: RegisterStateModel): boolean {
+    return state.step2.formInvalid;
   }
 
   @Action(RegisterActions.SetActiveStep)
@@ -95,6 +110,27 @@ export class RegisterState {
     { patchState }: StateContext<RegisterStateModel>,
     { payload }: RegisterActions.AddUserInfoData,
   ): void {
-    patchState({ userInfoData: payload });
+    patchState({ step1: { userInfoData: payload } });
+  }
+
+  @Action(RegisterActions.AddUserCredentialsData)
+  addUserCredentialsData(
+    { patchState }: StateContext<RegisterStateModel>,
+    { payload, formInvalid }: RegisterActions.AddUserCredentialsData,
+  ): void {
+    patchState({
+      step2: { userCredentialsData: payload, formInvalid },
+    });
+  }
+
+  @Action(RegisterActions.RegisterNewUser)
+  registerNewUser({ patchState }: StateContext<RegisterStateModel>) {
+    // TODO Simulation for BE call
+    return of(null).pipe(
+      delay(5000),
+      tap(() => {
+        patchState({ ...initialRegisterState });
+      }),
+    );
   }
 }
