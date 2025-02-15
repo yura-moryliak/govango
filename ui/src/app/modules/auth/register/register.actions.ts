@@ -1,0 +1,28 @@
+import { RegisterStepEnum } from './register.component';
+import { UserInfoDataInterface } from './interfaces/user-info-data.interface';
+import { UserCredentialsDataInterface } from './interfaces/user-credentials-data.interface';
+
+const ACTION_SCOPE = '[Register]';
+export namespace RegisterActions {
+  export class SetActiveStep {
+    static readonly type = `${ACTION_SCOPE} Set Active Step`;
+    constructor(public activeStep: RegisterStepEnum) {}
+  }
+
+  export class AddUserInfoData {
+    static readonly type = `${ACTION_SCOPE} Add User Info Data`;
+    constructor(public payload: UserInfoDataInterface) {}
+  }
+
+  export class AddUserCredentialsData {
+    static readonly type = `${ACTION_SCOPE} Add User Credentials Data`;
+    constructor(
+      public payload: UserCredentialsDataInterface,
+      public formInvalid: boolean,
+    ) {}
+  }
+
+  export class RegisterNewUser {
+    static readonly type = `${ACTION_SCOPE} Register User`;
+  }
+}

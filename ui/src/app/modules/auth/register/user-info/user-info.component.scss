@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  margin: 2em 0;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+
+    .custom-form-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    p-select,
+    input[pInputText] {
+      width: 100%;
+    }
+
+    p-button {
+      align-self: flex-end;
+    }
+  }
+}

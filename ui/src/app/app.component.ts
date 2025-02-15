@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'gvg-root',
@@ -7,7 +8,11 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor() {
+    inject(TranslateService).use('ua');
+  }
+}
 
 // TODO This is what I'll need when will try to implement language switcher
 // export class AppComponent implements OnInit {

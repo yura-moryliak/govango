@@ -1,0 +1,30 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  section {
+    width: 45em;
+    background-color: var(--p-surface-900);
+    border-radius: 0.5em;
+    padding: 2.188em;
+
+    .extras {
+      small {
+        display: flex;
+        justify-content: space-between;
+
+        a {
+          text-decoration: none;
+          color: var(--primary-400);
+
+          &:hover {
+            color: var(--p-primary-600);
+          }
+        }
+      }
+    }
+  }
+}

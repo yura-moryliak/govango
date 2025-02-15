@@ -1,1 +1,26 @@
-<p>register works!</p>
+<h1>GoVanGo</h1>
+
+<section>
+  @if (activeStep$ | async; as activeStep) {
+    <p-stepper [value]="activeStep" class="horizontal-stepper" [linear]="true">
+      <p-step-list>
+        @for (step of steps; track $index) {
+          <p-step [value]="$index + 1">{{ step.label | translate }}</p-step>
+        }
+      </p-step-list>
+    </p-stepper>
+
+    <router-outlet></router-outlet>
+
+    <p-divider />
+
+    <div class="extras">
+      <small>
+        <a routerLink="/forgot-password">{{
+          "Forgot password?" | translate
+        }}</a>
+        <a routerLink="/login">{{ "Login" | translate }}</a>
+      </small>
+    </div>
+  }
+</section>
