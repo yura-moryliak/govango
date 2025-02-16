@@ -185,7 +185,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
         key: 'success',
         summary: this.translateService.instant('Success'),
         detail: this.translateService.instant(
-          'You have successfully registered',
+          'Your account has been created successfully',
         ),
       }),
     );

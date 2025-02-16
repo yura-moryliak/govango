@@ -121,8 +121,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
           );
           this.router.navigate(['login']);
-          // this.showSuccessToast();
-          this.showErrorToast();
+          this.showSuccessToast();
         },
         error: () => {
           this.isLoading = false;
@@ -167,7 +166,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
         key: 'success',
         summary: this.translateService.instant(`Success`),
         detail: this.translateService.instant(
-          'You have successfully registered',
+          'Your account has been created successfully',
         ),
       }),
     );
