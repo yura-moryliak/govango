@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  margin: 2em 0;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+
+    p-select,
+    input[pInputText] {
+      width: 100%;
+    }
+
+    p-inputmask {
+      ::ng-deep {
+        .p-password,
+        input {
+          width: 100%;
+        }
+      }
+    }
+
+    .custom-form-controls {
+      display: flex;
+      gap: 2em;
+
+      p-iftalabel {
+        flex: 1;
+      }
+
+      p-inputnumber {
+        width: 100%;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

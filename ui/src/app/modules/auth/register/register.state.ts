@@ -15,8 +15,9 @@ export interface RegisterStateModel {
     userCredentialsData: UserCredentialsDataInterface;
     formInvalid: boolean;
   };
-  step3?: {
+  step3: {
     userCarInfo: UserCarInfoDataInterface;
+    formInvalid: boolean;
   };
   activeStep: RegisterStepEnum;
 }
@@ -45,14 +46,15 @@ const initialRegisterState: RegisterStateModel = {
   },
   step3: {
     userCarInfo: {
-      registrationNumber: '',
-      make: '',
-      model: '',
+      registrationPlate: '',
+      make: { id: null, make: '', models: [] },
+      model: { makeId: '', name: '' },
       length: 0,
-      weight: 0,
+      width: 0,
       height: 0,
       carryCapacity: 0,
     },
+    formInvalid: false,
   },
   activeStep: 1,
 };
@@ -81,10 +83,8 @@ export class RegisterState {
   }
 
   @Selector()
-  static userCarInfo(
-    state: RegisterStateModel,
-  ): UserCarInfoDataInterface | undefined {
-    return state.step3?.userCarInfo;
+  static userCarInfo(state: RegisterStateModel): UserCarInfoDataInterface {
+    return state.step3.userCarInfo;
   }
 
   @Selector()
@@ -93,8 +93,13 @@ export class RegisterState {
   }
 
   @Selector()
-  static isFormInvalid(state: RegisterStateModel): boolean {
+  static isStep2FormInvalid(state: RegisterStateModel): boolean {
     return state.step2.formInvalid;
+  }
+
+  @Selector()
+  static isStep3FormInvalid(state: RegisterStateModel): boolean {
+    return state?.step3.formInvalid;
   }
 
   @Action(RegisterActions.SetActiveStep)
@@ -120,6 +125,16 @@ export class RegisterState {
   ): void {
     patchState({
       step2: { userCredentialsData: payload, formInvalid },
+    });
+  }
+
+  @Action(RegisterActions.AddUserCarInfoData)
+  addUserCarInfoData(
+    { patchState }: StateContext<RegisterStateModel>,
+    { payload, formInvalid }: RegisterActions.AddUserCarInfoData,
+  ): void {
+    patchState({
+      step3: { userCarInfo: payload, formInvalid },
     });
   }
 
