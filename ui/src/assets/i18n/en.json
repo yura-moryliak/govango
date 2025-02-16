@@ -29,7 +29,7 @@
   "Success": "Success",
   "Your account has been created successfully": "Your account has been created successfully",
   "Error": "Error",
-  "Something went wrong": "Something went wrong",
+  "Something went wrong. Please try again later": "Something went wrong. Please try again later",
   "Registration plate": "Registration plate",
   "Car make": "Car make",
   "Car model": "Car model",
