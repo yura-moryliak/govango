@@ -1,7 +1,7 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-internal class Program
+internal class Startup
 {
     private static void Main(string[] args)
     {
@@ -12,8 +12,8 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+            options.UseMySql(builder.Configuration.GetConnectionString("MySQLConnection"),
+                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySQLConnection"))));
 
         var app = builder.Build();
 

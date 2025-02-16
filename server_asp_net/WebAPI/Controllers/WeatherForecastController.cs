@@ -1,4 +1,6 @@
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers
 {
@@ -6,12 +8,25 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly AppDbContext _dbContext;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(AppDbContext dbContext)
         {
-            _logger = logger;
+            _dbContext = dbContext;
+        }
+
+        [HttpGet("database")]
+        public async Task<IActionResult> CheckDatabaseConnection()
+        {
+            try
+            {
+                await _dbContext.Database.CanConnectAsync();
+                return Ok(new { status = "Healthy", message = "Database connection successful" });
+            }
+            catch
+            {
+                return StatusCode(500, new { status = "Unhealthy", message = "Database connection failed" });
+            }
         }
     }
 }
