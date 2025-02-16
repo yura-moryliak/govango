@@ -29,7 +29,7 @@
   "Success": "Успішно",
   "Your account has been created successfully": "Ваш обліковий запис успішно створено",
   "Error": "Помилка",
-  "Something went wrong": "Щось пішло не так",
+  "Something went wrong. Please try again later": "Щось пішло не так. Будь ласка, спробуйте пізніше",
   "Registration plate": "Номерний знак",
   "Car make": "Марка авто",
   "Car model": "Модель авто",

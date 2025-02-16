@@ -21,16 +21,20 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { InputMask } from 'primeng/inputmask';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { RegisterState } from '../register.state';
 import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
 import { UserCredentialsDataInterface } from '../interfaces/user-credentials-data.interface';
+import {
+  INITIAL_TOAST_OPTIONS,
+  ToastActions,
+} from '../../../../shared/states/toast/toast.actions';
 
 interface UserCredentialsFormGroupInterface {
   phoneNumber: FormControl<string | null>;
@@ -46,12 +50,12 @@ interface UserCredentialsFormGroupInterface {
     InputText,
     FormsModule,
     ReactiveFormsModule,
-    TranslatePipe,
     InputMask,
     Password,
     Button,
     NgClass,
     AsyncPipe,
+    TranslatePipe,
   ],
   templateUrl: './user-credentials-data.component.html',
   styleUrl: './user-credentials-data.component.scss',
@@ -61,6 +65,8 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly router: Router = inject(Router);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly translateService: TranslateService =
+    inject(TranslateService);
   private readonly sub: Subscription = new Subscription();
 
   readonly form: FormGroup<UserCredentialsFormGroupInterface> = new FormGroup({
@@ -115,12 +121,12 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
           );
           this.router.navigate(['login']);
-          // TODO Show success toast
+          this.showSuccessToast();
         },
         error: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
-          // TODO Show error toast
+          this.showErrorToast();
         },
       }),
     );
@@ -149,6 +155,34 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
             });
           }
         }),
+    );
+  }
+
+  private showSuccessToast(): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'success',
+        key: 'success',
+        summary: this.translateService.instant(`Success`),
+        detail: this.translateService.instant(
+          'Your account has been created successfully',
+        ),
+      }),
+    );
+  }
+
+  private showErrorToast(): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'error',
+        key: 'success',
+        summary: this.translateService.instant('Error'),
+        detail: this.translateService.instant(
+          'Something went wrong. Please try again later',
+        ),
+      }),
     );
   }
 }

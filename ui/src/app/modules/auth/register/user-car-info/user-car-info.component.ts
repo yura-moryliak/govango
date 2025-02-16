@@ -24,14 +24,18 @@ import { Store } from '@ngxs/store';
 import { RegisterState } from '../register.state';
 import { Subscription } from 'rxjs';
 import { UserCarInfoDataInterface } from '../interfaces/user-car-info-data.interface';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Select, SelectChangeEvent } from 'primeng/select';
 import { IftaLabel } from 'primeng/iftalabel';
 import { InputMask } from 'primeng/inputmask';
 import { NgClass } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { InputNumber } from 'primeng/inputnumber';
 import { Button } from 'primeng/button';
+import {
+  INITIAL_TOAST_OPTIONS,
+  ToastActions,
+} from '../../../../shared/states/toast/toast.actions';
 
 interface UserCarInfoFormGroupInterface {
   registrationPlate: FormControl<string | null>;
@@ -64,6 +68,8 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly router: Router = inject(Router);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly translateService: TranslateService =
+    inject(TranslateService);
   private readonly sub: Subscription = new Subscription();
 
   readonly form: FormGroup<UserCarInfoFormGroupInterface> = new FormGroup({
@@ -127,12 +133,12 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
           );
           this.router.navigate(['login']);
-          // TODO Show success toast
+          this.showSuccessToast();
         },
         error: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
-          // TODO Show error toast
+          this.showErrorToast();
         },
       }),
     );
@@ -168,6 +174,34 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
             });
           }
         }),
+    );
+  }
+
+  private showSuccessToast(): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'success',
+        key: 'success',
+        summary: this.translateService.instant('Success'),
+        detail: this.translateService.instant(
+          'Your account has been created successfully',
+        ),
+      }),
+    );
+  }
+
+  private showErrorToast(): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'warn',
+        key: 'success',
+        summary: this.translateService.instant('Error'),
+        detail: this.translateService.instant(
+          'Something went wrong. Please try again later',
+        ),
+      }),
     );
   }
 }
