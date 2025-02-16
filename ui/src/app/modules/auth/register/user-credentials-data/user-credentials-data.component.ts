@@ -27,12 +27,10 @@ import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { Router, RouterLink } from '@angular/router';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { debounceTime, Observable, Subscription } from 'rxjs';
-import { UserCredentialsDataInterface } from '../interfaces/user-credentials-data.interface';
+import { Observable, Subscription } from 'rxjs';
 import { RegisterState } from '../register.state';
 import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
-import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
+import { UserCredentialsDataInterface } from '../interfaces/user-credentials-data.interface';
 
 interface UserCredentialsFormGroupInterface {
   phoneNumber: FormControl<string | null>;
@@ -52,10 +50,8 @@ interface UserCredentialsFormGroupInterface {
     InputMask,
     Password,
     Button,
-    RouterLink,
     NgClass,
     AsyncPipe,
-    Toast,
   ],
   templateUrl: './user-credentials-data.component.html',
   styleUrl: './user-credentials-data.component.scss',
@@ -65,16 +61,9 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly router: Router = inject(Router);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private readonly messageService: MessageService = inject(MessageService);
   private readonly sub: Subscription = new Subscription();
 
-  isLoading: boolean = false;
-
-  userDataInfo$: Observable<UserInfoDataInterface> = this.store.select(
-    RegisterState.userDataInfo,
-  );
-
-  form: FormGroup<UserCredentialsFormGroupInterface> = new FormGroup({
+  readonly form: FormGroup<UserCredentialsFormGroupInterface> = new FormGroup({
     phoneNumber: new FormControl<string | null>('', Validators.required),
     email: new FormControl<string | null>('', [
       Validators.required,
@@ -90,6 +79,11 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
       passwordMatchValidator('password'),
     ]),
   });
+  readonly userDataInfo$: Observable<UserInfoDataInterface> = this.store.select(
+    RegisterState.userDataInfo,
+  );
+
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -97,17 +91,16 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
     );
 
     this.populateForm();
-    this.saveFormChanges();
   }
 
-  async goToNextStep(): Promise<void> {
+  goToStep(path: string): void {
     this.store.dispatch(
       new RegisterActions.AddUserCredentialsData(
         this.form.value as UserCredentialsDataInterface,
         this.form.invalid,
       ),
     );
-    await this.router.navigate(['register', 'user-car-info']);
+    this.router.navigate(['/register', path]);
   }
 
   submit(): void {
@@ -141,34 +134,21 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.store
         .selectOnce(RegisterState.userCredentialsData)
-        .subscribe((userCredentialsData: UserCredentialsDataInterface) => {
-          this.form.patchValue(userCredentialsData, { emitEvent: false });
+        .subscribe((data: UserCredentialsDataInterface) => {
+          this.form.patchValue(data);
+          this.form.updateValueAndValidity();
 
           if (
-            this.store.selectSnapshot(RegisterState.isFormInvalid) &&
+            this.store.selectSnapshot(RegisterState.isStep2FormInvalid) &&
             this.form.pristine
           ) {
             Object.values(this.form.controls).forEach((control) => {
+              control.markAsDirty();
               control.markAsTouched();
               control.updateValueAndValidity();
             });
           }
         }),
-    );
-  }
-
-  private saveFormChanges(): void {
-    this.sub.add(
-      this.form.valueChanges
-        .pipe(debounceTime(300))
-        .subscribe((changes) =>
-          this.store.dispatch(
-            new RegisterActions.AddUserCredentialsData(
-              changes as UserCredentialsDataInterface,
-              this.form.invalid,
-            ),
-          ),
-        ),
     );
   }
 }

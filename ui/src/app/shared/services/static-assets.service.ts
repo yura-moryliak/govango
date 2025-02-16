@@ -4,10 +4,12 @@ export interface CitiesListInterface {
   name: string;
 }
 export interface CarsListInterface {
-  id: number;
+  id: number | null;
   make: string;
   models: Array<{ makeId: string; name: string }>;
 }
+
+export type CarMakeType = { name: string; makeId: string };
 
 @Injectable({
   providedIn: 'root',

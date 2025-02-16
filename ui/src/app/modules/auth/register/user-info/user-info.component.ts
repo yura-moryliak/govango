@@ -24,11 +24,11 @@ import { Button } from 'primeng/button';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { RegisterActions } from '../register.actions';
-import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
-import { debounceTime, Subscription } from 'rxjs';
-import { RegisterState } from '../register.state';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { RegisterStepEnum } from '../register.component';
+import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
+import { RegisterState } from '../register.state';
 
 interface UserInfoFormGroupInterface {
   isCarOwner: FormControl<boolean | null>;
@@ -55,17 +55,16 @@ interface UserInfoFormGroupInterface {
 })
 export class UserInfoComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
-  private readonly router: Router = inject(Router);
+  private readonly route: Router = inject(Router);
   private readonly sub: Subscription = new Subscription();
 
-  form: FormGroup<UserInfoFormGroupInterface> = new FormGroup({
+  readonly form: FormGroup<UserInfoFormGroupInterface> = new FormGroup({
     isCarOwner: new FormControl<boolean>(false),
     firstName: new FormControl<string | null>(null, Validators.required),
     lastName: new FormControl<string | null>(null, Validators.required),
     city: new FormControl<string | null>(null, Validators.required),
   });
-
-  citiesList: CitiesListInterface[] = StaticAssetsService.citiesList;
+  readonly citiesList: CitiesListInterface[] = StaticAssetsService.citiesList;
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -73,14 +72,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     );
 
     this.populateForm();
-    this.saveFormChanges();
   }
 
-  async goToNextStep(): Promise<void> {
+  goToNextStep(): void {
     this.store.dispatch(
-      new RegisterActions.SetActiveStep(RegisterStepEnum.UserCredentialsData),
+      new RegisterActions.AddUserInfoData(
+        this.form.value as UserInfoDataInterface,
+      ),
     );
-    await this.router.navigate(['register', 'user-credentials-data']);
+    this.route.navigate(['/register', 'user-credentials-data']);
   }
 
   ngOnDestroy(): void {
@@ -91,23 +91,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.store
         .selectOnce(RegisterState.userDataInfo)
-        .subscribe((userDataInfo: UserInfoDataInterface) =>
-          this.form.patchValue(userDataInfo, { emitEvent: false }),
-        ),
-    );
-  }
-
-  private saveFormChanges(): void {
-    this.sub.add(
-      this.form.valueChanges
-        .pipe(debounceTime(300))
-        .subscribe((changes) =>
-          this.store.dispatch(
-            new RegisterActions.AddUserInfoData(
-              changes as UserInfoDataInterface,
-            ),
-          ),
-        ),
+        .subscribe((data: UserInfoDataInterface) => this.form.patchValue(data)),
     );
   }
 }

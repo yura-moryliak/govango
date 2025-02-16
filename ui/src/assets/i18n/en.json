@@ -2,9 +2,9 @@
   "Email or phone number": "Email or phone number",
   "Password": "Password",
   "Enter a password": "Enter a password",
-  "Weak password" : "Weak password",
-  "Medium password" : "Medium password",
-  "Strong password" : "Strong password",
+  "Weak password": "Weak password",
+  "Medium password": "Medium password",
+  "Strong password": "Strong password",
   "Login": "Login",
   "Forgot password?": "Forgot password?",
   "Register": "Register",
@@ -29,5 +29,12 @@
   "Success": "Success",
   "Your account has been created successfully": "Your account has been created successfully",
   "Error": "Error",
-  "Something went wrong": "Something went wrong"
+  "Something went wrong": "Something went wrong",
+  "Registration plate": "Registration plate",
+  "Car make": "Car make",
+  "Car model": "Car model",
+  "Length": "Length",
+  "Width": "Width",
+  "Height": "Height",
+  "Carry capacity": "Carry capacity"
 }

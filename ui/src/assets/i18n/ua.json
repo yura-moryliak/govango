@@ -2,9 +2,9 @@
   "Email or phone number": "Ваші пошта чи номер телефону",
   "Password": "Ваш пароль",
   "Enter a password": "Введіть пароль",
-  "Weak password" : "Слабкий пароль",
-  "Medium password" : "Середній пароль",
-  "Strong password" : "Міцний пароль",
+  "Weak password": "Слабкий пароль",
+  "Medium password": "Середній пароль",
+  "Strong password": "Міцний пароль",
   "Login": "Увійти",
   "Forgot password?": "Забули пароль?",
   "Register": "Зареєструватись",
@@ -29,5 +29,12 @@
   "Success": "Успішно",
   "Your account has been created successfully": "Ваш обліковий запис успішно створено",
   "Error": "Помилка",
-  "Something went wrong": "Щось пішло не так"
+  "Something went wrong": "Щось пішло не так",
+  "Registration plate": "Номерний знак",
+  "Car make": "Марка авто",
+  "Car model": "Модель авто",
+  "Length": "Довжина",
+  "Width": "Ширина",
+  "Height": "Висота",
+  "Carry capacity": "Вантажопідйомність"
 }

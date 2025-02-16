@@ -1,10 +1,173 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  CarMakeType,
+  CarsListInterface,
+  StaticAssetsService,
+} from '../../../../shared/services/static-assets.service';
+import { RegisterActions } from '../register.actions';
+import { RegisterStepEnum } from '../register.component';
+import { Store } from '@ngxs/store';
+import { RegisterState } from '../register.state';
+import { Subscription } from 'rxjs';
+import { UserCarInfoDataInterface } from '../interfaces/user-car-info-data.interface';
+import { Router, RouterLink } from '@angular/router';
+import { Select, SelectChangeEvent } from 'primeng/select';
+import { IftaLabel } from 'primeng/iftalabel';
+import { InputMask } from 'primeng/inputmask';
+import { NgClass } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
+import { InputNumber } from 'primeng/inputnumber';
+import { Button } from 'primeng/button';
+
+interface UserCarInfoFormGroupInterface {
+  registrationPlate: FormControl<string | null>;
+  make: FormControl<CarsListInterface | null>;
+  model: FormControl<CarMakeType | null>;
+  length: FormControl<number | null>;
+  width: FormControl<number | null>;
+  height: FormControl<number | null>;
+  carryCapacity: FormControl<number | null>;
+}
 
 @Component({
   selector: 'gvg-user-car-info',
-  imports: [],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    IftaLabel,
+    InputMask,
+    NgClass,
+    TranslatePipe,
+    Select,
+    InputNumber,
+    Button,
+  ],
   templateUrl: './user-car-info.component.html',
   styleUrl: './user-car-info.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserCarInfoComponent {}
+export class UserCarInfoComponent implements OnInit, OnDestroy {
+  private readonly store: Store = inject(Store);
+  private readonly router: Router = inject(Router);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly sub: Subscription = new Subscription();
+
+  readonly form: FormGroup<UserCarInfoFormGroupInterface> = new FormGroup({
+    registrationPlate: new FormControl('', Validators.required),
+    make: new FormControl(
+      { id: null, make: '', models: [] } as CarsListInterface,
+      Validators.required,
+    ),
+    model: new FormControl(
+      { name: '', makeId: '' } as CarMakeType,
+      Validators.required,
+    ),
+    length: new FormControl(0, Validators.required),
+    width: new FormControl(0, Validators.required),
+    height: new FormControl(0, Validators.required),
+    carryCapacity: new FormControl(0, Validators.required),
+  });
+  readonly carsList: CarsListInterface[] = StaticAssetsService.carsList;
+
+  carsModelsList: Array<{ makeId: string; name: string }> = [];
+  isLoading: boolean = false;
+
+  ngOnInit(): void {
+    this.store.dispatch(
+      new RegisterActions.SetActiveStep(RegisterStepEnum.UserCarInfo),
+    );
+
+    this.populateForm();
+  }
+
+  carMakeChanges(changeEvent: SelectChangeEvent): void {
+    if (!changeEvent.value) {
+      this.carsModelsList = [];
+      this.form.controls.model.disable();
+      return;
+    }
+
+    this.carsModelsList = changeEvent.value.models;
+    this.form.controls.model.enable();
+  }
+
+  goToStep(path: string): void {
+    this.store.dispatch(
+      new RegisterActions.AddUserCarInfoData(
+        this.form.value as UserCarInfoDataInterface,
+        this.form.invalid,
+      ),
+    );
+    this.router.navigate(['/register', path]);
+  }
+
+  submit(): void {
+    this.isLoading = true;
+
+    this.sub.add(
+      this.store.dispatch(new RegisterActions.RegisterNewUser()).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+          this.store.dispatch(
+            new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
+          );
+          this.router.navigate(['login']);
+          // TODO Show success toast
+        },
+        error: () => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+          // TODO Show error toast
+        },
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  private populateForm(): void {
+    this.sub.add(
+      this.store
+        .select(RegisterState.userCarInfo)
+        .subscribe((data: UserCarInfoDataInterface) => {
+          this.form.patchValue(data);
+          this.form.updateValueAndValidity();
+
+          if (!this.form.controls.make.value?.id) {
+            this.form.controls.make.patchValue(null);
+            this.form.controls.model.disable();
+          }
+
+          this.carsModelsList = data.make?.models ? data.make.models : [];
+
+          if (
+            this.store.selectSnapshot(RegisterState.isStep3FormInvalid) &&
+            this.form.pristine
+          ) {
+            Object.values(this.form.controls).forEach((control) => {
+              control.markAsDirty();
+              control.markAsTouched();
+              control.updateValueAndValidity();
+            });
+          }
+        }),
+    );
+  }
+}

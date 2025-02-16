@@ -1,9 +1,14 @@
+import {
+  CarMakeType,
+  CarsListInterface,
+} from '../../../../shared/services/static-assets.service';
+
 export interface UserCarInfoDataInterface {
-  registrationNumber: string;
-  make: string;
-  model: string;
+  registrationPlate: string;
+  make: CarsListInterface;
+  model: CarMakeType;
   length: number;
-  weight: number;
+  width: number;
   height: number;
   carryCapacity: number;
 }
