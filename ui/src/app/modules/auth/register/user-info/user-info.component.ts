@@ -29,6 +29,7 @@ import { Router } from '@angular/router';
 import { RegisterStepEnum } from '../register.component';
 import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
 import { RegisterState } from '../register.state';
+import { PrimeTemplate } from 'primeng/api';
 
 interface UserInfoFormGroupInterface {
   isCarOwner: FormControl<boolean | null>;
@@ -48,6 +49,7 @@ interface UserInfoFormGroupInterface {
     InputText,
     Button,
     TranslatePipe,
+    PrimeTemplate,
   ],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.scss',
