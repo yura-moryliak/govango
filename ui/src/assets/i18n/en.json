@@ -31,6 +31,7 @@
   "Error": "Error",
   "Something went wrong. Please try again later": "Something went wrong. Please try again later",
   "Registration plate": "Registration plate",
+  "Latin letters": "Latin letters",
   "Car make": "Car make",
   "Car model": "Car model",
   "Length": "Length",
@@ -494,5 +495,8 @@
   "Yampil": "Yampil",
   "Yaremche": "Yaremche",
   "Yani Kapu": "Yani Kapu",
-  "Yasynuvata": "Yasynuvata"
+  "Yasynuvata": "Yasynuvata",
+  "No results found": "No results found",
+  "meter": "м",
+  "ton": "t"
 }

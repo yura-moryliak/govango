@@ -31,6 +31,7 @@
   "Error": "Помилка",
   "Something went wrong. Please try again later": "Щось пішло не так. Будь ласка, спробуйте пізніше",
   "Registration plate": "Номерний знак",
+  "Latin letters": "Латинські літери",
   "Car make": "Марка авто",
   "Car model": "Модель авто",
   "Length": "Довжина",
@@ -494,5 +495,8 @@
   "Yampil": "Ямпіль",
   "Yaremche": "Яремче",
   "Yani Kapu": "Яни Капу",
-  "Yasynuvata": "Ясинувата"
+  "Yasynuvata": "Ясинувата",
+  "No results found": "Результатів не знайдено",
+  "meter": "м",
+  "ton": "т"
 }

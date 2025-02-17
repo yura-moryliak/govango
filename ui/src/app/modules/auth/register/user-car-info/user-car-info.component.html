@@ -3,7 +3,7 @@
     <p-inputmask
       id="registrationPlate"
       mask="aa9999aa"
-      placeholder="AA000AA"
+      placeholder="AA000BB"
       formControlName="registrationPlate"
       [ngClass]="{
         'ng-dirty ng-invalid':
@@ -13,7 +13,7 @@
     />
     <label for="registrationPlate">{{
       "Registration plate" | translate
-    }}</label>
+    }} <i>({{ 'Latin letters' | translate }})</i></label>
 
     @if (
       form.controls.registrationPlate.invalid &&
@@ -42,6 +42,7 @@
         optionLabel="make"
         filterBy="make"
         formControlName="make"
+        emptyFilterMessage="{{ 'No results found' | translate }}"
         [ngClass]="{
           'ng-dirty ng-invalid':
             form.controls.make.invalid && !form.controls.make.untouched,
@@ -71,6 +72,7 @@
         optionLabel="name"
         filterBy="name"
         formControlName="model"
+        emptyFilterMessage="{{ 'No results found' | translate }}"
         [ngClass]="{
           'ng-dirty ng-invalid':
             form.controls.model.invalid && !form.controls.model.untouched,
@@ -93,7 +95,7 @@
     <p-iftalabel>
       <p-inputNumber
         id="length"
-        suffix=" m"
+        suffix=" {{ 'meter' | translate }}"
         formControlName="length"
         inputId="minmaxfraction"
         mode="decimal"
@@ -119,7 +121,7 @@
     <p-iftalabel>
       <p-inputNumber
         id="width"
-        suffix=" m"
+        suffix=" {{ 'meter' | translate }}"
         formControlName="width"
         inputId="minmaxfraction"
         mode="decimal"
@@ -147,7 +149,7 @@
     <p-iftalabel>
       <p-inputNumber
         id="height"
-        suffix=" m"
+        suffix=" {{ 'meter' | translate }}"
         formControlName="height"
         inputId="minmaxfraction"
         mode="decimal"
@@ -173,7 +175,7 @@
     <p-iftalabel>
       <p-inputNumber
         id="carryCapacity"
-        suffix=" tons"
+        suffix=" {{ 'ton' | translate }}"
         formControlName="carryCapacity"
         inputId="minmaxfraction"
         mode="decimal"

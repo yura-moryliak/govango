@@ -4,6 +4,7 @@ import { UserCarInfoDataInterface } from './interfaces/user-car-info-data.interf
 import { UserCredentialsDataInterface } from './interfaces/user-credentials-data.interface';
 
 const ACTION_SCOPE = '[Register]';
+
 export namespace RegisterActions {
   export class SetActiveStep {
     static readonly type = `${ACTION_SCOPE} Set Active Step`;
