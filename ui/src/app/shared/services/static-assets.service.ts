@@ -17,1387 +17,1384 @@ export type CarMakeType = { name: string; makeId: string };
 export class StaticAssetsService {
   static citiesList: CitiesListInterface[] = [
     {
-      name: 'Авдіївка',
+      name: 'Avdiivka',
     },
     {
-      name: 'Алмазна',
+      name: 'Almazna',
     },
     {
-      name: 'Алупка',
+      name: 'Alupka',
     },
     {
-      name: 'Алушта',
+      name: 'Alushta',
     },
     {
-      name: 'Алчевськ',
+      name: 'Alchevsk',
     },
     {
-      name: 'Амвросіївка',
+      name: 'Amvrosiivka',
     },
     {
-      name: 'Ананьїв',
+      name: 'Ananiv',
     },
     {
-      name: 'Андрушівка',
+      name: 'Andrushivka',
     },
     {
-      name: 'Антрацит',
+      name: 'Antratsyt',
     },
     {
-      name: 'Апостолове',
+      name: 'Apostolove',
     },
     {
-      name: 'Армянськ',
+      name: 'Armiansk',
     },
     {
-      name: 'Арциз',
+      name: 'Artsyz',
     },
     {
-      name: 'Балаклія',
+      name: 'Balakliia',
     },
     {
-      name: 'Балта',
+      name: 'Balta',
     },
     {
-      name: 'Бар',
+      name: 'Bar',
     },
     {
-      name: 'Баранівка',
+      name: 'Baranivka',
     },
     {
-      name: 'Барвінкове',
+      name: 'Barvinkove',
     },
     {
-      name: 'Батурин',
+      name: 'Baturyn',
     },
     {
-      name: 'Бахмач',
+      name: 'Bakhmach',
     },
     {
-      name: 'Бахмут',
+      name: 'Bakhmut',
     },
     {
-      name: 'Бахчисарай',
+      name: 'Bakhchysarai',
     },
     {
-      name: 'Баштанка',
+      name: 'Bashtanka',
     },
     {
-      name: 'Белз',
+      name: 'Belz',
     },
     {
-      name: 'Бердичів',
+      name: 'Berdychiv',
     },
     {
-      name: 'Бердянськ',
+      name: 'Berdiansk',
     },
     {
-      name: 'Берегове',
+      name: 'Berehove',
     },
     {
-      name: 'Бережани',
+      name: 'Berezhany',
     },
     {
-      name: 'Березань',
+      name: 'Berezan',
     },
     {
-      name: 'Березівка',
+      name: 'Berezivka',
     },
     {
-      name: 'Березне',
+      name: 'Berezne',
     },
     {
-      name: 'Берестечко',
+      name: 'Berestechko',
     },
     {
-      name: 'Берислав',
+      name: 'Beryslav',
     },
     {
-      name: 'Бершадь',
+      name: 'Bershad',
     },
     {
-      name: 'Бібрка',
+      name: 'Bibrka',
     },
     {
-      name: 'Біла Церква',
+      name: 'Bila Tserkva',
     },
     {
-      name: 'Білгород-Дністровський',
+      name: 'Bilhorod-Dnistrovskyi',
     },
     {
-      name: 'Білицьке',
+      name: 'Bilytske',
     },
     {
-      name: 'Білогірськ',
+      name: 'Bilohirsk',
     },
     {
-      name: 'Білозерське',
+      name: 'Bilozerka',
     },
     {
-      name: 'Білопілля',
+      name: 'Bilopillia',
     },
     {
-      name: 'Біляївка',
+      name: 'Biliaivka',
     },
     {
-      name: 'Благовіщенське',
+      name: 'Blahovishchenske',
     },
     {
-      name: 'Бобринець',
+      name: 'Bobrynets',
     },
     {
-      name: 'Бобровиця',
+      name: 'Bobrovytsia',
     },
     {
-      name: 'Богодухів',
+      name: 'Bohodukhiv',
     },
     {
-      name: 'Богуслав',
+      name: 'Bohuslav',
     },
     {
-      name: 'Боково-Хрустальне',
+      name: 'Bokovo-Khrustalne',
     },
     {
-      name: 'Болград',
+      name: 'Bolhrad',
     },
     {
-      name: 'Болехів',
+      name: 'Bolekhiv',
     },
     {
-      name: 'Борзна',
+      name: 'Borzna',
     },
     {
-      name: 'Борислав',
+      name: 'Boryslav',
     },
     {
-      name: 'Бориспіль',
+      name: 'Boryspil',
     },
     {
-      name: 'Борщів',
+      name: 'Borshchiv',
     },
     {
-      name: 'Боярка',
+      name: 'Boiarka',
     },
     {
-      name: 'Бровари',
+      name: 'Brovary',
     },
     {
-      name: 'Броди',
+      name: 'Brody',
     },
     {
-      name: 'Брянка',
+      name: 'Brianka',
     },
     {
-      name: 'Бунге',
+      name: 'Bunge',
     },
     {
-      name: 'Буринь',
+      name: 'Buryn',
     },
     {
-      name: 'Бурштин',
+      name: 'Burshtyn',
     },
     {
-      name: 'Буськ',
+      name: 'Busk',
     },
     {
-      name: 'Буча',
+      name: 'Bucha',
     },
     {
-      name: 'Бучач',
+      name: 'Buchach',
     },
     {
-      name: 'Валки',
+      name: 'Valky',
     },
     {
-      name: 'Вараш',
+      name: 'Varash',
     },
     {
-      name: 'Василівка',
+      name: 'Vasylivka',
     },
     {
-      name: 'Васильків',
+      name: 'Vasylkiv',
     },
     {
-      name: 'Ватутіне',
+      name: 'Vatutine',
     },
     {
-      name: 'Вашківці',
+      name: 'Vashkivtsi',
     },
     {
-      name: 'Великі Мости',
+      name: 'Velyki Mosty',
     },
     {
-      name: 'Верхівцеве',
+      name: 'Verkhivtseve',
     },
     {
-      name: 'Верхньодніпровськ',
+      name: 'Verkhnodniprovsk',
     },
     {
-      name: 'Вижниця',
+      name: 'Vyzhnytsia',
     },
     {
-      name: 'Вилкове',
+      name: 'Vylkove',
     },
     {
-      name: 'Винники',
+      name: 'Vynnyky',
     },
     {
-      name: 'Виноградів',
+      name: 'Vynohradiv',
     },
     {
-      name: 'Вишгород',
+      name: 'Vyshhorod',
     },
     {
-      name: 'Вишневе',
+      name: 'Vyshneve',
     },
     {
-      name: 'Вільногірськ',
+      name: 'Vilnohirsk',
     },
     {
-      name: 'Вільнянськ',
+      name: 'Vilniansk',
     },
     {
-      name: 'Вінниця',
+      name: 'Vinnytsia',
     },
     {
-      name: 'Вовчанськ',
+      name: 'Vovchansk',
     },
     {
-      name: 'Вознесенівка',
+      name: 'Voznesenivka',
     },
     {
-      name: 'Вознесенськ',
+      name: 'Voznesensk',
     },
     {
-      name: 'Волноваха',
+      name: 'Volnovakha',
     },
     {
-      name: 'Володимир',
+      name: 'Volodymyr',
     },
     {
-      name: 'Волочиськ',
+      name: 'Volochysk',
     },
     {
-      name: 'Ворожба',
+      name: 'Vorozhba',
     },
     {
-      name: 'Вуглегірськ',
+      name: 'Vuhlehirsk',
     },
     {
-      name: 'Вугледар',
+      name: 'Vuhledar',
     },
     {
-      name: 'Гадяч',
+      name: 'Hadiach',
     },
     {
-      name: 'Гайворон',
+      name: 'Haivoron',
     },
     {
-      name: 'Гайсин',
+      name: 'Haisyn',
     },
     {
-      name: 'Галич',
+      name: 'Halych',
     },
     {
-      name: 'Генічеськ',
+      name: 'Henichesk',
     },
     {
-      name: 'Герца',
+      name: 'Hertsa',
     },
     {
-      name: 'Гірник',
+      name: 'Hirnyk',
     },
     {
-      name: 'Гірське',
+      name: 'Hirske',
     },
     {
-      name: 'Глиняни',
+      name: 'Hlynyany',
     },
     {
-      name: 'Глобине',
+      name: 'Hlobyne',
     },
     {
-      name: 'Глухів',
+      name: 'Hlukhiv',
     },
     {
-      name: 'Гнівань',
+      name: 'Hnivan',
     },
     {
-      name: 'Гола Пристань',
+      name: 'Hola Prystan',
     },
     {
-      name: 'Голубівка',
+      name: 'Holubivka',
     },
     {
-      name: 'Горішні Плавні',
+      name: 'Horishni Plavni',
     },
     {
-      name: 'Горлівка',
+      name: 'Horlivka',
     },
     {
-      name: 'Городенка',
+      name: 'Horodenka',
     },
     {
-      name: 'Городище',
+      name: 'Horodyshche',
     },
     {
-      name: 'Городня',
+      name: 'Horodnia',
     },
     {
-      name: 'Городок',
+      name: 'Horodok',
     },
     {
-      name: 'Городок',
+      name: 'Horokhiv',
     },
     {
-      name: 'Горохів',
+      name: 'Hrebinka',
     },
     {
-      name: 'Гребінка',
+      name: 'Huliaipole',
     },
     {
-      name: 'Гуляйполе',
+      name: 'Debaltseve',
     },
     {
-      name: 'Дебальцеве',
+      name: 'Derazhnia',
     },
     {
-      name: 'Деражня',
+      name: 'Derhachi',
     },
     {
-      name: 'Дергачі',
+      name: 'Dzhankoi',
     },
     {
-      name: 'Джанкой',
+      name: 'Dnipro',
     },
     {
-      name: 'Дніпро',
+      name: 'Dniprorudne',
     },
     {
-      name: 'Дніпрорудне',
+      name: 'Dobromyl',
     },
     {
-      name: 'Добромиль',
+      name: 'Dobropillia',
     },
     {
-      name: 'Добропілля',
+      name: 'Dovzhansk',
     },
     {
-      name: 'Довжанськ',
+      name: 'Dokuchaievsk',
     },
     {
-      name: 'Докучаєвськ',
+      name: 'Dolyna',
     },
     {
-      name: 'Долина',
+      name: 'Dolynska',
     },
     {
-      name: 'Долинська',
+      name: 'Donetsk',
     },
     {
-      name: 'Донецьк',
+      name: 'Drohobych',
     },
     {
-      name: 'Дрогобич',
+      name: 'Druzhba',
     },
     {
-      name: 'Дружба',
+      name: 'Druzhkivka',
     },
     {
-      name: 'Дружківка',
+      name: 'Dubliany',
     },
     {
-      name: 'Дубляни',
+      name: 'Dubno',
     },
     {
-      name: 'Дубно',
+      name: 'Dubrovitsa',
     },
     {
-      name: 'Дубровиця',
+      name: 'Dunaivtsi',
     },
     {
-      name: 'Дунаївці',
+      name: 'Enerhodar',
     },
     {
-      name: 'Енергодар',
+      name: 'Yevpatoriia',
     },
     {
-      name: 'Євпаторія',
+      name: 'Yenakiieve',
     },
     {
-      name: 'Єнакієве',
+      name: 'Zhashkiv',
     },
     {
-      name: 'Жашків',
+      name: 'Zhdanivka',
     },
     {
-      name: 'Жданівка',
+      name: 'Zhydachiv',
     },
     {
-      name: 'Жидачів',
+      name: 'Zhytomyr',
     },
     {
-      name: 'Житомир',
+      name: 'Zhmerynka',
     },
     {
-      name: 'Жмеринка',
+      name: 'Zhovkva',
     },
     {
-      name: 'Жовква',
+      name: 'Zhovti Vody',
     },
     {
-      name: 'Жовті Води',
+      name: 'Zavodske',
     },
     {
-      name: 'Заводське',
+      name: 'Zalizne',
     },
     {
-      name: 'Залізне',
+      name: 'Zalishchyky',
     },
     {
-      name: 'Заліщики',
+      name: 'Zaporizhzhia',
     },
     {
-      name: 'Запоріжжя',
+      name: 'Zastavna',
     },
     {
-      name: 'Заставна',
+      name: 'Zbarazh',
     },
     {
-      name: 'Збараж',
+      name: 'Zboriv',
     },
     {
-      name: 'Зборів',
+      name: 'Zvenyhorodka',
     },
     {
-      name: 'Звенигородка',
+      name: 'Zviahel',
     },
     {
-      name: 'Звягель',
+      name: 'Zdolbuniv',
     },
     {
-      name: 'Здолбунів',
+      name: 'Zelenodolsk',
     },
     {
-      name: 'Зеленодольськ',
+      name: 'Zymohiria',
     },
     {
-      name: "Зимогір'я",
+      name: 'Zinkiv',
     },
     {
-      name: 'Зіньків',
+      name: 'Zmiiv',
     },
     {
-      name: 'Зміїв',
+      name: 'Znamianka',
     },
     {
-      name: "Знам'янка",
+      name: 'Zolote',
     },
     {
-      name: 'Золоте',
+      name: 'Zolotonosha',
     },
     {
-      name: 'Золотоноша',
+      name: 'Zolochiv',
     },
     {
-      name: 'Золочів',
+      name: 'Zorynsk',
     },
     {
-      name: 'Зоринськ',
+      name: 'Zuhres',
     },
     {
-      name: 'Зугрес',
+      name: 'Ivano-Frankivsk',
     },
     {
-      name: 'Івано-Франківськ',
+      name: 'Izmail',
     },
     {
-      name: 'Ізмаїл',
+      name: 'Izium',
     },
     {
-      name: 'Ізюм',
+      name: 'Iziaslav',
     },
     {
-      name: 'Ізяслав',
+      name: 'Illintsi',
     },
     {
-      name: 'Іллінці',
+      name: 'Ilovaisk',
     },
     {
-      name: 'Іловайськ',
+      name: 'Inkerman',
     },
     {
-      name: 'Інкерман',
+      name: 'Irmino',
     },
     {
-      name: 'Ірміно',
+      name: 'Irpin',
     },
     {
-      name: 'Ірпінь',
+      name: 'Irshava',
     },
     {
-      name: 'Іршава',
+      name: 'Ichnia',
     },
     {
-      name: 'Ічня',
+      name: 'Kaharlyk',
     },
     {
-      name: 'Кагарлик',
+      name: 'Kadiivka',
     },
     {
-      name: 'Кадіївка',
+      name: 'Kalynivka',
     },
     {
-      name: 'Калинівка',
+      name: 'Kalush',
     },
     {
-      name: 'Калуш',
+      name: 'Kalmiuske',
     },
     {
-      name: 'Кальміуське',
+      name: 'Kamin-Kashyrskyi',
     },
     {
-      name: 'Камінь-Каширський',
+      name: 'Kamianets-Podilskyi',
     },
     {
-      name: "Кам'янець-Подільський",
+      name: 'Kamianka',
     },
     {
-      name: "Кам'янка",
+      name: 'Kamianka-Buzka',
     },
     {
-      name: "Кам'янка-Бузька",
+      name: 'Kamianka-Dniprovska',
     },
     {
-      name: "Кам'янка-Дніпровська",
+      name: 'Kamianske',
     },
     {
-      name: "Кам'янське",
+      name: 'Kaniv',
     },
     {
-      name: 'Канів',
+      name: 'Karlivka',
     },
     {
-      name: 'Карлівка',
+      name: 'Kakhovka',
     },
     {
-      name: 'Каховка',
+      name: 'Kerch',
     },
     {
-      name: 'Керч',
+      name: 'Kyiv',
     },
     {
-      name: 'Київ',
+      name: 'Kypuche',
     },
     {
-      name: 'Кипуче',
+      name: 'Kivertsi',
     },
     {
-      name: 'Ківерці',
+      name: 'Kiliia',
     },
     {
-      name: 'Кілія',
+      name: 'Kitsman',
     },
     {
-      name: 'Кіцмань',
+      name: 'Kobeliaky',
     },
     {
-      name: 'Кобеляки',
+      name: 'Kovel',
     },
     {
-      name: 'Ковель',
+      name: 'Kodyma',
     },
     {
-      name: 'Кодима',
+      name: 'Koziatyn',
     },
     {
-      name: 'Козятин',
+      name: 'Kolomyia',
     },
     {
-      name: 'Коломия',
+      name: 'Komarno',
     },
     {
-      name: 'Комарно',
+      name: 'Konotop',
     },
     {
-      name: 'Конотоп',
+      name: 'Kopychyntsi',
     },
     {
-      name: 'Копичинці',
+      name: 'Korets',
     },
     {
-      name: 'Корець',
+      name: 'Korosten',
     },
     {
-      name: 'Коростень',
+      name: 'Korostyshiv',
     },
     {
-      name: 'Коростишів',
+      name: 'Korsun-Shevchenkivskyi',
     },
     {
-      name: 'Корсунь-Шевченківський',
+      name: 'Koriukivka',
     },
     {
-      name: 'Корюківка',
+      name: 'Kosiv',
     },
     {
-      name: 'Косів',
+      name: 'Kostopil',
     },
     {
-      name: 'Костопіль',
+      name: 'Kostiantynivka',
     },
     {
-      name: 'Костянтинівка',
+      name: 'Kramatorsk',
     },
     {
-      name: 'Краматорськ',
+      name: 'Krasyliv',
     },
     {
-      name: 'Красилів',
+      name: 'Krasnohorivka',
     },
     {
-      name: 'Красногорівка',
+      name: 'Krasnohrad',
     },
     {
-      name: 'Красноград',
+      name: 'Kremenets',
     },
     {
-      name: 'Кременець',
+      name: 'Kremenchuk',
     },
     {
-      name: 'Кременчук',
+      name: 'Kreminna',
     },
     {
-      name: 'Кремінна',
+      name: 'Kryvyi Rih',
     },
     {
-      name: 'Кривий Ріг',
+      name: 'Krolevets',
     },
     {
-      name: 'Кролевець',
+      name: 'Kropyvnytskyi',
     },
     {
-      name: 'Кропивницький',
+      name: 'Kupiansk',
     },
     {
-      name: "Куп'янськ",
+      name: 'Kurakhove',
     },
     {
-      name: 'Курахове',
+      name: 'Ladyzhyn',
     },
     {
-      name: 'Ладижин',
+      name: 'Lanivtsi',
     },
     {
-      name: 'Ланівці',
+      name: 'Lebedyn',
     },
     {
-      name: 'Лебедин',
+      name: 'Lyman',
     },
     {
-      name: 'Лиман',
+      name: 'Lypovets',
     },
     {
-      name: 'Липовець',
+      name: 'Lysychansk',
     },
     {
-      name: 'Лисичанськ',
+      name: 'Lozova',
     },
     {
-      name: 'Лозова',
+      name: 'Lokhvytsia',
     },
     {
-      name: 'Лохвиця',
+      name: 'Lubny',
     },
     {
-      name: 'Лубни',
+      name: 'Luhansk',
     },
     {
-      name: 'Луганськ',
+      name: 'Lutuhyne',
     },
     {
-      name: 'Лутугине',
+      name: 'Lutsk',
     },
     {
-      name: 'Луцьк',
+      name: 'Lviv',
     },
     {
-      name: 'Львів',
+      name: 'Liuboml',
     },
     {
-      name: 'Любомль',
+      name: 'Liubotyn',
     },
     {
-      name: 'Люботин',
+      name: 'Makiivka',
     },
     {
-      name: 'Макіївка',
+      name: 'Mala Vyska',
     },
     {
-      name: 'Мала Виска',
+      name: 'Malyn',
     },
     {
-      name: 'Малин',
+      name: 'Marhanets',
     },
     {
-      name: 'Марганець',
+      name: 'Mariupol',
     },
     {
-      name: 'Маріуполь',
+      name: 'Mariinka',
     },
     {
-      name: "Мар'їнка",
+      name: 'Melitopol',
     },
     {
-      name: 'Мелітополь',
+      name: 'Mena',
     },
     {
-      name: 'Мена',
+      name: 'Merefa',
     },
     {
-      name: 'Мерефа',
+      name: 'Mykolaiv',
     },
     {
-      name: 'Миколаїв',
+      name: 'Mykolaiv',
     },
     {
-      name: 'Миколаїв',
+      name: 'Mykolaivka',
     },
     {
-      name: 'Миколаївка',
+      name: 'Myrhorod',
     },
     {
-      name: 'Миргород',
+      name: 'Myrnohrad',
     },
     {
-      name: 'Мирноград',
+      name: 'Myronivka',
     },
     {
-      name: 'Миронівка',
+      name: 'Miussynsk',
     },
     {
-      name: 'Міусинськ',
+      name: 'Mohyliv-Podilskyi',
     },
     {
-      name: 'Могилів-Подільський',
+      name: 'Molodohvardiisk',
     },
     {
-      name: 'Молодогвардійськ',
+      name: 'Molochansk',
     },
     {
-      name: 'Молочанськ',
+      name: 'Monastyryska',
     },
     {
-      name: 'Монастириська',
+      name: 'Monastyryshche',
     },
     {
-      name: 'Монастирище',
+      name: 'Morshyn',
     },
     {
-      name: 'Моршин',
+      name: 'Mospyne',
     },
     {
-      name: 'Моспине',
+      name: 'Mostyska',
     },
     {
-      name: 'Мостиська',
+      name: 'Mukachevo',
     },
     {
-      name: 'Мукачево',
+      name: 'Nadvirna',
     },
     {
-      name: 'Надвірна',
+      name: 'Nemyriv',
     },
     {
-      name: 'Немирів',
+      name: 'Netishyn',
     },
     {
-      name: 'Нетішин',
+      name: 'Nizhyn',
     },
     {
-      name: 'Ніжин',
+      name: 'Nikopol',
     },
     {
-      name: 'Нікополь',
+      name: 'Nova Kakhovka',
     },
     {
-      name: 'Нова Каховка',
+      name: 'Nova Odesa',
     },
     {
-      name: 'Нова Одеса',
+      name: 'Novhorod-Siverskyi',
     },
     {
-      name: 'Новгород-Сіверський',
+      name: 'Novyi Buh',
     },
     {
-      name: 'Новий Буг',
+      name: 'Novyi Kalyniv',
     },
     {
-      name: 'Новий Калинів',
+      name: 'Novyi Rozdil',
     },
     {
-      name: 'Новий Розділ',
+      name: 'Novoazovsk',
     },
     {
-      name: 'Новоазовськ',
+      name: 'Novovolynsk',
     },
     {
-      name: 'Нововолинськ',
+      name: 'Novohrodivka',
     },
     {
-      name: 'Новогродівка',
+      name: 'Novodnistrovsk',
     },
     {
-      name: 'Новодністровськ',
+      name: 'Novodruzhesk',
     },
     {
-      name: 'Новодружеськ',
+      name: 'Novomyrhorod',
     },
     {
-      name: 'Новомиргород',
+      name: 'Novomoskovsk',
     },
     {
-      name: 'Новомосковськ',
+      name: 'Novoselytsia',
     },
     {
-      name: 'Новоселиця',
+      name: 'Novoukrainka',
     },
     {
-      name: 'Новоукраїнка',
+      name: 'Novoiavorivsk',
     },
     {
-      name: 'Новояворівськ',
+      name: 'Nosivka',
     },
     {
-      name: 'Носівка',
+      name: 'Obukhiv',
     },
     {
-      name: 'Обухів',
+      name: 'Ovruch',
     },
     {
-      name: 'Овруч',
+      name: 'Odesa',
     },
     {
-      name: 'Одеса',
+      name: 'Olevsk',
     },
     {
-      name: 'Олевськ',
+      name: 'Oleksandrivsk',
     },
     {
-      name: 'Олександрівськ',
+      name: 'Oleksandriia',
     },
     {
-      name: 'Олександрія',
+      name: 'Oleshky',
     },
     {
-      name: 'Олешки',
+      name: 'Orikhiv',
     },
     {
-      name: 'Оріхів',
+      name: 'Oster',
     },
     {
-      name: 'Остер',
+      name: 'Ostroh',
     },
     {
-      name: 'Острог',
+      name: 'Okhtyrka',
     },
     {
-      name: 'Охтирка',
+      name: 'Ochakiv',
     },
     {
-      name: 'Очаків',
+      name: 'Pavlohrad',
     },
     {
-      name: 'Павлоград',
+      name: 'Pervomaisk',
     },
     {
-      name: 'Первомайськ',
+      name: 'Pervomaisk',
     },
     {
-      name: 'Первомайськ',
+      name: 'Pervomaiskyi',
     },
     {
-      name: 'Первомайський',
+      name: 'Perevalsk',
     },
     {
-      name: 'Перевальськ',
+      name: 'Peremyshliany',
     },
     {
-      name: 'Перемишляни',
+      name: 'Perechyn',
     },
     {
-      name: 'Перечин',
+      name: 'Pereshchepyne',
     },
     {
-      name: 'Перещепине',
+      name: 'Pereiaslav',
     },
     {
-      name: 'Переяслав',
+      name: 'Pershotravensk',
     },
     {
-      name: 'Першотравенськ',
+      name: 'Petrove-Krasnosillia',
     },
     {
-      name: 'Петрово-Красносілля',
+      name: 'Pyriatyn',
     },
     {
-      name: 'Пирятин',
+      name: 'Pivdenne',
     },
     {
-      name: 'Південне',
+      name: 'Pidhaitsi',
     },
     {
-      name: 'Підгайці',
+      name: 'Pidhorodne',
     },
     {
-      name: 'Підгородне',
+      name: 'Pohrebyshche',
     },
     {
-      name: 'Погребище',
+      name: 'Podilsk',
     },
     {
-      name: 'Подільськ',
+      name: 'Pokrov',
     },
     {
-      name: 'Покров',
+      name: 'Pokrovsk',
     },
     {
-      name: 'Покровськ',
+      name: 'Pology',
     },
     {
-      name: 'Пологи',
+      name: 'Polonne',
     },
     {
-      name: 'Полонне',
+      name: 'Poltava',
     },
     {
-      name: 'Полтава',
+      name: 'Pomichna',
     },
     {
-      name: 'Помічна',
+      name: 'Popasna',
     },
     {
-      name: 'Попасна',
+      name: 'Pochaiv',
     },
     {
-      name: 'Почаїв',
+      name: 'Pryvillia',
     },
     {
-      name: 'Привілля',
+      name: 'Pryluky',
     },
     {
-      name: 'Прилуки',
+      name: 'Prymorsk',
     },
     {
-      name: 'Приморськ',
+      name: 'Prypiat',
     },
     {
-      name: "Прип'ять",
+      name: 'Pustomyty',
     },
     {
-      name: 'Пустомити',
+      name: 'Putyvl',
     },
     {
-      name: 'Путивль',
+      name: 'Piatykhatky',
     },
     {
-      name: "П'ятихатки",
+      name: 'Rava-Ruska',
     },
     {
-      name: 'Рава-Руська',
+      name: 'Radekhiv',
     },
     {
-      name: 'Радехів',
+      name: 'Radyvyliv',
     },
     {
-      name: 'Радивилів',
+      name: 'Radomyshl',
     },
     {
-      name: 'Радомишль',
+      name: 'Rakhiv',
     },
     {
-      name: 'Рахів',
+      name: 'Reni',
     },
     {
-      name: 'Рені',
+      name: 'Reshetylivka',
     },
     {
-      name: 'Решетилівка',
+      name: 'Rzhyshchiv',
     },
     {
-      name: 'Ржищів',
+      name: 'Rivne',
     },
     {
-      name: 'Рівне',
+      name: 'Rovenky',
     },
     {
-      name: 'Ровеньки',
+      name: 'Rohatyn',
     },
     {
-      name: 'Рогатин',
+      name: 'Rodynske',
     },
     {
-      name: 'Родинське',
+      name: 'Rozhyshche',
     },
     {
-      name: 'Рожище',
+      name: 'Rozdilna',
     },
     {
-      name: 'Роздільна',
+      name: 'Romny',
     },
     {
-      name: 'Ромни',
+      name: 'Rubizhne',
     },
     {
-      name: 'Рубіжне',
+      name: 'Rudky',
     },
     {
-      name: 'Рудки',
+      name: 'Saky',
     },
     {
-      name: 'Саки',
+      name: 'Sambir',
     },
     {
-      name: 'Самбір',
+      name: 'Sarny',
     },
     {
-      name: 'Сарни',
+      name: 'Svaliava',
     },
     {
-      name: 'Свалява',
+      name: 'Svatove',
     },
     {
-      name: 'Сватове',
+      name: 'Svitlovodsk',
     },
     {
-      name: 'Світловодськ',
+      name: 'Svitlodarsk',
     },
     {
-      name: 'Світлодарськ',
+      name: 'Sviatohirsk',
     },
     {
-      name: 'Святогірськ',
+      name: 'Sevastopol',
     },
     {
-      name: 'Севастополь',
+      name: 'Selidove',
     },
     {
-      name: 'Селидове',
+      name: 'Semenivka',
     },
     {
-      name: 'Семенівка',
+      name: 'Seredyna-Buda',
     },
     {
-      name: 'Середина-Буда',
+      name: 'Sievierodonetsk',
     },
     {
-      name: 'Сєвєродонецьк',
+      name: 'Synelnykove',
     },
     {
-      name: 'Синельникове',
+      name: 'Siversk',
     },
     {
-      name: 'Сіверськ',
+      name: 'Simferopol',
     },
     {
-      name: 'Сімферополь',
+      name: 'Skadovsk',
     },
     {
-      name: 'Скадовськ',
+      name: 'Skalat',
     },
     {
-      name: 'Скалат',
+      name: 'Skvyra',
     },
     {
-      name: 'Сквира',
+      name: 'Skole',
     },
     {
-      name: 'Сколе',
+      name: 'Slavuta',
     },
     {
-      name: 'Славута',
+      name: 'Slavutych',
     },
     {
-      name: 'Славутич',
+      name: 'Sloviansk',
     },
     {
-      name: "Слов'янськ",
+      name: 'Smila',
     },
     {
-      name: 'Сміла',
+      name: 'Snihurivka',
     },
     {
-      name: 'Снігурівка',
+      name: 'Snizhne',
     },
     {
-      name: 'Сніжне',
+      name: 'Snovsk',
     },
     {
-      name: 'Сновськ',
+      name: 'Sniatyn',
     },
     {
-      name: 'Снятин',
+      name: 'Sokal',
     },
     {
-      name: 'Сокаль',
+      name: 'Sokyriany',
     },
     {
-      name: 'Сокиряни',
+      name: 'Soledar',
     },
     {
-      name: 'Соледар',
+      name: 'Sorokyne',
     },
     {
-      name: 'Сорокине',
+      name: 'Sosnivka',
     },
     {
-      name: 'Соснівка',
+      name: 'Staryi Krym',
     },
     {
-      name: 'Старий Крим',
+      name: 'Staryi Sambir',
     },
     {
-      name: 'Старий Самбір',
+      name: 'Starobilsk',
     },
     {
-      name: 'Старобільськ',
+      name: 'Starokostiantyniv',
     },
     {
-      name: 'Старокостянтинів',
+      name: 'Stebnyk',
     },
     {
-      name: 'Стебник',
+      name: 'Storozhynets',
     },
     {
-      name: 'Сторожинець',
+      name: 'Stryi',
     },
     {
-      name: 'Стрий',
+      name: 'Sudak',
     },
     {
-      name: 'Судак',
+      name: 'Sudova Vyshnia',
     },
     {
-      name: 'Судова Вишня',
+      name: 'Sumy',
     },
     {
-      name: 'Суми',
+      name: 'Sukhodilsk',
     },
     {
-      name: 'Суходільськ',
+      name: 'Tavriisk',
     },
     {
-      name: 'Таврійськ',
+      name: 'Talne',
     },
     {
-      name: 'Тальне',
+      name: 'Tarashcha',
     },
     {
-      name: 'Тараща',
+      name: 'Tatarbunary',
     },
     {
-      name: 'Татарбунари',
+      name: 'Teplodar',
     },
     {
-      name: 'Теплодар',
+      name: 'Terebovlia',
     },
     {
-      name: 'Теребовля',
+      name: 'Ternivka',
     },
     {
-      name: 'Тернівка',
+      name: 'Ternopil',
     },
     {
-      name: 'Тернопіль',
+      name: 'Tetiiv',
     },
     {
-      name: 'Тетіїв',
+      name: 'Tysmenytsia',
     },
     {
-      name: 'Тисмениця',
+      name: 'Tlumach',
     },
     {
-      name: 'Тлумач',
+      name: 'Tokmak',
     },
     {
-      name: 'Токмак',
+      name: 'Toretsk',
     },
     {
-      name: 'Торецьк',
+      name: 'Trostianets',
     },
     {
-      name: 'Тростянець',
+      name: 'Truskavets',
     },
     {
-      name: 'Трускавець',
+      name: 'Tulchyn',
     },
     {
-      name: 'Тульчин',
+      name: 'Turka',
     },
     {
-      name: 'Турка',
+      name: 'Tyachiv',
     },
     {
-      name: 'Тячів',
+      name: 'Uhniv',
     },
     {
-      name: 'Угнів',
+      name: 'Uzhhorod',
     },
     {
-      name: 'Ужгород',
+      name: 'Uzyn',
     },
     {
-      name: 'Узин',
+      name: 'Ukrainka',
     },
     {
-      name: 'Українка',
+      name: 'Ukrainsk',
     },
     {
-      name: 'Українськ',
+      name: 'Uman',
     },
     {
-      name: 'Умань',
+      name: 'Ustyluh',
     },
     {
-      name: 'Устилуг',
+      name: 'Fastiv',
     },
     {
-      name: 'Фастів',
+      name: 'Feodosiia',
     },
     {
-      name: 'Феодосія',
+      name: 'Kharkiv',
     },
     {
-      name: 'Харків',
+      name: 'Khartsyzk',
     },
     {
-      name: 'Харцизьк',
+      name: 'Kherson',
     },
     {
-      name: 'Херсон',
+      name: 'Khyriv',
     },
     {
-      name: 'Хирів',
+      name: 'Khmelnytskyi',
     },
     {
-      name: 'Хмельницький',
+      name: 'Khmilnyk',
     },
     {
-      name: 'Хмільник',
+      name: 'Khodoriv',
     },
     {
-      name: 'Ходорів',
+      name: 'Khorol',
     },
     {
-      name: 'Хорол',
+      name: 'Khorostkiv',
     },
     {
-      name: 'Хоростків',
+      name: 'Khotyn',
     },
     {
-      name: 'Хотин',
+      name: 'Khrestivka',
     },
     {
-      name: 'Хрестівка',
+      name: 'Khrystynivka',
     },
     {
-      name: 'Христинівка',
+      name: 'Khrustalnyi',
     },
     {
-      name: 'Хрустальний',
+      name: 'Khust',
     },
     {
-      name: 'Хуст',
+      name: 'Chasiv Yar',
     },
     {
-      name: 'Часів Яр',
+      name: 'Chervonohrad',
     },
     {
-      name: 'Червоноград',
+      name: 'Cherkasy',
     },
     {
-      name: 'Черкаси',
+      name: 'Chernivtsi',
     },
     {
-      name: 'Чернівці',
+      name: 'Chernihiv',
     },
     {
-      name: 'Чернігів',
+      name: 'Chyhyryn',
     },
     {
-      name: 'Чигирин',
+      name: 'Chystiakove',
     },
     {
-      name: 'Чистякове',
+      name: 'Chop',
     },
     {
-      name: 'Чоп',
+      name: 'Chornobyl',
     },
     {
-      name: 'Чорнобиль',
+      name: 'Chornomorsk',
     },
     {
-      name: 'Чорноморськ',
+      name: 'Chortkiv',
     },
     {
-      name: 'Чортків',
+      name: 'Chuhuiv',
     },
     {
-      name: 'Чугуїв',
+      name: 'Chudniv',
     },
     {
-      name: 'Чуднів',
+      name: 'Sharhorod',
     },
     {
-      name: 'Шаргород',
+      name: 'Shakhtarsk',
     },
     {
-      name: 'Шахтарськ',
+      name: 'Shepetivka',
     },
     {
-      name: 'Шепетівка',
+      name: 'Shostka',
     },
     {
-      name: 'Шостка',
+      name: 'Shpola',
     },
     {
-      name: 'Шпола',
+      name: 'Shumsk',
     },
     {
-      name: 'Шумськ',
+      name: 'Shchastia',
     },
     {
-      name: 'Щастя',
+      name: 'Shcholkine',
     },
     {
-      name: 'Щолкіне',
+      name: 'Yuzhne',
     },
     {
-      name: 'Южне',
+      name: 'Yuzhnoukrainsk',
     },
     {
-      name: 'Южноукраїнськ',
+      name: 'Yavoriv',
     },
     {
-      name: 'Яворів',
+      name: 'Yahotyn',
     },
     {
-      name: 'Яготин',
+      name: 'Yalta',
     },
     {
-      name: 'Ялта',
+      name: 'Yampil',
     },
     {
-      name: 'Ямпіль',
+      name: 'Yaremche',
     },
     {
-      name: 'Яремче',
+      name: 'Yani Kapu',
     },
     {
-      name: 'Яни Капу',
-    },
-    {
-      name: 'Ясинувата',
+      name: 'Yasynuvata',
     },
   ];
   static carsList: CarsListInterface[] = [

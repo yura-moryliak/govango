@@ -17,7 +17,9 @@
         'ng-dirty ng-invalid':
           form.controls.city.invalid && !form.controls.city.untouched,
       }"
-    />
+    >
+      <ng-template let-city pTemplate="item">{{ city.name | translate }}</ng-template>
+    </p-select>
     <label for="city">{{ "City" | translate }}</label>
 
     @if (form.controls.city.invalid && !form.controls.city.untouched) {
