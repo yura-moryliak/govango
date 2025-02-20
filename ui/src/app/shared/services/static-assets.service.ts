@@ -114,8 +114,8 @@ export class StaticAssetsService {
       value: 'Berdychiv',
     },
     {
-      name: 'Berdiansk',
-      value: 'Berdiansk',
+      name: 'Berdyansk',
+      value: 'Berdyansk',
     },
     {
       name: 'Berehove',
@@ -1026,8 +1026,8 @@ export class StaticAssetsService {
       value: 'Myronivka',
     },
     {
-      name: 'Miussynsk',
-      value: 'Miussynsk',
+      name: 'Miusynsk',
+      value: 'Miusynsk',
     },
     {
       name: 'Mohyliv-Podilskyi',
@@ -1242,8 +1242,8 @@ export class StaticAssetsService {
       value: 'Pershotravensk',
     },
     {
-      name: 'Petrove-Krasnosillia',
-      value: 'Petrove-Krasnosillia',
+      name: 'Petrovo-Krasnosillia',
+      value: 'Petrovo-Krasnosillia',
     },
     {
       name: 'Pyriatyn',
@@ -1446,8 +1446,8 @@ export class StaticAssetsService {
       value: 'Seredyna-Buda',
     },
     {
-      name: 'Sievierodonetsk',
-      value: 'Sievierodonetsk',
+      name: 'Siverskodonetsk',
+      value: 'Siverskodonetsk',
     },
     {
       name: 'Synelnykove',
