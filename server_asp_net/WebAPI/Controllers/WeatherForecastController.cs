@@ -20,11 +20,11 @@ namespace WebAPI.Controllers
             try
             {
                 await _dbContext.Database.CanConnectAsync();
-                return Ok(new { status = "Healthy", message = "Database connection successful" });
+                return Ok(new { status = "Success", message = "Database connection successful" });
             }
             catch
             {
-                return StatusCode(500, new { status = "Unhealthy", message = "Database connection failed" });
+                return StatusCode(500, new { status = "Failed", message = "Database connection failed" });
             }
         }
     }
