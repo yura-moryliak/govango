@@ -216,7 +216,7 @@
       "
       [loading]="isLoading"
       (onClick)="submit()"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || !form.value.model?.name"
     ></p-button>
   </div>
 </form>
