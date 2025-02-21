@@ -129,9 +129,10 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
         next: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
-          this.store.dispatch(
+          this.store.dispatch([
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
-          );
+            new RegisterActions.CompleteStep3(),
+          ]);
           this.router.navigate(['login']);
           this.showSuccessToast();
         },

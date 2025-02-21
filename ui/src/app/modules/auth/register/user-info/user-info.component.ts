@@ -21,7 +21,7 @@ import { Select } from 'primeng/select';
 import { NgClass } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { RegisterActions } from '../register.actions';
 import { Subscription } from 'rxjs';
@@ -58,6 +58,7 @@ interface UserInfoFormGroupInterface {
 export class UserInfoComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly route: Router = inject(Router);
+  private translateService: TranslateService = inject(TranslateService);
   private readonly sub: Subscription = new Subscription();
 
   readonly form: FormGroup<UserInfoFormGroupInterface> = new FormGroup({
@@ -66,7 +67,11 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     lastName: new FormControl<string | null>(null, Validators.required),
     city: new FormControl<string | null>(null, Validators.required),
   });
-  readonly citiesList: CitiesListInterface[] = StaticAssetsService.citiesList;
+  readonly citiesList: CitiesListInterface[] =
+    StaticAssetsService.citiesList.map((city) => ({
+      name: this.translateService.instant(city.name),
+      value: city.value,
+    }));
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -77,11 +82,12 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   goToNextStep(): void {
-    this.store.dispatch(
+    this.store.dispatch([
       new RegisterActions.AddUserInfoData(
         this.form.value as UserInfoDataInterface,
       ),
-    );
+      new RegisterActions.CompleteStep1(),
+    ]);
     this.route.navigate(['/register', 'user-credentials-data']);
   }
 

@@ -100,12 +100,13 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
   }
 
   goToStep(path: string): void {
-    this.store.dispatch(
+    this.store.dispatch([
       new RegisterActions.AddUserCredentialsData(
         this.form.value as UserCredentialsDataInterface,
         this.form.invalid,
       ),
-    );
+      new RegisterActions.CompleteStep2(),
+    ]);
     this.router.navigate(['/register', path]);
   }
 
@@ -117,9 +118,10 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
         next: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
-          this.store.dispatch(
+          this.store.dispatch([
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
-          );
+            new RegisterActions.CompleteStep2(),
+          ]);
           this.router.navigate(['login']);
           this.showSuccessToast();
         },
