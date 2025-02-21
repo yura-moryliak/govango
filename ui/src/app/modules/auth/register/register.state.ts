@@ -5,19 +5,24 @@ import { UserCredentialsDataInterface } from './interfaces/user-credentials-data
 import { UserCarInfoDataInterface } from './interfaces/user-car-info-data.interface';
 import { RegisterActions } from './register.actions';
 import { RegisterStepEnum } from './register.component';
-import { delay, of, tap } from 'rxjs';
+import { delay, Observable, of, tap } from 'rxjs';
 
 export interface RegisterStateModel {
   step1: {
     userInfoData: UserInfoDataInterface;
+    isCompleted?: boolean;
   };
   step2: {
     userCredentialsData: UserCredentialsDataInterface;
     formInvalid: boolean;
+    isCompleted?: boolean;
+    isPreviousCompleted?: boolean;
   };
   step3: {
     userCarInfo: UserCarInfoDataInterface;
     formInvalid: boolean;
+    isCompleted?: boolean;
+    isPreviousCompleted?: boolean;
   };
   activeStep: RegisterStepEnum;
 }
@@ -138,8 +143,44 @@ export class RegisterState {
     });
   }
 
+  @Action(RegisterActions.CompleteStep1)
+  completeStep1({
+    patchState,
+    getState,
+  }: StateContext<RegisterStateModel>): void {
+    patchState({
+      step1: { ...getState().step1, isCompleted: true },
+      step2: { ...getState().step2, isPreviousCompleted: true },
+    });
+  }
+
+  @Action(RegisterActions.CompleteStep2)
+  completeStep2({
+    patchState,
+    getState,
+  }: StateContext<RegisterStateModel>): void {
+    if (!getState().step2.formInvalid) {
+      patchState({
+        step2: { ...getState().step2, isCompleted: true },
+        step3: { ...getState().step3, isPreviousCompleted: true },
+      });
+    }
+  }
+
+  @Action(RegisterActions.CompleteStep3)
+  completeStep3({
+    patchState,
+    getState,
+  }: StateContext<RegisterStateModel>): void {
+    patchState({
+      step3: { ...getState().step3, isCompleted: true },
+    });
+  }
+
   @Action(RegisterActions.RegisterNewUser)
-  registerNewUser({ patchState }: StateContext<RegisterStateModel>) {
+  registerNewUser({
+    patchState,
+  }: StateContext<RegisterStateModel>): Observable<null> {
     // TODO Simulation for BE call
     return of(null).pipe(
       delay(5000),

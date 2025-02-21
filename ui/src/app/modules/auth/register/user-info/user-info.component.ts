@@ -82,11 +82,12 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   goToNextStep(): void {
-    this.store.dispatch(
+    this.store.dispatch([
       new RegisterActions.AddUserInfoData(
         this.form.value as UserInfoDataInterface,
       ),
-    );
+      new RegisterActions.CompleteStep1(),
+    ]);
     this.route.navigate(['/register', 'user-credentials-data']);
   }
 

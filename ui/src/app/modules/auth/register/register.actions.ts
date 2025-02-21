@@ -32,6 +32,18 @@ export namespace RegisterActions {
     ) {}
   }
 
+  export class CompleteStep1 {
+    static readonly type = `${ACTION_SCOPE} Complete Step 1`;
+  }
+
+  export class CompleteStep2 {
+    static readonly type = `${ACTION_SCOPE} Complete Step 2`;
+  }
+
+  export class CompleteStep3 {
+    static readonly type = `${ACTION_SCOPE} Complete Step 3`;
+  }
+
   export class RegisterNewUser {
     static readonly type = `${ACTION_SCOPE} Register User`;
   }
