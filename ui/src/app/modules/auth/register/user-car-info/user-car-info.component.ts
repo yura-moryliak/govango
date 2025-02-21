@@ -109,6 +109,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
 
     this.carsModelsList = changeEvent.value.models;
     this.form.controls.model.enable();
+    this.form.controls.model.patchValue({ name: '', makeId: '' });
   }
 
   goToStep(path: string): void {
