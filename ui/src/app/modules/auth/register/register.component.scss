@@ -5,23 +5,66 @@
   align-items: center;
   justify-content: center;
 
+  @media screen and (max-width: 37.5em) {
+    justify-content: flex-start;
+  }
+
+  h1 {
+    @media screen and (max-width: 37.5em) {
+      margin: 0.5em 0 0 0;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   section {
     width: 45em;
     background-color: var(--p-surface-900);
     border-radius: 0.5em;
     padding: 2.188em;
 
-    .extras {
-      small {
-        display: flex;
-        justify-content: space-between;
+    @media screen and (max-width: 37.5em) {
+      width: 100%;
+      padding: 1em 1em;
+      height: 87%;
+      background: transparent;
+    }
+  }
 
-        a {
-          text-decoration: none;
-          color: var(--primary-400);
+  .extras {
+    width: 45em;
+    margin-top: 2em;
 
-          &:hover {
-            color: var(--p-primary-600);
+    @media screen and (max-width: 37.5em) {
+      width: 100%;
+      padding: 0 1em;
+      margin: 0;
+    }
+
+    small {
+      display: flex;
+      gap: 1em;
+      justify-content: flex-end;
+
+      a {
+        text-decoration: none;
+        color: var(--primary-400);
+
+        &:hover {
+          color: var(--p-primary-600);
+        }
+      }
+    }
+  }
+
+  p-stepper {
+    ::ng-deep {
+      p-step-list {
+        p-step {
+          .p-step-header {
+            .p-step-title {
+              display: none;
+            }
           }
         }
       }

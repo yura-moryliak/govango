@@ -8,7 +8,6 @@ import {
 import { Step, StepList, Stepper } from 'primeng/stepper';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Divider } from 'primeng/divider';
 import { Store } from '@ngxs/store';
 import { delay, Observable, Subscription } from 'rxjs';
 import { RegisterState } from './register.state';
@@ -38,7 +37,6 @@ const initialRegisterSteps: RegisterStep[] = [
     Stepper,
     Step,
     RouterOutlet,
-    Divider,
     RouterLink,
     TranslatePipe,
     AsyncPipe,

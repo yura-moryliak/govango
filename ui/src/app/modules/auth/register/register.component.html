@@ -11,16 +11,14 @@
     </p-stepper>
 
     <router-outlet></router-outlet>
-
-    <p-divider />
-
-    <div class="extras">
-      <small>
-        <a routerLink="/forgot-password">{{
-          "Forgot password?" | translate
-        }}</a>
-        <a routerLink="/login">{{ "Login" | translate }}</a>
-      </small>
-    </div>
   }
 </section>
+
+<div class="extras">
+  <small>
+    <a routerLink="/forgot-password">{{
+        "Forgot password?" | translate
+      }}</a>
+    <a routerLink="/login">{{ "Login" | translate }}</a>
+  </small>
+</div>

@@ -220,3 +220,20 @@
     ></p-button>
   </div>
 </form>
+
+<div class="buttons-mobile">
+  <p-button
+    label="{{ 'Back' | translate }}"
+    severity="secondary"
+    (onClick)="goToStep('user-credentials-data')"
+  ></p-button>
+
+  <p-button
+    [label]="
+        isLoading ? ('In progress' | translate) : ('Register' | translate)
+      "
+    [loading]="isLoading"
+    (onClick)="submit()"
+    [disabled]="form.invalid"
+  ></p-button>
+</div>
