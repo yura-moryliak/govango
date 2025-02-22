@@ -1,10 +1,11 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Toast } from 'primeng/toast';
 import { Store } from '@ngxs/store';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
+import { TOASTS_CONFIG } from './shared/toasts.config';
 
 @Component({
   selector: 'gvg-root',
@@ -12,36 +13,11 @@ import { ToastState } from './shared/states/toast/toast.state';
   imports: [RouterOutlet, Toast],
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   private readonly store: Store = inject(Store);
   private readonly messageService: MessageService = inject(MessageService);
 
-  toasts = [
-    {
-      key: 'success',
-      breakpoint: { '560px': { width: '90%' } },
-    },
-    {
-      key: 'info',
-      breakpoint: { '560px': { width: '90%' } },
-    },
-    {
-      key: 'warning',
-      breakpoint: { '560px': { width: '90%' } },
-    },
-    {
-      key: 'error',
-      breakpoint: { '560px': { width: '90%' } },
-    },
-    {
-      key: 'secondary',
-      breakpoint: { '560px': { width: '90%' } },
-    },
-    {
-      key: 'contrast',
-      breakpoint: { '560px': { width: '90%' } },
-    },
-  ];
+  readonly toasts = TOASTS_CONFIG;
 
   constructor() {
     inject(TranslateService).use('ua');
@@ -54,8 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.messageService.add(options),
       );
   }
-
-  ngOnDestroy(): void {}
 }
 
 // TODO This is what I'll need when will try to implement language switcher
