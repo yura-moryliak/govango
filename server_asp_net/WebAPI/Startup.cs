@@ -11,12 +11,6 @@ internal class Startup
         var configuration = builder.Configuration;
         var allowedOrigins = configuration["AllowedClientCorsOrigin"];
 
-        builder.Configuration
-            .SetBasePath(env.ContentRootPath)
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables();
-
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("ClientUiPolicy", builder =>
