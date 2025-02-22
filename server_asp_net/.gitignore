@@ -21,7 +21,6 @@ wwwroot/lib/
 !wwwroot/lib/.gitkeep
 
 # Configuration files
-appsettings.*.json
 secrets.json
 
 # Docker-related files (if applicable)
