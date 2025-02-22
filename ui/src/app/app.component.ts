@@ -16,6 +16,33 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly messageService: MessageService = inject(MessageService);
 
+  toasts = [
+    {
+      key: 'success',
+      breakpoint: { '560px': { width: '90%' } },
+    },
+    {
+      key: 'info',
+      breakpoint: { '560px': { width: '90%' } },
+    },
+    {
+      key: 'warning',
+      breakpoint: { '560px': { width: '90%' } },
+    },
+    {
+      key: 'error',
+      breakpoint: { '560px': { width: '90%' } },
+    },
+    {
+      key: 'secondary',
+      breakpoint: { '560px': { width: '90%' } },
+    },
+    {
+      key: 'contrast',
+      breakpoint: { '560px': { width: '90%' } },
+    },
+  ];
+
   constructor() {
     inject(TranslateService).use('ua');
   }

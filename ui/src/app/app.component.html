@@ -1,8 +1,5 @@
 <router-outlet></router-outlet>
 
-<p-toast key="success" position="bottom-center"></p-toast>
-<p-toast key="info" position="bottom-center"></p-toast>
-<p-toast key="warning" position="bottom-center"></p-toast>
-<p-toast key="error" position="bottom-center"></p-toast>
-<p-toast key="secondary" position="bottom-center"></p-toast>
-<p-toast key="contrast" position="bottom-center"></p-toast>
+@for (toast of toasts; track $index) {
+  <p-toast [key]="toast.key" position="bottom-center" [breakpoints]="toast.breakpoint"></p-toast>
+}
