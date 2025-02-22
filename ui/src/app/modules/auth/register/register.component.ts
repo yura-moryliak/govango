@@ -13,7 +13,7 @@ import { delay, Observable, Subscription } from 'rxjs';
 import { RegisterState } from './register.state';
 import { UserInfoDataInterface } from './interfaces/user-info-data.interface';
 import { AsyncPipe } from '@angular/common';
-import { AppSettingsPanelComponent } from '../../../shared/components/app-settings-panel/app-settings-panel.component';
+import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 
 interface RegisterStep {
   label: string;
@@ -41,7 +41,7 @@ const initialRegisterSteps: RegisterStep[] = [
     RouterLink,
     TranslatePipe,
     AsyncPipe,
-    AppSettingsPanelComponent,
+    AppSettingsPanelButtonComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',

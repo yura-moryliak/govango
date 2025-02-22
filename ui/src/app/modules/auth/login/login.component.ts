@@ -13,7 +13,7 @@ import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgClass } from '@angular/common';
-import { AppSettingsPanelComponent } from '../../../shared/components/app-settings-panel/app-settings-panel.component';
+import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 
 interface LoginFormGroupInterface {
   emailOrPhone: FormControl<string | null>;
@@ -32,7 +32,7 @@ interface LoginFormGroupInterface {
     ReactiveFormsModule,
     TranslatePipe,
     NgClass,
-    AppSettingsPanelComponent,
+    AppSettingsPanelButtonComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

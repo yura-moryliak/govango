@@ -59,12 +59,14 @@
   }
 
   p-stepper {
-    ::ng-deep {
-      p-step-list {
-        p-step {
-          .p-step-header {
-            .p-step-title {
-              display: none;
+    @media screen and (max-width: 37.5em) {
+      ::ng-deep {
+        p-step-list {
+          p-step {
+            .p-step-header {
+              .p-step-title {
+                display: none;
+              }
             }
           }
         }
@@ -72,7 +74,7 @@
     }
   }
 
-  gvg-app-settings-panel {
+  gvg-app-settings-panel-button {
     position: absolute;
     bottom: 0.313em;
     left: 0.313em;

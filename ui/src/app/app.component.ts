@@ -6,11 +6,12 @@ import { Store } from '@ngxs/store';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
 import { TOASTS_CONFIG } from './shared/toasts.config';
+import { AppSettingsPanelComponent } from './shared/components/app-settings-panel/app-settings-panel.component';
 
 @Component({
   selector: 'gvg-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet, Toast],
+  imports: [RouterOutlet, Toast, AppSettingsPanelComponent],
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {

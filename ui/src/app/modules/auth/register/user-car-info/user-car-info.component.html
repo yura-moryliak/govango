@@ -11,9 +11,10 @@
           !form.controls.registrationPlate.untouched,
       }"
     />
-    <label for="registrationPlate">{{
-      "Registration plate" | translate
-    }} <i>({{ 'Latin letters' | translate }})</i></label>
+    <label for="registrationPlate"
+      >{{ "Registration plate" | translate }}
+      <i>({{ "Latin letters" | translate }})</i></label
+    >
 
     @if (
       form.controls.registrationPlate.invalid &&
@@ -229,9 +230,7 @@
   ></p-button>
 
   <p-button
-    [label]="
-        isLoading ? ('In progress' | translate) : ('Register' | translate)
-      "
+    [label]="isLoading ? ('In progress' | translate) : ('Register' | translate)"
     [loading]="isLoading"
     (onClick)="submit()"
     [disabled]="form.invalid"

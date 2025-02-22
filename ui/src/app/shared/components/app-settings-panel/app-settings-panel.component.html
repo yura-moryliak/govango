@@ -1,1 +1,30 @@
-<p-button icon="pi pi-wrench" [rounded]="true" [text]="true"></p-button>
+<p-drawer
+  #drawerRef
+  position="right"
+  [(visible)]="isOpened"
+  [closable]="false"
+  [closeOnEscape]="true"
+  (onHide)="closeOnBackdropClick()"
+  styleClass="app-settings-panel-drawer"
+>
+  <ng-template #header>
+    <h4>Settings</h4>
+    <p-button
+      icon="pi pi-times"
+      [text]="true"
+      (onClick)="closePanel($event)"
+    ></p-button>
+  </ng-template>
+
+  <div class="app-settings-panel-item">
+    <span>Dark theme</span>
+    <p-toggleswitch />
+  </div>
+
+  <div class="app-settings-panel-item">
+    <p-iftalabel>
+      <p-select inputId="language" />
+      <label for="language">Language</label>
+    </p-iftalabel>
+  </div>
+</p-drawer>
