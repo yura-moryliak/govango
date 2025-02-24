@@ -17,19 +17,26 @@
   </ng-template>
 
   <div class="app-settings-panel-item">
-    <span>
-      @if (isDarkMode$ | async) {
-        {{ 'Dark theme' | translate }}
-      } @else {
-        {{ 'Light theme' | translate }}
-      }
-    </span>
+    <span>{{ 'Dark theme' | translate }}</span>
     <p-toggleswitch (onChange)="toggleTheme()" [ngModel]="isDarkMode$ | async" />
   </div>
 
   <div class="app-settings-panel-item">
     <p-iftalabel>
-      <p-select inputId="language" emptyMessage="{{ 'No results found' | translate }}" />
+      <p-select
+        [filter]="true"
+        [options]="languagesList"
+        (onChange)="selectLanguage($event)"
+        [formControl]="languageFormControl"
+        filterBy="name"
+        inputId="language"
+        optionLabel="name"
+        optionValue="value"
+        appendTo="body"
+        emptyMessage="{{ 'No results found' | translate }}"
+        emptyFilterMessage="{{ 'No results found' | translate }}">
+        <ng-template let-language pTemplate="item">{{ language.name | translate }}</ng-template>
+      </p-select>
       <label for="language">{{ 'Language' | translate }}</label>
     </p-iftalabel>
   </div>

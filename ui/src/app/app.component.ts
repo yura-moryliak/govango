@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Toast } from 'primeng/toast';
 import { Store } from '@ngxs/store';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
@@ -24,9 +23,7 @@ export class AppComponent implements OnInit {
 
   readonly toasts = TOASTS_CONFIG;
 
-  constructor() {
-    inject(TranslateService).use('ua');
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.initToastMessages();

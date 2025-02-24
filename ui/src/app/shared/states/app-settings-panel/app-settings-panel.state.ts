@@ -5,6 +5,7 @@ import { AppSettingsPanelActions } from './app-settings-panel.actions';
 export interface AppSettingsPanelStateModel {
   isOpened: boolean;
   isDarkMode: boolean;
+  defaultLanguage: string;
 }
 
 export const APP_SETTINGS_PANEL_STATE_TOKEN =
@@ -15,6 +16,7 @@ export const APP_SETTINGS_PANEL_STATE_TOKEN =
   defaults: {
     isOpened: false,
     isDarkMode: false,
+    defaultLanguage: 'ua',
   },
 })
 @Injectable()
