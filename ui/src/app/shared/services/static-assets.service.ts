@@ -16,6 +16,7 @@ export type CarMakeType = { name: string; makeId: string };
   providedIn: 'root',
 })
 export class StaticAssetsService {
+  static languagesList: string[] = ['ua', 'en'];
   static citiesList: CitiesListInterface[] = [
     {
       name: 'Avdiivka',

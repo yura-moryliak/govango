@@ -51,7 +51,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(
       [RegisterState, ToastState, AppSettingsPanelState],
       withNgxsStoragePlugin({
-        keys: [RegisterState],
+        keys: [RegisterState, AppSettingsPanelState],
         namespace: 'govango',
       }),
       withNgxsLoggerPlugin({ disabled: environment.production }),

@@ -8,7 +8,7 @@
   styleClass="app-settings-panel-drawer"
 >
   <ng-template #header>
-    <h4>Settings</h4>
+    <h4>{{ 'App settings' | translate }}</h4>
     <p-button
       icon="pi pi-times"
       [text]="true"
@@ -17,14 +17,20 @@
   </ng-template>
 
   <div class="app-settings-panel-item">
-    <span>Dark theme</span>
-    <p-toggleswitch />
+    <span>
+      @if (isDarkMode$ | async) {
+        {{ 'Dark theme' | translate }}
+      } @else {
+        {{ 'Light theme' | translate }}
+      }
+    </span>
+    <p-toggleswitch (onChange)="toggleTheme()" [ngModel]="isDarkMode$ | async" />
   </div>
 
   <div class="app-settings-panel-item">
     <p-iftalabel>
-      <p-select inputId="language" />
-      <label for="language">Language</label>
+      <p-select inputId="language" emptyMessage="{{ 'No results found' | translate }}" />
+      <label for="language">{{ 'Language' | translate }}</label>
     </p-iftalabel>
   </div>
 </p-drawer>

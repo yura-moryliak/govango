@@ -7,6 +7,8 @@ import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
 import { TOASTS_CONFIG } from './shared/toasts.config';
 import { AppSettingsPanelComponent } from './shared/components/app-settings-panel/app-settings-panel.component';
+import { Subscription } from 'rxjs';
+import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
 
 @Component({
   selector: 'gvg-root',
@@ -18,6 +20,8 @@ export class AppComponent implements OnInit {
   private readonly store: Store = inject(Store);
   private readonly messageService: MessageService = inject(MessageService);
 
+  private readonly sub: Subscription = new Subscription();
+
   readonly toasts = TOASTS_CONFIG;
 
   constructor() {
@@ -25,11 +29,30 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store
-      .select(ToastState.toast)
-      .subscribe((options: ToastMessageOptions) =>
-        this.messageService.add(options),
-      );
+    this.initToastMessages();
+    this.initDarkMode();
+  }
+
+  private initToastMessages(): void {
+    this.sub.add(
+      this.store
+        .select(ToastState.toast)
+        .subscribe((options: ToastMessageOptions) =>
+          this.messageService.add(options),
+        ),
+    );
+  }
+
+  private initDarkMode(): void {
+    this.sub.add(
+      this.store
+        .select(AppSettingsPanelState.isDarkMode)
+        .subscribe((isDarkMode: boolean) => {
+          if (isDarkMode) {
+            document.querySelector('html')?.classList.add('gvg-dark-theme');
+          }
+        }),
+    );
   }
 }
 

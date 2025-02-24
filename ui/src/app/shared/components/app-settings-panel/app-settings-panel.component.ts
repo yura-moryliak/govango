@@ -16,10 +16,22 @@ import { AppSettingsPanelActions } from '../../states/app-settings-panel/app-set
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { IftaLabel } from 'primeng/iftalabel';
 import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'gvg-app-settings-panel',
-  imports: [Drawer, Button, ToggleSwitch, IftaLabel, Select],
+  imports: [
+    Drawer,
+    Button,
+    ToggleSwitch,
+    IftaLabel,
+    Select,
+    FormsModule,
+    AsyncPipe,
+    TranslatePipe,
+  ],
   templateUrl: './app-settings-panel.component.html',
   styleUrl: './app-settings-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +46,10 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
     AppSettingsPanelState.isOpened,
   );
 
+  readonly isDarkMode$: Observable<boolean> = this.store.select(
+    AppSettingsPanelState.isDarkMode,
+  );
+
   @ViewChild('drawerRef', { static: true }) drawerRef: Drawer | undefined;
 
   isOpened: boolean = false;
@@ -45,6 +61,10 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       }),
     );
+  }
+
+  toggleTheme(): void {
+    this.store.dispatch(new AppSettingsPanelActions.ToggleTheme());
   }
 
   closePanel(event: Event): void {
