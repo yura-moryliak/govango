@@ -7,7 +7,7 @@
   user-select: none;
 
   .not-found-svg {
-    background-image: url('not-found.svg');
+    background-image: url("not-found.svg");
     background-repeat: no-repeat;
     background-size: 10em;
     height: 10em;
@@ -24,6 +24,5 @@
     p {
       color: var(--p-red-500);
     }
-
   }
 }
