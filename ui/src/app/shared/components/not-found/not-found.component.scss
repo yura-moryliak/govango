@@ -5,7 +5,6 @@
   justify-content: center;
   height: 100%;
   user-select: none;
-  position: relative;
 
   .not-found-svg {
     background-image: url('not-found.svg');
@@ -26,11 +25,5 @@
       color: var(--p-red-500);
     }
 
-  }
-
-  gvg-app-settings-panel-button {
-    position: absolute;
-    bottom: 0.313em;
-    left: 0.313em;
   }
 }
