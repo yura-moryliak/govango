@@ -13,7 +13,6 @@
     background-size: 10em;
     height: 10em;
     width: 10em;
-    filter: invert(0);
   }
 
   .text-message {
@@ -21,7 +20,7 @@
     justify-content: center;
     align-items: center;
     padding: 0 2em;
-    margin-bottom: 2em;
+    margin: 2em 0;
 
     p {
       color: var(--p-red-500);
