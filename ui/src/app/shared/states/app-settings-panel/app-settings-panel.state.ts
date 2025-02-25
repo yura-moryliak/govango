@@ -1,6 +1,7 @@
-import { Action, Selector, State, StateToken } from '@ngxs/store';
-import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
+import { inject, Injectable } from '@angular/core';
 import { AppSettingsPanelActions } from './app-settings-panel.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface AppSettingsPanelStateModel {
   isOpened: boolean;
@@ -21,6 +22,8 @@ export const APP_SETTINGS_PANEL_STATE_TOKEN =
 })
 @Injectable()
 export class AppSettingsPanelState {
+  private translate: TranslateService = inject(TranslateService);
+
   @Selector()
   static isOpened(state: AppSettingsPanelStateModel): boolean {
     return state.isOpened;
@@ -31,18 +34,26 @@ export class AppSettingsPanelState {
     return state.isDarkMode;
   }
 
+  @Selector()
+  static getLanguage(state: AppSettingsPanelStateModel) {
+    return state.defaultLanguage;
+  }
+
   @Action(AppSettingsPanelActions.Open)
-  open({ patchState }: any): void {
+  open({ patchState }: StateContext<AppSettingsPanelStateModel>): void {
     patchState({ isOpened: true });
   }
 
   @Action(AppSettingsPanelActions.Close)
-  close({ patchState }: any): void {
+  close({ patchState }: StateContext<AppSettingsPanelStateModel>): void {
     patchState({ isOpened: false });
   }
 
   @Action(AppSettingsPanelActions.ToggleTheme)
-  toggleTheme({ patchState, getState }: any): void {
+  toggleTheme({
+    patchState,
+    getState,
+  }: StateContext<AppSettingsPanelStateModel>): void {
     const element = document.querySelector('html');
     const newDarkMode = !getState().isDarkMode;
 
@@ -55,5 +66,14 @@ export class AppSettingsPanelState {
     }
 
     patchState({ isDarkMode: newDarkMode });
+  }
+
+  @Action(AppSettingsPanelActions.SetLanguage)
+  setLanguage(
+    { patchState }: StateContext<AppSettingsPanelStateModel>,
+    { language }: AppSettingsPanelActions.SetLanguage,
+  ): void {
+    patchState({ defaultLanguage: language });
+    this.translate.use(language);
   }
 }

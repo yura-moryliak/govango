@@ -21,7 +21,7 @@ export type CarMakeType = { name: string; makeId: string };
   providedIn: 'root',
 })
 export class StaticAssetsService {
-  static languagesList: LanguagesListInterface[] = [
+  static languagesListEn: LanguagesListInterface[] = [
     {
       name: 'English',
       value: 'English',
@@ -33,6 +33,24 @@ export class StaticAssetsService {
       prefix: 'ua',
     },
   ];
+  static languagesListUa: LanguagesListInterface[] = [
+    {
+      name: 'Англійська',
+      value: 'Англійська',
+      prefix: 'en',
+    },
+    {
+      name: 'Українська',
+      value: 'Українська',
+      prefix: 'ua',
+    },
+  ];
+
+  static languageMap: Record<string, LanguagesListInterface[]> = {
+    en: StaticAssetsService.languagesListEn,
+    ua: StaticAssetsService.languagesListUa,
+  };
+
   static citiesList: CitiesListInterface[] = [
     {
       name: 'Avdiivka',

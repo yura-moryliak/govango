@@ -59,19 +59,25 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
     AppSettingsPanelState.isDarkMode,
   );
 
-  @ViewChild('drawerRef', { static: true }) drawerRef: Drawer | undefined;
+  @ViewChild('drawerRef', { static: true }) readonly drawerRef:
+    | Drawer
+    | undefined;
 
-  isOpened: boolean = false;
   languagesList: LanguagesListInterface[] = [];
 
   readonly languageFormControl: FormControl<string | null> = new FormControl<
     string | null
   >(null);
 
+  readonly language$: Observable<string> = this.store.select(
+    AppSettingsPanelState.getLanguage,
+  );
+
+  isOpened: boolean = false;
+
   ngOnInit(): void {
     this.initIsPanelOpened();
-    this.translateLanguagesItems();
-    this.initDefaultLanguageSelectItem();
+    this.initTranslations();
   }
 
   toggleTheme(): void {
@@ -79,17 +85,19 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
   }
 
   selectLanguage(changeEvent: SelectChangeEvent): void {
-    const defaultLang: LanguagesListInterface | undefined =
-      StaticAssetsService.languagesList.find(
-        (language: LanguagesListInterface) =>
-          language.name === changeEvent.value,
+    const defaultLanguage: LanguagesListInterface | undefined =
+      this.languagesList.find(
+        (languageItem: LanguagesListInterface) =>
+          languageItem.value === changeEvent.value,
       );
 
-    if (!defaultLang) {
+    if (!defaultLanguage) {
       return;
     }
 
-    console.log(defaultLang);
+    this.store.dispatch(
+      new AppSettingsPanelActions.SetLanguage(defaultLanguage.prefix),
+    );
   }
 
   closePanel(event: Event): void {
@@ -115,32 +123,21 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
     );
   }
 
-  private translateLanguagesItems(): void {
-    const languageKeys: string[] = StaticAssetsService.languagesList.map(
-      (lang: LanguagesListInterface) => lang.name,
-    );
+  private initTranslations(): void {
+    this.language$.subscribe((language: string) => {
+      this.languagesList = StaticAssetsService.languageMap[language];
 
-    this.translateService.get(languageKeys).subscribe((translations) => {
-      this.languagesList = StaticAssetsService.languagesList.map(
-        (language: LanguagesListInterface) => ({
-          ...language,
-          name: translations[language.name],
-        }),
-      );
+      const defaultLanguage: LanguagesListInterface | undefined =
+        this.languagesList.find(
+          (languageItem: LanguagesListInterface) =>
+            languageItem.prefix === language,
+        );
+
+      if (!defaultLanguage) {
+        return;
+      }
+
+      this.languageFormControl.patchValue(defaultLanguage.name);
     });
-  }
-
-  private initDefaultLanguageSelectItem(): void {
-    const defaultLang: LanguagesListInterface | undefined =
-      StaticAssetsService.languagesList.find(
-        (language: LanguagesListInterface) =>
-          this.translateService.defaultLang === language.prefix,
-      );
-
-    if (!defaultLang) {
-      return;
-    }
-
-    this.languageFormControl.setValue(defaultLang.name);
   }
 }

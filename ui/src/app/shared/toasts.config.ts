@@ -1,4 +1,4 @@
-interface ToastConfig {
+export interface ToastConfig {
   key: string;
   breakpoint: { [key: string]: { width: string } };
 }

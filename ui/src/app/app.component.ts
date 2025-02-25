@@ -4,10 +4,12 @@ import { Toast } from 'primeng/toast';
 import { Store } from '@ngxs/store';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
-import { TOASTS_CONFIG } from './shared/toasts.config';
+import { ToastConfig, TOASTS_CONFIG } from './shared/toasts.config';
 import { AppSettingsPanelComponent } from './shared/components/app-settings-panel/app-settings-panel.component';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
+import { AppSettingsPanelActions } from './shared/states/app-settings-panel/app-settings-panel.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'gvg-root',
@@ -18,16 +20,20 @@ import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-se
 export class AppComponent implements OnInit {
   private readonly store: Store = inject(Store);
   private readonly messageService: MessageService = inject(MessageService);
+  private readonly translateService: TranslateService =
+    inject(TranslateService);
 
   private readonly sub: Subscription = new Subscription();
 
-  readonly toasts = TOASTS_CONFIG;
-
-  constructor() {}
+  readonly language$: Observable<string> = this.store.select(
+    AppSettingsPanelState.getLanguage,
+  );
+  readonly toasts: ToastConfig[] = TOASTS_CONFIG;
 
   ngOnInit(): void {
     this.initToastMessages();
     this.initDarkMode();
+    this.initAppTranslation();
   }
 
   private initToastMessages(): void {
@@ -51,22 +57,23 @@ export class AppComponent implements OnInit {
         }),
     );
   }
-}
 
-// TODO This is what I'll need when will try to implement language switcher
-// export class AppComponent implements OnInit {
-//   private translateService: TranslateService = inject(TranslateService);
-//
-//   ngOnInit(): void {
-//     // TODO Need to provide save default locale in local storage
-//     const browserLang = this.translateService.getBrowserLang() as string;
-//     const selectedLang = environment.locales.includes(browserLang)
-//       ? browserLang
-//       : 'en';
-//     this.translateService.use(selectedLang);
-//   }
-//
-//   switchLang(lang: string): void {
-//     this.translateService.use(lang);
-//   }
-// }
+  private initAppTranslation(): void {
+    this.sub.add(
+      this.language$.subscribe((language: string) => {
+        this.translateService.use(language);
+        this.translateService.setDefaultLang(language);
+      }),
+    );
+
+    const storedLang: string = this.store.selectSnapshot(
+      AppSettingsPanelState.getLanguage,
+    );
+
+    if (!storedLang) {
+      const browserLang: string =
+        this.translateService.getBrowserLang() || 'ua';
+      this.store.dispatch(new AppSettingsPanelActions.SetLanguage(browserLang));
+    }
+  }
+}

@@ -12,4 +12,9 @@ export namespace AppSettingsPanelActions {
   export class ToggleTheme {
     static readonly type = `${ACTIONS_SCOPE} Toggle Theme`;
   }
+
+  export class SetLanguage {
+    static readonly type = `${ACTIONS_SCOPE} Set Language`;
+    constructor(public language: string) {}
+  }
 }
