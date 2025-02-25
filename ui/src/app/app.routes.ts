@@ -6,7 +6,7 @@ import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-p
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'register', // TODO Change it after implementing registration
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
