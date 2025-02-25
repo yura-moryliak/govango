@@ -18,7 +18,7 @@ import { IftaLabel } from 'primeng/iftalabel';
 import { Select, SelectChangeEvent } from 'primeng/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   LanguagesListInterface,
   StaticAssetsService,
@@ -46,9 +46,6 @@ import { PrimeTemplate } from 'primeng/api';
 export class AppSettingsPanelComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private readonly translateService: TranslateService =
-    inject(TranslateService);
-
   private readonly sub: Subscription = new Subscription();
 
   private readonly isOpened$: Observable<boolean> = this.store.select(

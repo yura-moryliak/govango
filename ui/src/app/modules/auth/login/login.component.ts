@@ -39,7 +39,7 @@ interface LoginFormGroupInterface {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  form: FormGroup<LoginFormGroupInterface> = new FormGroup({
+  readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
     emailOrPhone: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
