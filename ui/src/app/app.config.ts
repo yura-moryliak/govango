@@ -18,6 +18,7 @@ import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { environment } from '../environments/environment';
 import { MessageService } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
+import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -48,9 +49,9 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideStore(
-      [RegisterState, ToastState],
+      [RegisterState, ToastState, AppSettingsPanelState],
       withNgxsStoragePlugin({
-        keys: [RegisterState],
+        keys: [RegisterState, AppSettingsPanelState],
         namespace: 'govango',
       }),
       withNgxsLoggerPlugin({ disabled: environment.production }),

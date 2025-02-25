@@ -58,7 +58,8 @@ interface UserInfoFormGroupInterface {
 export class UserInfoComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly route: Router = inject(Router);
-  private translateService: TranslateService = inject(TranslateService);
+  private readonly translateService: TranslateService =
+    inject(TranslateService);
   private readonly sub: Subscription = new Subscription();
 
   readonly form: FormGroup<UserInfoFormGroupInterface> = new FormGroup({

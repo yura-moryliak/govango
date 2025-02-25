@@ -9,6 +9,11 @@ export interface CarsListInterface {
   make: string;
   models: Array<{ makeId: string; name: string }>;
 }
+export interface LanguagesListInterface {
+  name: string;
+  value: string;
+  prefix: string;
+}
 
 export type CarMakeType = { name: string; makeId: string };
 
@@ -16,6 +21,36 @@ export type CarMakeType = { name: string; makeId: string };
   providedIn: 'root',
 })
 export class StaticAssetsService {
+  static languagesListEn: LanguagesListInterface[] = [
+    {
+      name: 'English',
+      value: 'English',
+      prefix: 'en',
+    },
+    {
+      name: 'Ukrainian',
+      value: 'Ukrainian',
+      prefix: 'ua',
+    },
+  ];
+  static languagesListUa: LanguagesListInterface[] = [
+    {
+      name: 'Англійська',
+      value: 'Англійська',
+      prefix: 'en',
+    },
+    {
+      name: 'Українська',
+      value: 'Українська',
+      prefix: 'ua',
+    },
+  ];
+
+  static languageMap: Record<string, LanguagesListInterface[]> = {
+    en: StaticAssetsService.languagesListEn,
+    ua: StaticAssetsService.languagesListUa,
+  };
+
   static citiesList: CitiesListInterface[] = [
     {
       name: 'Avdiivka',

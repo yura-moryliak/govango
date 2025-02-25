@@ -1,5 +1,11 @@
 <router-outlet></router-outlet>
 
 @for (toast of toasts; track $index) {
-  <p-toast [key]="toast.key" position="bottom-center" [breakpoints]="toast.breakpoint"></p-toast>
+  <p-toast
+    [key]="toast.key"
+    position="bottom-center"
+    [breakpoints]="toast.breakpoint"
+  ></p-toast>
 }
+
+<gvg-app-settings-panel></gvg-app-settings-panel>

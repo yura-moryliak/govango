@@ -9,9 +9,9 @@
   "Forgot password?": "Forgot password?",
   "Register": "Register",
   "Login with Google": "Login with Google",
-  "User Info": "Хто ви?",
-  "User Credentials": "Ваші облікові дані",
-  "User Car Info": "Інформація про ваше авто",
+  "User Info": "User Info",
+  "User Credentials": "User Credentials",
+  "User Car Info": "User Car Info",
   "This field is required": "This field is required",
   "Are you a car owner?": "Are you a car owner?",
   "City": "City",
@@ -498,5 +498,10 @@
   "Yasynuvata": "Yasynuvata",
   "No results found": "No results found",
   "meter": "м",
-  "ton": "t"
+  "ton": "t",
+  "App settings": "App settings",
+  "Dark theme": "Dark theme",
+  "Language": "Language",
+  "English": "English",
+  "Ukrainian": "Ukrainian"
 }

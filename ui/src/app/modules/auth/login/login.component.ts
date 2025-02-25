@@ -13,6 +13,7 @@ import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgClass } from '@angular/common';
+import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 
 interface LoginFormGroupInterface {
   emailOrPhone: FormControl<string | null>;
@@ -31,13 +32,14 @@ interface LoginFormGroupInterface {
     ReactiveFormsModule,
     TranslatePipe,
     NgClass,
+    AppSettingsPanelButtonComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  form: FormGroup<LoginFormGroupInterface> = new FormGroup({
+  readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
     emailOrPhone: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });

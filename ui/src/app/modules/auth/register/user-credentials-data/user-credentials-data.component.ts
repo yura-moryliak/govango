@@ -150,11 +150,13 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
             this.store.selectSnapshot(RegisterState.isStep2FormInvalid) &&
             this.form.pristine
           ) {
-            Object.values(this.form.controls).forEach((control) => {
-              control.markAsDirty();
-              control.markAsTouched();
-              control.updateValueAndValidity();
-            });
+            Object.values(this.form.controls).forEach(
+              (control: AbstractControl) => {
+                control.markAsDirty();
+                control.markAsTouched();
+                control.updateValueAndValidity();
+              },
+            );
           }
         }),
     );

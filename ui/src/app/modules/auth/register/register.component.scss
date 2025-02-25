@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   @media screen and (max-width: 37.5em) {
     justify-content: flex-start;
@@ -19,7 +20,7 @@
 
   section {
     width: 45em;
-    background-color: var(--p-surface-900);
+    background-color: var(--p-drawer-background);
     border-radius: 0.5em;
     padding: 2.188em;
 
@@ -58,16 +59,24 @@
   }
 
   p-stepper {
-    ::ng-deep {
-      p-step-list {
-        p-step {
-          .p-step-header {
-            .p-step-title {
-              display: none;
+    @media screen and (max-width: 37.5em) {
+      ::ng-deep {
+        p-step-list {
+          p-step {
+            .p-step-header {
+              .p-step-title {
+                display: none;
+              }
             }
           }
         }
       }
     }
+  }
+
+  gvg-app-settings-panel-button {
+    position: absolute;
+    bottom: 0.313em;
+    left: 0.313em;
   }
 }

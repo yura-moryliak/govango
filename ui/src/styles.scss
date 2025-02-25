@@ -20,3 +20,21 @@ body {
   color: var(--p-red-400);
   display: block;
 }
+
+// Drawers
+.app-settings-panel-drawer {
+  .app-settings-panel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2em;
+
+    p-iftalabel {
+      width: 100%;
+    }
+
+    p-select {
+      width: 100%;
+    }
+  }
+}

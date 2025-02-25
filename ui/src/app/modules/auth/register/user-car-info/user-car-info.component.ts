@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -169,11 +170,13 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
             this.store.selectSnapshot(RegisterState.isStep3FormInvalid) &&
             this.form.pristine
           ) {
-            Object.values(this.form.controls).forEach((control) => {
-              control.markAsDirty();
-              control.markAsTouched();
-              control.updateValueAndValidity();
-            });
+            Object.values(this.form.controls).forEach(
+              (control: AbstractControl) => {
+                control.markAsDirty();
+                control.markAsTouched();
+                control.updateValueAndValidity();
+              },
+            );
           }
         }),
     );
