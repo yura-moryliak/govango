@@ -505,5 +505,7 @@
   "English": "Англійська",
   "Ukrainian": "Українська",
   "Page you tried to enter does not exist": "Сторінка, на яку ви намагалися увійти, не існує",
-  "Go to home page": "Перейти на головну сторінку"
+  "Go to home page": "Перейти на головну сторінку",
+  "Restore": "Відновити",
+  "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "Для відновлення паролю введіть свій електронний адрес нижче. Ми надішлемо вам листа з інстукціями для відновлення паролю."
 }
