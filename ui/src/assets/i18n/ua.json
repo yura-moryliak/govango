@@ -503,5 +503,7 @@
   "Dark theme": "Темна тема",
   "Language": "Мова",
   "English": "Англійська",
-  "Ukrainian": "Українська"
+  "Ukrainian": "Українська",
+  "Page you tried to enter does not exist": "Сторінка, на яку ви намагалися увійти, не існує",
+  "Go to home page": "Перейти на головну сторінку"
 }
