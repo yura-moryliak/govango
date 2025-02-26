@@ -1,11 +1,13 @@
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { UserInfoDataInterface } from './interfaces/user-info-data.interface';
 import { UserCredentialsDataInterface } from './interfaces/user-credentials-data.interface';
 import { UserCarInfoDataInterface } from './interfaces/user-car-info-data.interface';
 import { RegisterActions } from './register.actions';
 import { RegisterStepEnum } from './register.component';
-import { delay, Observable, of, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { AuthService } from '../../../shared/services/auth.service';
+import { RegisterUserInterface } from './interfaces/register-user.interface';
 
 export interface RegisterStateModel {
   step1: {
@@ -70,6 +72,8 @@ const initialRegisterState: RegisterStateModel = {
 })
 @Injectable()
 export class RegisterState {
+  private readonly authService: AuthService = inject(AuthService);
+
   @Selector()
   static activeStep(state: RegisterStateModel): number {
     return state.activeStep;
@@ -177,16 +181,23 @@ export class RegisterState {
     });
   }
 
-  @Action(RegisterActions.RegisterNewUser)
+  @Action(RegisterActions.RegisterNewUser, { cancelUncompleted: true })
   registerNewUser({
     patchState,
+    getState,
   }: StateContext<RegisterStateModel>): Observable<null> {
-    // TODO Simulation for BE call
-    return of(null).pipe(
-      delay(5000),
-      tap(() => {
-        patchState({ ...initialRegisterState });
-      }),
-    );
+    const registerUserData: RegisterUserInterface = {
+      userInfo: getState().step1.userInfoData,
+      userCredentials: getState().step2.userCredentialsData,
+      userCarInfo: {
+        ...getState().step3.userCarInfo,
+        make: getState().step3.userCarInfo.make.make,
+        model: getState().step3.userCarInfo.model.name,
+      },
+    };
+
+    return this.authService
+      .registerUser(registerUserData)
+      .pipe(tap(() => patchState({ ...initialRegisterState })));
   }
 }

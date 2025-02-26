@@ -126,8 +126,16 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
   submit(): void {
     this.isLoading = true;
 
+    const storeActions = [
+      new RegisterActions.AddUserCarInfoData(
+        this.form.value as UserCarInfoDataInterface,
+        this.form.invalid,
+      ),
+      new RegisterActions.RegisterNewUser(),
+    ];
+
     this.sub.add(
-      this.store.dispatch(new RegisterActions.RegisterNewUser()).subscribe({
+      this.store.dispatch(storeActions).subscribe({
         next: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
