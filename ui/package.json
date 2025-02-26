@@ -32,6 +32,7 @@
     "@ngxs/storage-plugin": "^19.0.0",
     "@ngxs/store": "^19.0.0",
     "@primeng/themes": "^19.0.6",
+    "express": "^4.21.2",
     "pm2": "^5.4.3",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.6",
