@@ -186,9 +186,11 @@ export class RegisterState {
     patchState,
     getState,
   }: StateContext<RegisterStateModel>): Observable<null> {
+    const { confirmPassword, ...rest } = getState().step2.userCredentialsData;
+
     const registerUserData: RegisterUserInterface = {
       userInfo: getState().step1.userInfoData,
-      userCredentials: getState().step2.userCredentialsData,
+      userCredentials: rest,
       userCarInfo: {
         ...getState().step3.userCarInfo,
         make: getState().step3.userCarInfo.make.make,

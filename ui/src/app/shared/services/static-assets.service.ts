@@ -1895,16 +1895,6 @@ export class StaticAssetsService {
   ];
   static carsList: CarsListInterface[] = [
     {
-      id: 1,
-      make: 'AMCO-VEBA',
-      models: [
-        {
-          makeId: '1',
-          name: '817',
-        },
-      ],
-    },
-    {
       id: 2,
       make: 'Ashok Leyland',
       models: [
@@ -2329,16 +2319,6 @@ export class StaticAssetsService {
       ],
     },
     {
-      id: 18,
-      make: 'ERF',
-      models: [
-        {
-          name: 'ECS',
-          makeId: '18',
-        },
-      ],
-    },
-    {
       id: 19,
       make: 'FAW',
       models: [
@@ -2529,7 +2509,7 @@ export class StaticAssetsService {
           makeId: '22',
         },
         {
-          name: 'Кобальт',
+          name: 'Kobalt',
           makeId: '22',
         },
       ],
@@ -2589,20 +2569,6 @@ export class StaticAssetsService {
         {
           name: 'B22R33',
           makeId: '27',
-        },
-      ],
-    },
-    {
-      id: 28,
-      make: 'Hongda',
-      models: [
-        {
-          name: 'HDT5401THB',
-          makeId: '28',
-        },
-        {
-          name: 'HDT5420THB',
-          makeId: '28',
         },
       ],
     },
@@ -2983,16 +2949,6 @@ export class StaticAssetsService {
         {
           name: 'Maxus',
           makeId: '38',
-        },
-      ],
-    },
-    {
-      id: 39,
-      make: 'Ligier',
-      models: [
-        {
-          name: 'T2000',
-          makeId: '39',
         },
       ],
     },
@@ -3781,10 +3737,6 @@ export class StaticAssetsService {
           makeId: '48',
         },
         {
-          name: 'Combo',
-          makeId: '48',
-        },
-        {
           name: 'Arena',
           makeId: '48',
         },
@@ -4207,16 +4159,6 @@ export class StaticAssetsService {
         {
           name: 'Fm',
           makeId: '62',
-        },
-      ],
-    },
-    {
-      id: 63,
-      make: 'Terex',
-      models: [
-        {
-          name: 'TA',
-          makeId: '63',
         },
       ],
     },
