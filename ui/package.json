@@ -5,14 +5,16 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration development",
+    "build:production": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "storybook": "ng run ui:storybook",
     "build-storybook": "ng run ui:build-storybook",
     "lint": "ng lint",
     "prettier:check": "prettier --check .",
-    "prettier:format": "prettier --write ."
+    "prettier:format": "prettier --write .",
+    "run-local-server": "node local-server.js"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +34,7 @@
     "@ngxs/storage-plugin": "^19.0.0",
     "@ngxs/store": "^19.0.0",
     "@primeng/themes": "^19.0.6",
+    "express": "^4.21.2",
     "pm2": "^5.4.3",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.6",
