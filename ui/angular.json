@@ -92,12 +92,7 @@
               "buildTarget": "ui:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "ssl": true,
-            "sslCert": "localhost.pem",
-            "sslKey": "localhost-key.pem"
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
