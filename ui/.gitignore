@@ -42,3 +42,7 @@ testem.log
 Thumbs.db
 
 *storybook.log
+
+# SSL certificates
+localhost.pem
+localhost-key.pem
