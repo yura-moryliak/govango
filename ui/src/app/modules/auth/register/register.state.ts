@@ -191,11 +191,13 @@ export class RegisterState {
     const registerUserData: RegisterUserInterface = {
       userInfo: getState().step1.userInfoData,
       userCredentials: rest,
-      userCarInfo: {
-        ...getState().step3.userCarInfo,
-        make: getState().step3.userCarInfo.make.make,
-        model: getState().step3.userCarInfo.model.name,
-      },
+      ...(getState().step1.userInfoData.isCarOwner && {
+        userCarInfo: {
+          ...getState().step3.userCarInfo,
+          make: getState().step3.userCarInfo.make.make,
+          model: getState().step3.userCarInfo.model.name,
+        },
+      }),
     };
 
     return this.authService
