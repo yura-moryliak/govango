@@ -14,5 +14,5 @@ type UnifiedCarInfoType = {
 export interface RegisterUserInterface {
   userInfo: UserInfoDataInterface;
   userCredentials: Omit<UserCredentialsDataInterface, 'confirmPassword'>;
-  userCarInfo: UnifiedCarInfoType;
+  userCarInfo?: UnifiedCarInfoType;
 }
