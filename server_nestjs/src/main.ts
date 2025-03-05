@@ -1,29 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 
 import helmet from "helmet";
-import {join} from "path";
 import * as bodyParser from 'body-parser';
 import * as cookieParser from "cookie-parser";
 
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ConfigService } from '@nestjs/config';
 
 const PORT = process.env.PORT || 1111;
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-    app.useStaticAssets(join(__dirname, './dist/browser/ui'));
-    app.setViewEngine('html');
+    const configService = app.select(AppModule).get(ConfigService);
 
     app.use(
       helmet({
-        crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-        crossOriginResourcePolicy: {policy: 'cross-origin'},
-        referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-        contentSecurityPolicy: false,
-        xXssProtection: true,
-        hidePoweredBy: true
+          crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+          crossOriginResourcePolicy: {policy: 'cross-origin'},
+          referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+          contentSecurityPolicy: false,
+          xXssProtection: true,
+          hidePoweredBy: true
       }),
     );
 
@@ -31,6 +29,13 @@ async function bootstrap() {
 
     app.use(bodyParser.json({limit: '5mb'}));
     app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
+
+    app.enableCors({
+        origin: configService.get('CLIENT_CORS_ORIGIN'),
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        maxAge: 3600
+    });
 
     return await app.listen(PORT);
 }
