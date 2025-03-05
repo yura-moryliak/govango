@@ -4,15 +4,25 @@ import helmet from 'helmet';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 
-import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+
+import { AppModule } from './app.module';
 
 const PORT = process.env.PORT || 1111;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.select(AppModule).get(ConfigService);
+  const documentBuilder = new DocumentBuilder()
+    .setTitle('GoVanGo API')
+    .setDescription('Restfull API for GoVanGo service')
+    .setVersion('1.0')
+    .build();
+
+  const document: OpenAPIObject = SwaggerModule.createDocument(app, documentBuilder);
+  SwaggerModule.setup('api/swagger', app, document);
 
   app.use(
     helmet({
@@ -39,6 +49,10 @@ async function bootstrap() {
 
   return await app.listen(PORT);
 }
+
 bootstrap()
-  .then(() => console.log(`Server running on URL http://localhost:${PORT}`))
+  .then(() => {
+    console.log(`Server running on URL http://localhost:${PORT}`);
+    console.log(`Swagger available at http://localhost:${PORT}/api/swagger`);
+  })
   .catch((error) => console.error(error));
