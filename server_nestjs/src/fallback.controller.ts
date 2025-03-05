@@ -1,17 +1,19 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Get, Next, Req, Res } from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
 import { join } from 'path';
 import * as fs from 'node:fs';
+import { ApiExcludeController } from '@nestjs/swagger';
 
+@ApiExcludeController()
 @Controller()
 export class FallbackController {
   @Get('*')
-  serveUi(@Req() req: Request, @Res() res: Response) {
+  serveUi(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     const angularDistPath = join(__dirname, '../../', 'dist', 'ui', 'browser');
     const indexHtmlPath = join(angularDistPath, 'index.html');
 
     if (req.url.startsWith('/api/')) {
-      return res.status(404).json({ message: 'API endpoint not found' });
+      return next();
     }
 
     if (req.url.includes('.')) {

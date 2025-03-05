@@ -5,11 +5,11 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { RouterModule } from '@nestjs/core';
 import { join } from 'path';
-import { FallbackController } from './fallback.controller';
 import { typeormFactory } from './db.connection';
 import { apiRoutes } from './routes';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { FallbackController } from './fallback.controller';
 
 const configurationModules = [
   RouterModule.register(apiRoutes),
@@ -47,7 +47,7 @@ const commonModules = [
     ...configurationModules,
     ...commonModules
   ],
-  controllers: [FallbackController],
   providers: [],
+  controllers: [FallbackController],
 })
 export class AppModule {}
