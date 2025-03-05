@@ -11,6 +11,6 @@ export function typeormFactory(configService: ConfigService) {
     database: configService.get('DATABASE_NAME'),
     entities: [],
     synchronize: configService.get('DATABASE_SYNC'),
-    autoLoadEntities: true
+    autoLoadEntities: true,
   }) as Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions;
 }

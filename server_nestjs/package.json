@@ -2,12 +2,12 @@
   "name": "govango-server-nestjs",
   "version": "1.0.0",
   "scripts": {
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "pm2 start ../dist/server_nestjs/main"
+    "nest:build": "nest build",
+    "nest:format": "prettier --write \"src/**/*.ts\"",
+    "nest:start": "nest start",
+    "nest:start:dev": "nest start --watch",
+    "nest:start:debug": "nest start --debug --watch",
+    "nest:start:prod": "pm2 start ../dist/server_nestjs/main"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
