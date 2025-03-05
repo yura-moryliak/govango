@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CacheModule } from '@nestjs/cache-manager'
 import { AppController } from "./app.controller";
 import { typeormFactory } from './db.connection';
 
@@ -14,6 +15,9 @@ import { typeormFactory } from './db.connection';
     TypeOrmModule.forRootAsync({
       useFactory: typeormFactory,
       inject: [ConfigService]
+    }),
+    CacheModule.register({
+      isGlobal: true
     })
   ],
   controllers: [AppController],
