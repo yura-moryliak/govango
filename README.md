@@ -1,24 +1,28 @@
-# GOVANGO
+# GoVanGo
 
-### Run docker-compose
+В проєкті йде розділення на мікросервіси і
+використання контейнерів Docker буде розділено для кожного сервера свій:
+
+### Dotnet
+
+1. Запуск MYSQL for Dotnet
 ```bash
-docker-compose up -d
+docker-compose -f docker-compose.dotnet.yml up -d
 ```
 
-### Stop docker-compose
+2. Стоп MYSQL for Dotnet
 ```bash
-docker-compose down
+docker-compose -f docker-compose.dotnet.yml down
 ```
 
-### Stop docker-compose with full data
+### NestJS
+
+1. Запуск MYSQL for NestJS
 ```bash
-docker-compose down -v
+docker-compose -f docker-compose.nestjs.yml up -d
 ```
 
-### PM 2 commands
-
+2. Стоп MYSQL for Dotnet
 ```bash
-pm2 start ./dist/backend/main
+docker-compose -f docker-compose.nestjs.yml down
 ```
-
-PM 2 Docs [https://www.npmjs.com/package/pm2](https://www.npmjs.com/package/pm2)
