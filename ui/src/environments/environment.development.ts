@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:4300/',
+  dotnetBaseUrl: 'http://localhost:4300/',
+  nestJsBaseUrl: 'http://localhost:1111/',
 };

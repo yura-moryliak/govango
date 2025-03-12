@@ -118,7 +118,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
         this.form.value as UserCredentialsDataInterface,
         this.form.invalid,
       ),
-      new RegisterActions.RegisterNewUser()
+      new RegisterActions.RegisterNewUser(),
     ];
 
     this.sub.add(
@@ -130,7 +130,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
             new RegisterActions.CompleteStep2(),
           ]);
-          // this.router.navigate(['login']);
+          this.router.navigate(['login']);
           this.showSuccessToast();
         },
         error: () => {

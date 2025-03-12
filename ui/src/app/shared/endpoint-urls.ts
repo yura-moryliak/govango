@@ -1,3 +1,4 @@
 export const endpointUrls = {
-  auth: 'auth',
+  users: 'api/users',
+  auth: 'api/auth',
 };

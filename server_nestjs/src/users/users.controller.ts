@@ -15,14 +15,14 @@ export class UsersController {
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   createCustomer(@Body() createCustomerDto: CreateCustomerDto) {
-    return `This action creates new customer`;
+    return { message: `This action creates new customer`, data: { createCustomerDto } };
   }
 
   @Post('carrier')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   createCarrier(@Body() createCarrierDto: CreateCarrierDto) {
-    return `This action creates new carrier`;
+    return { message: `This action creates new carrier`, data: { createCarrierDto } };
   }
 
   @Get()
