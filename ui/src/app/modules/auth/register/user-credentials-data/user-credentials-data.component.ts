@@ -113,8 +113,16 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
   submit(): void {
     this.isLoading = true;
 
+    const storeActions = [
+      new RegisterActions.AddUserCredentialsData(
+        this.form.value as UserCredentialsDataInterface,
+        this.form.invalid,
+      ),
+      new RegisterActions.RegisterNewUser()
+    ];
+
     this.sub.add(
-      this.store.dispatch(new RegisterActions.RegisterNewUser()).subscribe({
+      this.store.dispatch(storeActions).subscribe({
         next: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
@@ -122,7 +130,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
             new RegisterActions.CompleteStep2(),
           ]);
-          this.router.navigate(['login']);
+          // this.router.navigate(['login']);
           this.showSuccessToast();
         },
         error: () => {

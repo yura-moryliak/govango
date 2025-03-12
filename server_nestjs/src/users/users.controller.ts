@@ -1,4 +1,56 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './dto/user.dto';
+import { ApiBadRequestResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 
-@Controller('/api/users')
-export class UsersController {}
+export enum UserType {
+  All = 'all',
+  Customer = 'customer',
+  Carrier = 'carrier',
+}
+
+@Controller()
+export class UsersController {
+
+  @Post('customer')
+  @ApiOkResponse({ description: 'Ok' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  createCustomer(@Body() createCustomerDto: CreateCustomerDto) {
+    return `This action creates new customer`;
+  }
+
+  @Post('carrier')
+  @ApiOkResponse({ description: 'Ok' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  createCarrier(@Body() createCarrierDto: CreateCarrierDto) {
+    return `This action creates new carrier`;
+  }
+
+  @Get()
+  @ApiOkResponse({ description: 'Ok' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiQuery({ name: 'type', enum: UserType, default: UserType.All })
+  findAll(@Query('type') type: UserType = UserType.All) {
+    return `This action returns all users of type: ${type}`;
+  }
+
+  @Get(':id')
+  @ApiOkResponse({ description: 'Ok' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  findOne(@Param('id') id: string)  {
+    return `This action returns a user with id: ${id}`;
+  }
+
+  @Put(':id')
+  @ApiOkResponse({ description: 'Ok' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  updateUserInfo(@Param('id') id: string, @Body() updateUserInfoDto: UpdateUserDto) {
+    return `This action updates user with id: ${id}`;
+  }
+
+  @Delete(':id')
+  @ApiOkResponse({ description: 'Ok' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  remove(@Param('id') id: string) {
+    return `This action deletes a customer with id: ${id}`;
+  }
+}
