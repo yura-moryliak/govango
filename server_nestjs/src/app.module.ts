@@ -7,9 +7,10 @@ import { RouterModule } from '@nestjs/core';
 import { join } from 'path';
 import { typeormFactory } from './db.connection';
 import { apiRoutes } from './routes';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FallbackController } from './fallback.controller';
+import { CarsModule } from './modules/cars/cars.module';
 
 const configurationModules = [
   RouterModule.register(apiRoutes),
@@ -39,13 +40,14 @@ const configurationModules = [
 ];
 const commonModules = [
   AuthModule,
-  UsersModule
+  UsersModule,
+  CarsModule
 ];
 
 @Module({
   imports: [
     ...configurationModules,
-    ...commonModules
+    ...commonModules,
   ],
   providers: [],
   controllers: [FallbackController],
