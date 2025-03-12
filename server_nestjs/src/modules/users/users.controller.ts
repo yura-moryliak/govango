@@ -1,13 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
-import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './dto/user.dto';
+import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './user.dto';
 import { UsersService } from './users.service';
-
-export enum UserType {
-  All = 'all',
-  Customer = 'customer',
-  Carrier = 'carrier',
-}
+import { UserType } from './user-type.enum';
+import { UserEntity } from './user.entity';
 
 @Controller()
 export class UsersController {
@@ -25,6 +21,7 @@ export class UsersController {
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   createCarrier(@Body() createCarrierDto: CreateCarrierDto) {
+    // TODO implement
     return { message: `This action creates new carrier`, data: { createCarrierDto } };
   }
 
@@ -33,27 +30,30 @@ export class UsersController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiQuery({ name: 'type', enum: UserType, default: UserType.All })
   findAll(@Query('type') type: UserType = UserType.All) {
+    // TODO implement
     return `This action returns all users of type: ${type}`;
   }
 
   @Get(':id')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async findOne(@Param('id') id: string)  {
+  async findOne(@Param('id') id: string): Promise<UserEntity>  {
     return await this.usersService.findOne(id);
   }
 
   @Put(':id')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  updateUserInfo(@Param('id') id: string, @Body() updateUserInfoDto: UpdateUserDto) {
-    return `This action updates user with id: ${id}`;
+  async updateUserInfo(@Param('id') id: string, @Body() updateUserInfoDto: UpdateUserDto): Promise<boolean> {
+    await this.usersService.update(id, updateUserInfoDto);
+    return true;
   }
 
   @Delete(':id')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  remove(@Param('id') id: string) {
-    return `This action deletes a customer with id: ${id}`;
+  async remove(@Param('id') id: string): Promise<boolean> {
+    await this.usersService.remove(id);
+    return true;
   }
 }

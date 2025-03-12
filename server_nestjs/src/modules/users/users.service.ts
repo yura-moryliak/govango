@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './user.entity';
-import { Repository } from 'typeorm';
-import { CreateCustomerDto } from './dto/user.dto';
-import { Encryption } from '../../utils/encryption';
 import { ConfigService } from '@nestjs/config';
+import { DeleteResult, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
+import { UserEntity } from './user.entity';
+import { Encryption } from '../../utils/encryption';
+import { CreateCustomerDto, UpdateUserDto } from './user.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,5 +37,25 @@ export class UsersService {
     }
 
     return plainToInstance(UserEntity, user);
+  }
+
+  async remove(id: string): Promise<DeleteResult> {
+    const userEntity: UserEntity = await this.usersRepository.findOne({ where: { id } });
+
+    if (!userEntity) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.usersRepository.delete(id);
+  }
+
+  async update(id: string, updateUserInfoDto: UpdateUserDto): Promise<UserEntity & UpdateUserDto> {
+    const userEntity: UserEntity = await this.usersRepository.findOne({ where: { id } });
+
+    if (!userEntity) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.usersRepository.save(Object.assign(userEntity, updateUserInfoDto));
   }
 }
