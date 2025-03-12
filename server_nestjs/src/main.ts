@@ -21,8 +21,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const document: OpenAPIObject = SwaggerModule.createDocument(app, documentBuilder);
-  SwaggerModule.setup('api/swagger', app, document);
+  const documentFactory = () => SwaggerModule.createDocument(app, documentBuilder);
+  SwaggerModule.setup('api/swagger', app, documentFactory);
 
   app.use(
     helmet({
