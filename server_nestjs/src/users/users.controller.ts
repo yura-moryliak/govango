@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './dto/user.dto';
 import { ApiBadRequestResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
+import { UsersService } from './users.service';
+import { UserEntity } from './user.entity';
 
 export enum UserType {
   All = 'all',
@@ -10,12 +12,14 @@ export enum UserType {
 
 @Controller()
 export class UsersController {
+  constructor(private readonly usersService: UsersService) { }
 
   @Post('customer')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  createCustomer(@Body() createCustomerDto: CreateCustomerDto) {
-    return { message: `This action creates new customer`, data: { createCustomerDto } };
+  async createCustomer(@Body() createCustomerDto: CreateCustomerDto): Promise<boolean> {
+    await this.usersService.createCustomer(createCustomerDto);
+    return true;
   }
 
   @Post('carrier')
@@ -36,8 +40,8 @@ export class UsersController {
   @Get(':id')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  findOne(@Param('id') id: string)  {
-    return `This action returns a user with id: ${id}`;
+  async findOne(@Param('id') id: string)  {
+    return await this.usersService.findOne(id);
   }
 
   @Put(':id')
