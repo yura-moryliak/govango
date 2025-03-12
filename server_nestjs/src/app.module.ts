@@ -7,9 +7,9 @@ import { RouterModule } from '@nestjs/core';
 import { join } from 'path';
 import { typeormFactory } from './db.connection';
 import { apiRoutes } from './routes';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { FallbackController } from './fallback.controller';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 import { CarsModule } from './modules/cars/cars.module';
 
 const configurationModules = [
@@ -49,7 +49,6 @@ const commonModules = [
     ...configurationModules,
     ...commonModules,
   ],
-  providers: [],
   controllers: [FallbackController],
 })
 export class AppModule {}

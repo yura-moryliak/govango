@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './dto/user.dto';
 import { ApiBadRequestResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
+import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 
 export enum UserType {

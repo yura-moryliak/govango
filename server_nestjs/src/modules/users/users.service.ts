@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { CreateCustomerDto } from './dto/user.dto';
-import { Encryption } from '../utils/encryption';
+import { Encryption } from '../../utils/encryption';
 import { ConfigService } from '@nestjs/config';
 import { plainToInstance } from 'class-transformer';
 
