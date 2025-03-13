@@ -1,5 +1,5 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsString, Matches, MinLength } from 'class-validator';
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger';
+import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 
 class UserInfoDto {
   @ApiProperty({
@@ -7,6 +7,7 @@ class UserInfoDto {
     default: false,
   })
   @IsBoolean()
+  @IsOptional()
   isCarOwner: boolean;
 
   @ApiProperty({
@@ -15,6 +16,7 @@ class UserInfoDto {
   })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   firstName: string;
 
   @ApiProperty({
@@ -23,6 +25,7 @@ class UserInfoDto {
   })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   lastName: string;
 
   @ApiProperty({
@@ -31,6 +34,7 @@ class UserInfoDto {
   })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   city: string;
 }
 
@@ -41,6 +45,7 @@ class UserCredentialsDto {
   })
   @IsString()
   @Matches(/^\+380\s\d{2}\s\d{7}$/)
+  @IsOptional()
   phoneNumber: string;
 
   @ApiProperty({
@@ -48,6 +53,7 @@ class UserCredentialsDto {
     default: '',
   })
   @IsEmail()
+  @IsOptional()
   email: string;
 
   @ApiProperty({
@@ -113,8 +119,6 @@ class UserCarInfoDto {
   carryCapacity: number;
 }
 
-class UpdateUser extends OmitType(UserInfoDto, ['isCarOwner'] as const) {}
-
 export class CreateCustomerDto {
   @ApiProperty({ description: 'User general information' })
   @IsNotEmpty()
@@ -139,4 +143,8 @@ export class CreateCarrierDto {
   userCarInfo: UserCarInfoDto;
 }
 
-export class UpdateUserDto extends IntersectionType(UpdateUser, UserCredentialsDto) {}
+class UpdateUser extends OmitType(UserInfoDto, ['isCarOwner'] as const) {}
+
+class UpdateUserWithoutPassword extends OmitType(UserCredentialsDto, ['password'] as const) {}
+
+export class UpdateUserDto extends IntersectionType(UpdateUser, UpdateUserWithoutPassword) {}

@@ -5,8 +5,8 @@ import { UserCredentialsDataInterface } from './interfaces/user-credentials-data
 import { UserCarInfoDataInterface } from './interfaces/user-car-info-data.interface';
 import { RegisterActions } from './register.actions';
 import { RegisterStepEnum } from './register.component';
-import { Observable, tap } from 'rxjs';
-import { AuthService } from '../../../shared/services/auth.service';
+import { tap } from 'rxjs';
+import { UsersService } from '../../../shared/services/users.service';
 import { RegisterUserInterface } from './interfaces/register-user.interface';
 
 export interface RegisterStateModel {
@@ -72,7 +72,7 @@ const initialRegisterState: RegisterStateModel = {
 })
 @Injectable()
 export class RegisterState {
-  private readonly authService: AuthService = inject(AuthService);
+  private readonly usersService: UsersService = inject(UsersService);
 
   @Selector()
   static activeStep(state: RegisterStateModel): number {
@@ -182,10 +182,7 @@ export class RegisterState {
   }
 
   @Action(RegisterActions.RegisterNewUser, { cancelUncompleted: true })
-  registerNewUser({
-    patchState,
-    getState,
-  }: StateContext<RegisterStateModel>): Observable<null> {
+  registerNewUser({ patchState, getState }: StateContext<RegisterStateModel>) {
     const { confirmPassword, ...rest } = getState().step2.userCredentialsData;
 
     const registerUserData: RegisterUserInterface = {
@@ -200,7 +197,7 @@ export class RegisterState {
       }),
     };
 
-    return this.authService
+    return this.usersService
       .registerUser(registerUserData)
       .pipe(tap(() => patchState({ ...initialRegisterState })));
   }
