@@ -28,10 +28,9 @@ export class UsersController {
   @Get()
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiQuery({ name: 'type', enum: UserType, default: UserType.All })
-  findAll(@Query('type') type: UserType = UserType.All) {
-    // TODO implement
-    return `This action returns all users of type: ${type}`;
+  @ApiQuery({ name: 'userType', enum: UserType, required: true, example: UserType.All })
+  async findAll(@Query('userType') userType: UserType = UserType.All): Promise<UserEntity[]> {
+    return await this.usersService.findAll(userType);
   }
 
   @Get(':id')

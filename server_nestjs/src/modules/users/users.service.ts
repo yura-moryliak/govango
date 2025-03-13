@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UserEntity } from './user.entity';
 import { Encryption } from '../../utils/encryption';
 import { CreateCustomerDto, UpdateUserDto } from './user.dto';
+import { UserType } from './user-type.enum';
 
 @Injectable()
 export class UsersService {
@@ -27,6 +28,19 @@ export class UsersService {
 
     const userEntity: UserEntity = this.usersRepository.create({ ...createCustomerDto.userInfo, ...createCustomerDto.userCredentials, password: encodedPassword });
     return await this.usersRepository.save(userEntity);
+  }
+
+  async findAll(userType: UserType): Promise<UserEntity[]> {
+    if (!Object.values(UserType).includes(userType)) {
+      throw new HttpException('Invalid user type', HttpStatus.BAD_REQUEST);
+    }
+
+    const whereCondition: FindOptionsWhere<UserEntity> | {} =
+      userType === UserType.All
+        ? {}
+        : { isCarOwner: userType === UserType.Carrier };
+
+    return await this.usersRepository.find({ where: whereCondition });
   }
 
   async findOne(id: string): Promise<UserEntity> {
