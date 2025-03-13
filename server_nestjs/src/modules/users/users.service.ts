@@ -5,13 +5,15 @@ import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UserEntity } from './user.entity';
 import { Encryption } from '../../utils/encryption';
-import { CreateCustomerDto, UpdateUserDto } from './user.dto';
+import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './user.dto';
 import { UserType } from './user-type.enum';
+import { CarEntity } from '../cars/car.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity) private readonly usersRepository: Repository<UserEntity>,
+    @InjectRepository(CarEntity) private readonly carsRepository: Repository<CarEntity>,
     private readonly configService: ConfigService
   ) {}
 
@@ -28,6 +30,16 @@ export class UsersService {
 
     const userEntity: UserEntity = this.usersRepository.create({ ...createCustomerDto.userInfo, ...createCustomerDto.userCredentials, password: encodedPassword });
     return await this.usersRepository.save(userEntity);
+  }
+
+  async createCarrier(createCarrierDto: CreateCarrierDto): Promise<UserEntity> {
+    const carrier: UserEntity = await this.createCustomer(createCarrierDto);
+
+    const { userCarInfo } = createCarrierDto;
+    const car: CarEntity = this.carsRepository.create({...userCarInfo, user: carrier});
+    await this.carsRepository.save(car);
+
+    return carrier;
   }
 
   async findAll(userType: UserType): Promise<UserEntity[]> {

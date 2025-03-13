@@ -20,9 +20,9 @@ export class UsersController {
   @Post('carrier')
   @ApiOkResponse({ description: 'Ok' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  createCarrier(@Body() createCarrierDto: CreateCarrierDto) {
-    // TODO implement
-    return { message: `This action creates new carrier`, data: { createCarrierDto } };
+  async createCarrier(@Body() createCarrierDto: CreateCarrierDto) {
+    await this.usersService.createCarrier(createCarrierDto);
+    return true;
   }
 
   @Get()

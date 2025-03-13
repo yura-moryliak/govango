@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { CarEntity } from '../cars/car.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -31,4 +32,7 @@ export class UserEntity extends BaseEntity {
 
   @Column({default: 0, nullable: false})
   likes: number;
+
+  @OneToMany(() => CarEntity, (car: CarEntity) => car.user)
+  cars: CarEntity[];
 }
