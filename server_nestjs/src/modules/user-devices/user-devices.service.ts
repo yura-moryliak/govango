@@ -41,7 +41,7 @@ export class UserDevicesService {
   async getDevices(user: UserEntity): Promise<UserDeviceEntity[]> {
     return this.userDevicesRepository.find({
       where: { user },
-      select: ['id', 'ip', 'userAgent', 'lastActiveAt'],
+      select: ['id', 'ip', 'userAgent', 'lastActiveAt', 'createdAt'],
     });
   }
 
