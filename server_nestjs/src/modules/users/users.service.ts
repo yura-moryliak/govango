@@ -29,10 +29,7 @@ export class UsersService {
     });
 
     if (user) {
-      throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, message: 'User already exist' },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('User already exist', HttpStatus.BAD_REQUEST);
     }
 
     const encodedPassword: string = Encryption.encode(
@@ -104,10 +101,7 @@ export class UsersService {
       );
     } catch (_) {
       throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Failed to update user',
-        },
+        'Failed to update user',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -126,10 +120,7 @@ export class UsersService {
       return await this.usersRepository.delete(id);
     } catch (_) {
       throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Failed to delete user',
-        },
+        'Failed to delete user',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

@@ -20,10 +20,7 @@ export class CarsService {
     });
 
     if (!user) {
-      throw new HttpException(
-        { status: HttpStatus.NOT_FOUND, message: 'User not found' },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     const car: CarEntity = this.carsRepository.create({ user, ...carDto });
@@ -31,11 +28,22 @@ export class CarsService {
     try {
       return await this.carsRepository.save(car);
     } catch (error) {
-      throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, message: 'Car was not created' },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Car was not created', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async findUserIdByCarId(carId: string): Promise<string> {
+    const car: CarEntity = await this.carsRepository.findOne({
+      where: { id: carId },
+      relations: ['user'],
+      select: { user: { id: true } },
+    });
+
+    if (!car) {
+      throw new HttpException('Car not found', HttpStatus.NOT_FOUND);
+    }
+
+    return car.user.id;
   }
 
   async findAll(): Promise<CarEntity[]> {
@@ -48,27 +56,12 @@ export class CarsService {
     });
 
     if (!user) {
-      throw new HttpException(
-        { status: HttpStatus.NOT_FOUND, message: 'User not found' },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const cars: CarEntity[] = await this.carsRepository.find({
+    return await this.carsRepository.find({
       where: { user: { id: userId } },
     });
-
-    if (!cars.length) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          message: 'No cars found for this user',
-        },
-        HttpStatus.NOT_FOUND,
-      );
-    }
-
-    return cars;
   }
 
   async findOneByUserId(userId: string, carId: string): Promise<CarEntity> {
@@ -77,10 +70,7 @@ export class CarsService {
     });
 
     if (!user) {
-      throw new HttpException(
-        { status: HttpStatus.NOT_FOUND, message: 'User not found' },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     const car: CarEntity = await this.carsRepository.findOne({
@@ -89,10 +79,7 @@ export class CarsService {
 
     if (!car) {
       throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          message: 'Car not found or does not belong to the user',
-        },
+        'Car not found or does not belong to the user',
         HttpStatus.NOT_FOUND,
       );
     }
@@ -110,10 +97,7 @@ export class CarsService {
     });
 
     if (!user) {
-      throw new HttpException(
-        { status: HttpStatus.NOT_FOUND, message: 'User not found' },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     const car: CarEntity = await this.carsRepository.findOne({
@@ -122,10 +106,7 @@ export class CarsService {
 
     if (!car) {
       throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          message: 'Car not found or does not belong to the user',
-        },
+        'Car not found or does not belong to the user',
         HttpStatus.NOT_FOUND,
       );
     }
@@ -134,10 +115,7 @@ export class CarsService {
       return await this.carsRepository.save(Object.assign(car, updateCarDto));
     } catch (error) {
       throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Failed to update car',
-        },
+        'Failed to update car',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -149,10 +127,7 @@ export class CarsService {
     });
 
     if (!user) {
-      throw new HttpException(
-        { status: HttpStatus.NOT_FOUND, message: 'User not found' },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     const car: CarEntity = await this.carsRepository.findOne({
@@ -161,10 +136,7 @@ export class CarsService {
 
     if (!car) {
       throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          message: 'Car not found or does not belong to the user',
-        },
+        'Car not found or does not belong to the user',
         HttpStatus.NOT_FOUND,
       );
     }
@@ -173,10 +145,7 @@ export class CarsService {
       return await this.carsRepository.delete(carId);
     } catch (_) {
       throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Failed to delete car',
-        },
+        'Failed to delete car',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
