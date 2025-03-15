@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
@@ -21,7 +21,7 @@ export class AuthService {
       return result as UserEntity;
     }
 
-    throw new UnauthorizedException('Invalid credentials');
+    throw new HttpException('Invalid credentials', 401);
   }
 
   async login(
