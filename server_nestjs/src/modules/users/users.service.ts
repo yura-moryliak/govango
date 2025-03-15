@@ -1,6 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  FindOptionsSelect,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import * as bcryptjs from 'bcryptjs';
 import { UserType } from './user-type.enum';
@@ -69,10 +74,13 @@ export class UsersService {
     });
   }
 
-  async findOne(id: string): Promise<UserEntity> {
+  async findOne(
+    id: string,
+    select: FindOptionsSelect<UserEntity> = USER_ENTITY_PASSWORD_LESS_SELECT,
+  ): Promise<UserEntity> {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: id },
-      select: USER_ENTITY_PASSWORD_LESS_SELECT,
+      select: select,
     });
 
     if (!user) {
@@ -135,5 +143,12 @@ export class UsersService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async updateRefreshToken(
+    userId: string,
+    refreshToken: string,
+  ): Promise<void> {
+    await this.usersRepository.update(userId, { refreshToken });
   }
 }

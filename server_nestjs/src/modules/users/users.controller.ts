@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -25,6 +26,7 @@ import { UserType } from './user-type.enum';
 import { UserEntity } from './user.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiBearerAuth()
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

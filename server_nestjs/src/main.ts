@@ -19,6 +19,7 @@ async function bootstrap() {
     .setTitle('GoVanGo API')
     .setDescription('Restfull API for GoVanGo service')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const documentFactory = () =>

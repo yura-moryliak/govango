@@ -13,6 +13,7 @@ import { CarEntity } from './car.entity';
 import { CarsService } from './cars.service';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -22,6 +23,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiBearerAuth()
 @Controller()
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
