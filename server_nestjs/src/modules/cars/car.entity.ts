@@ -40,7 +40,7 @@ export class CarEntity extends BaseEntity {
     precision: 10,
     scale: 1,
   })
-  weight: number;
+  width: number;
 
   @Column({
     default: 0.0,

@@ -25,6 +25,7 @@ import { UsersService } from './users.service';
 import { UserType } from './user-type.enum';
 import { UserEntity } from './user.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { USER_LIST_OK_RESPONSE_EXAMPLE } from './users.swagger';
 
 @ApiBearerAuth()
 @Controller()
@@ -32,7 +33,10 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('customer')
-  @ApiOkResponse({ description: 'New customer created successfully' })
+  @ApiOkResponse({
+    description: 'New customer created successfully',
+    example: true,
+  })
   @ApiBadRequestResponse({ description: 'User already exist' })
   @ApiBody({ type: CreateCustomerDto })
   async createCustomer(
@@ -43,7 +47,10 @@ export class UsersController {
   }
 
   @Post('carrier')
-  @ApiOkResponse({ description: 'New carrier created successfully' })
+  @ApiOkResponse({
+    description: 'New carrier created successfully',
+    example: true,
+  })
   @ApiBadRequestResponse({ description: 'User already exist' })
   @ApiBody({ type: CreateCarrierDto })
   async createCarrier(
@@ -55,7 +62,10 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  @ApiOkResponse({ description: 'Users found by given user type' })
+  @ApiOkResponse({
+    description: 'Users found by given user type',
+    example: USER_LIST_OK_RESPONSE_EXAMPLE,
+  })
   @ApiBadRequestResponse({ description: 'Invalid user type' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiQuery({
@@ -73,7 +83,10 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  @ApiOkResponse({ description: 'User found by given id' })
+  @ApiOkResponse({
+    description: 'User found by given id',
+    example: USER_LIST_OK_RESPONSE_EXAMPLE[0],
+  })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiParam({ name: 'id', required: true, description: 'id' })
@@ -83,7 +96,10 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  @ApiOkResponse({ description: 'User updated successfully by given id' })
+  @ApiOkResponse({
+    description: 'User updated successfully by given id',
+    example: true,
+  })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiParam({ name: 'id', required: true, description: 'id' })
@@ -98,7 +114,10 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  @ApiOkResponse({ description: 'User removed successfully by given id' })
+  @ApiOkResponse({
+    description: 'User removed successfully by given id',
+    example: true,
+  })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiInternalServerErrorResponse({ description: 'Failed to delete user' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
