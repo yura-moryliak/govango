@@ -31,11 +31,9 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post('customer')
   @ApiOkResponse({ description: 'New customer created successfully' })
   @ApiBadRequestResponse({ description: 'User already exist' })
-  @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiBody({ type: CreateCustomerDto })
   async createCustomer(
     @Body() createCustomerDto: CreateCustomerDto,
@@ -44,11 +42,9 @@ export class UsersController {
     return true;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('carrier')
   @ApiOkResponse({ description: 'New carrier created successfully' })
   @ApiBadRequestResponse({ description: 'User already exist' })
-  @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiBody({ type: CreateCarrierDto })
   async createCarrier(
     @Body() createCarrierDto: CreateCarrierDto,

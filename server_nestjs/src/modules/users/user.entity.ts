@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CarEntity } from '../cars/car.entity';
+import { UserDeviceEntity } from '../user-devices/user-device.entity';
 
 export const USER_ENTITY_PASSWORD_LESS_SELECT = [
   'id',
@@ -60,6 +61,6 @@ export class UserEntity extends BaseEntity {
   @OneToMany(() => CarEntity, (car: CarEntity) => car.user)
   cars: CarEntity[];
 
-  @Column({ default: '', nullable: true })
-  refreshToken?: string;
+  @OneToMany(() => UserDeviceEntity, (device: UserDeviceEntity) => device.user)
+  devices: UserDeviceEntity[];
 }

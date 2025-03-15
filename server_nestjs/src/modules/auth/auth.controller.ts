@@ -14,26 +14,26 @@ export class AuthController {
   @Post('login')
   @ApiOkResponse({ description: 'User logged in successfully' })
   @ApiBody({ type: LoginBodyCredentialsDto })
-  async login(@Body() body: LoginBodyCredentialsDto) {
-    const user: UserEntity = await this.authService.validateUser(
-      body.email,
-      body.password,
-    );
-    return this.authService.login(user);
+  async login(@Body() body: LoginBodyCredentialsDto, @Req() req: Request) {
+    const userAgent = req.headers['user-agent'] || 'Unknown';
+    const ip = req.ip || 'Unknown';
+
+    const user = await this.authService.validateUser(body.email, body.password);
+    return this.authService.login(user, ip, userAgent);
   }
 
   @Post('refresh')
   @ApiOkResponse({ description: 'Refresh tokens generated successfully' })
   @ApiBody({ type: RefreshBodyCredentials })
   async refresh(@Body() body: RefreshBodyCredentials) {
-    return this.authService.refreshTokens(body.userId, body.refreshToken);
+    return this.authService.refreshTokens(body.refreshToken);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   @ApiOkResponse({ description: 'User logged out successfully' })
   async logout(@Req() req: Request): Promise<boolean> {
-    await this.authService.logout((req.user as any).userId);
+    await this.authService.logout((req.user as any).userId, req);
     return true;
   }
 }

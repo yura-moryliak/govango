@@ -11,6 +11,7 @@ import { FallbackController } from './fallback.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CarsModule } from './modules/cars/cars.module';
+import { UserDevicesModule } from './modules/user-devices/user-devices.module';
 
 const configurationModules = [
   RouterModule.register(apiRoutes),
@@ -31,7 +32,7 @@ const configurationModules = [
     isGlobal: true,
   }),
 ];
-const commonModules = [AuthModule, UsersModule, CarsModule];
+const commonModules = [AuthModule, UsersModule, CarsModule, UserDevicesModule];
 
 @Module({
   imports: [...configurationModules, ...commonModules],
