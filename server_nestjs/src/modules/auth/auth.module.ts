@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
+import { UserDevicesModule } from '../user-devices/user-devices.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UsersModule } from '../users/users.module';
         },
       }),
     }),
+    UserDevicesModule,
   ],
   exports: [AuthService],
   providers: [AuthService],

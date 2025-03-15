@@ -9,7 +9,6 @@ export function typeormFactory(configService: ConfigService) {
     username: configService.get('DATABASE_USERNAME'),
     password: configService.get('DATABASE_PASSWORD'),
     database: configService.get('DATABASE_NAME'),
-    entities: [],
     synchronize: configService.get('DATABASE_SYNC'),
     autoLoadEntities: true,
   }) as Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions;
