@@ -18,16 +18,6 @@ export const USER_ENTITY_PASSWORD_LESS_SELECT = [
   'email',
   'likes',
 ] as FindOptionsSelect<UserEntity>;
-export const USER_ENTITY_WITH_REFRESH_TOKEN_SELECT = [
-  'id',
-  'firstName',
-  'lastName',
-  'city',
-  'phoneNumber',
-  'email',
-  'likes',
-  'refreshToken',
-] as FindOptionsSelect<UserEntity>;
 
 @Entity()
 export class UserEntity extends BaseEntity {

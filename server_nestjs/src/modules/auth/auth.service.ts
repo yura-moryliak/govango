@@ -3,10 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
-import {
-  USER_ENTITY_WITH_REFRESH_TOKEN_SELECT,
-  UserEntity,
-} from '../users/user.entity';
+import { UserEntity } from '../users/user.entity';
 import { UserDevicesService } from '../user-devices/user-devices.service';
 import { UserDeviceEntity } from '../user-devices/user-device.entity';
 
@@ -30,17 +27,6 @@ export class AuthService {
     throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
   }
 
-  // async login(
-  //   user: UserEntity,
-  // ): Promise<{ access_token: string; refresh_token: string }> {
-  //   const payload = { userId: user.id, email: user.email };
-  //   const access_token = this.jwtService.sign(payload);
-  //   const refresh_token = this.generateRefreshToken(user.id);
-  //
-  //   await this.usersService.updateRefreshToken(user.id, refresh_token);
-  //   return { access_token, refresh_token };
-  // }
-
   async login(user: any, ip: string, userAgent: string) {
     const payload = { sub: user.id, email: user.email };
     const access_token = this.jwtService.sign(payload);
@@ -55,22 +41,6 @@ export class AuthService {
 
     return { access_token, refresh_token };
   }
-
-  // async refreshTokens(
-  //   userId: string,
-  //   refreshToken: string,
-  // ): Promise<{ access_token: string; refresh_token: string }> {
-  //   const user: UserEntity = await this.usersService.findOne(
-  //     userId,
-  //     USER_ENTITY_WITH_REFRESH_TOKEN_SELECT,
-  //   );
-  //
-  //   if (!user || user.refreshToken !== refreshToken) {
-  //     throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
-  //   }
-  //
-  //   return this.login(user);
-  // }
 
   async refreshTokens(refreshToken: string) {
     const device: UserDeviceEntity =
