@@ -19,7 +19,7 @@ export class LoginBodyCredentialsDto {
   password: string;
 }
 
-export class RefreshBodyCredentials {
+export class RefreshBodyCredentialsDto {
   @ApiProperty({
     description: 'User ID',
     default: '1',

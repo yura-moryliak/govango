@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { LoginBodyCredentialsDto, RefreshBodyCredentials } from './auth.dto';
+import { LoginBodyCredentialsDto, RefreshBodyCredentialsDto } from './auth.dto';
 import { LOGIN_OK_RESPONSE_EXAMPLE } from './auth.swagger';
 import { UserEntity } from '../users/user.entity';
 
@@ -37,9 +37,9 @@ export class AuthController {
     description: 'Refresh tokens generated successfully',
     example: LOGIN_OK_RESPONSE_EXAMPLE,
   })
-  @ApiBody({ type: RefreshBodyCredentials })
+  @ApiBody({ type: RefreshBodyCredentialsDto })
   async refresh(
-    @Body() body: RefreshBodyCredentials,
+    @Body() body: RefreshBodyCredentialsDto,
   ): Promise<{ access_token: string; refresh_token: string }> {
     return this.authService.refreshTokens(body.refreshToken);
   }
