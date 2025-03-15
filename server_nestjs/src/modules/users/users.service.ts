@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import * as bcryptjs from 'bcryptjs';
@@ -16,7 +15,6 @@ export class UsersService {
     private readonly usersRepository: Repository<UserEntity>,
     @InjectRepository(CarEntity)
     private readonly carsRepository: Repository<CarEntity>,
-    private readonly configService: ConfigService,
   ) {}
 
   async createCustomer(
@@ -75,6 +73,18 @@ export class UsersService {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: id },
       select: USER_ENTITY_PASSWORD_LESS_SELECT
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return plainToInstance(UserEntity, user);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
+    const user: UserEntity = await this.usersRepository.findOne({
+      where: { email },
     });
 
     if (!user) {
