@@ -1,7 +1,6 @@
-import * as cryptoJS from "crypto-js";
+import * as cryptoJS from 'crypto-js';
 
 export class Encryption {
-
   static encode(query: string, encryptionKey: string): string {
     const result = cryptoJS.AES.encrypt(query, encryptionKey);
     return result.toString();
@@ -11,5 +10,4 @@ export class Encryption {
     const result = cryptoJS.AES.decrypt(query, encryptionKey);
     return result.toString(cryptoJS.enc.Utf8);
   }
-
 }

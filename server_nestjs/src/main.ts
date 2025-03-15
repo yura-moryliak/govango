@@ -21,7 +21,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const documentFactory = () => SwaggerModule.createDocument(app, documentBuilder);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup('api/swagger', app, documentFactory);
 
   app.use(
