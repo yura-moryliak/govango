@@ -4,31 +4,47 @@ import { ConfigService } from '@nestjs/config';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UserEntity } from './user.entity';
-import { Encryption } from '../../utils/encryption';
-import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './user.dto';
 import { UserType } from './user-type.enum';
 import { CarEntity } from '../cars/car.entity';
+import { Encryption } from '../../utils/encryption';
+import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(UserEntity) private readonly usersRepository: Repository<UserEntity>,
-    @InjectRepository(CarEntity) private readonly carsRepository: Repository<CarEntity>,
-    private readonly configService: ConfigService
+    @InjectRepository(UserEntity)
+    private readonly usersRepository: Repository<UserEntity>,
+    @InjectRepository(CarEntity)
+    private readonly carsRepository: Repository<CarEntity>,
+    private readonly configService: ConfigService,
   ) {}
 
-  async createCustomer(createCustomerDto: CreateCustomerDto): Promise<UserEntity> {
+  async createCustomer(
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<UserEntity> {
     const { phoneNumber, email, password } = createCustomerDto.userCredentials;
 
-    const user: UserEntity = await this.usersRepository.findOne({ where: [{ email }, { phoneNumber }] });
+    const user: UserEntity = await this.usersRepository.findOne({
+      where: [{ email }, { phoneNumber }],
+    });
 
     if (user) {
-      throw new HttpException({ status: HttpStatus.BAD_REQUEST, message: 'User already exist' }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        { status: HttpStatus.BAD_REQUEST, message: 'User already exist' },
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
-    const encodedPassword: string = Encryption.encode(password, this.configService.get('ENCRYPTION_CIPHER'));
+    const encodedPassword: string = Encryption.encode(
+      password,
+      this.configService.get('ENCRYPTION_CIPHER'),
+    );
 
-    const userEntity: UserEntity = this.usersRepository.create({ ...createCustomerDto.userInfo, ...createCustomerDto.userCredentials, password: encodedPassword });
+    const userEntity: UserEntity = this.usersRepository.create({
+      ...createCustomerDto.userInfo,
+      ...createCustomerDto.userCredentials,
+      password: encodedPassword,
+    });
     return await this.usersRepository.save(userEntity);
   }
 
@@ -36,7 +52,10 @@ export class UsersService {
     const carrier: UserEntity = await this.createCustomer(createCarrierDto);
 
     const { userCarInfo } = createCarrierDto;
-    const car: CarEntity = this.carsRepository.create({...userCarInfo, user: carrier});
+    const car: CarEntity = this.carsRepository.create({
+      ...userCarInfo,
+      user: carrier,
+    });
     await this.carsRepository.save(car);
 
     return carrier;
@@ -56,7 +75,9 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<UserEntity> {
-    const user: UserEntity = await this.usersRepository.findOne({ where: { id: id } });
+    const user: UserEntity = await this.usersRepository.findOne({
+      where: { id: id },
+    });
 
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -65,23 +86,52 @@ export class UsersService {
     return plainToInstance(UserEntity, user);
   }
 
-  async remove(id: string): Promise<DeleteResult> {
-    const userEntity: UserEntity = await this.usersRepository.findOne({ where: { id } });
+  async update(
+    id: string,
+    updateUserInfoDto: UpdateUserDto,
+  ): Promise<UserEntity & UpdateUserDto> {
+    const userEntity: UserEntity = await this.usersRepository.findOne({
+      where: { id },
+    });
 
     if (!userEntity) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    return await this.usersRepository.delete(id);
+    try {
+      return await this.usersRepository.save(
+        Object.assign(userEntity, updateUserInfoDto),
+      );
+    } catch (_) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Failed to update user',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  async update(id: string, updateUserInfoDto: UpdateUserDto): Promise<UserEntity & UpdateUserDto> {
-    const userEntity: UserEntity = await this.usersRepository.findOne({ where: { id } });
+  async remove(id: string): Promise<DeleteResult> {
+    const userEntity: UserEntity = await this.usersRepository.findOne({
+      where: { id },
+    });
 
     if (!userEntity) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    return await this.usersRepository.save(Object.assign(userEntity, updateUserInfoDto));
+    try {
+      return await this.usersRepository.delete(id);
+    } catch (_) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Failed to delete user',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

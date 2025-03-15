@@ -8,7 +8,11 @@ import { ApiExcludeController } from '@nestjs/swagger';
 @Controller()
 export class FallbackController {
   @Get('*')
-  serveUi(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+  serveUi(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
     const angularDistPath = join(__dirname, '../../', 'dist', 'ui', 'browser');
     const indexHtmlPath = join(angularDistPath, 'index.html');
 

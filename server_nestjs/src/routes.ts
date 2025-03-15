@@ -6,14 +6,14 @@ import { CarsModule } from './modules/cars/cars.module';
 export const apiRoutes: Routes = [
   {
     path: '/api/auth',
-    module: AuthModule
+    module: AuthModule,
   },
   {
     path: '/api/users',
-    module: UsersModule
+    module: UsersModule,
   },
   {
     path: '/api/cars',
-    module: CarsModule
-  }
+    module: CarsModule,
+  },
 ];

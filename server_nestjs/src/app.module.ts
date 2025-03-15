@@ -15,14 +15,7 @@ import { CarsModule } from './modules/cars/cars.module';
 const configurationModules = [
   RouterModule.register(apiRoutes),
   ServeStaticModule.forRoot({
-    rootPath: join(
-      __dirname,
-      '../../',
-      'dist',
-      'ui',
-      'browser',
-      'index.html',
-    ),
+    rootPath: join(__dirname, '../../', 'dist', 'ui', 'browser', 'index.html'),
     serveRoot: '/',
   }),
   ConfigModule.forRoot({
@@ -38,17 +31,10 @@ const configurationModules = [
     isGlobal: true,
   }),
 ];
-const commonModules = [
-  AuthModule,
-  UsersModule,
-  CarsModule
-];
+const commonModules = [AuthModule, UsersModule, CarsModule];
 
 @Module({
-  imports: [
-    ...configurationModules,
-    ...commonModules,
-  ],
+  imports: [...configurationModules, ...commonModules],
   controllers: [FallbackController],
 })
 export class AppModule {}
