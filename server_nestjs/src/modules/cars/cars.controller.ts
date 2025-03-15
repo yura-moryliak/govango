@@ -22,6 +22,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ALL_CARS_OK_RESPONSE_EXAMPLE } from './cars.swagger';
 
 @ApiBearerAuth()
 @Controller()
@@ -30,7 +31,10 @@ export class CarsController {
 
   @UseGuards(JwtAuthGuard)
   @Post(':userId')
-  @ApiOkResponse({ description: 'Car was successfully created for userId' })
+  @ApiOkResponse({
+    description: 'Car was successfully created for userId',
+    example: true,
+  })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Car was not created' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
@@ -46,7 +50,7 @@ export class CarsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':carId/user')
-  @ApiOkResponse({ description: 'User id was found by carId' })
+  @ApiOkResponse({ description: 'User id was found by carId', example: '1' })
   @ApiNotFoundResponse({ description: 'Car not found by given id' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiParam({ name: 'carId', description: 'carId', required: true })
@@ -56,7 +60,10 @@ export class CarsController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  @ApiOkResponse({ description: 'All cars were found' })
+  @ApiOkResponse({
+    description: 'All cars were found',
+    example: ALL_CARS_OK_RESPONSE_EXAMPLE,
+  })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   async findAll(): Promise<CarEntity[]> {
     return this.carsService.findAll();
@@ -64,7 +71,10 @@ export class CarsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':userId')
-  @ApiOkResponse({ description: 'All cars were found by userId' })
+  @ApiOkResponse({
+    description: 'All cars were found by userId',
+    example: ALL_CARS_OK_RESPONSE_EXAMPLE,
+  })
   @ApiNotFoundResponse({ description: 'User not found by given userId' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiParam({ name: 'userId', description: 'userId', required: true })
@@ -74,7 +84,10 @@ export class CarsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':userId/:carId')
-  @ApiOkResponse({ description: 'Car was found by userId and carId' })
+  @ApiOkResponse({
+    description: 'Car was found by userId and carId',
+    example: ALL_CARS_OK_RESPONSE_EXAMPLE,
+  })
   @ApiNotFoundResponse({ description: 'User with given userId was not found' })
   @ApiUnauthorizedResponse({ description: 'Access denied' })
   @ApiParam({ name: 'userId', description: 'userid', required: true })
@@ -90,6 +103,7 @@ export class CarsController {
   @Put(':userId/:carId')
   @ApiOkResponse({
     description: 'Car was successfully updated by userId and carId',
+    example: true,
   })
   @ApiNotFoundResponse({
     description: 'User or car can not be found by userID or carId',
@@ -112,6 +126,7 @@ export class CarsController {
   @Delete(':userId/:carId')
   @ApiOkResponse({
     description: 'Car was successfully removed by given userId and carId',
+    example: true,
   })
   @ApiNotFoundResponse({
     description: 'User or car can not be found by userID or carId',

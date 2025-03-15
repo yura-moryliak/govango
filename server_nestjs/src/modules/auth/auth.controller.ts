@@ -13,20 +13,34 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOkResponse({ description: 'User logged in successfully', example: LOGIN_OK_RESPONSE_EXAMPLE })
+  @ApiOkResponse({
+    description: 'User logged in successfully',
+    example: LOGIN_OK_RESPONSE_EXAMPLE,
+  })
   @ApiBody({ type: LoginBodyCredentialsDto })
-  async login(@Body() body: LoginBodyCredentialsDto, @Req() req: Request): Promise<{ access_token: string; refresh_token: string }> {
+  async login(
+    @Body() body: LoginBodyCredentialsDto,
+    @Req() req: Request,
+  ): Promise<{ access_token: string; refresh_token: string }> {
     const userAgent: string = req.headers['user-agent'] || 'Unknown';
     const ip: string = req.ip || 'Unknown';
 
-    const user: UserEntity = await this.authService.validateUser(body.email, body.password);
+    const user: UserEntity = await this.authService.validateUser(
+      body.email,
+      body.password,
+    );
     return this.authService.login(user, ip, userAgent);
   }
 
   @Post('refresh')
-  @ApiOkResponse({ description: 'Refresh tokens generated successfully', example: LOGIN_OK_RESPONSE_EXAMPLE })
+  @ApiOkResponse({
+    description: 'Refresh tokens generated successfully',
+    example: LOGIN_OK_RESPONSE_EXAMPLE,
+  })
   @ApiBody({ type: RefreshBodyCredentials })
-  async refresh(@Body() body: RefreshBodyCredentials): Promise<{ access_token: string; refresh_token: string }> {
+  async refresh(
+    @Body() body: RefreshBodyCredentials,
+  ): Promise<{ access_token: string; refresh_token: string }> {
     return this.authService.refreshTokens(body.refreshToken);
   }
 

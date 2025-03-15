@@ -1,6 +1,10 @@
 import { Controller, Delete, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
-import { ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { UserDevicesService } from './user-devices.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserDevicesModule } from './user-devices.module';
