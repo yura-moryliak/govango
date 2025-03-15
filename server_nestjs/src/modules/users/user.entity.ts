@@ -2,11 +2,21 @@ import {
   BaseEntity,
   Column,
   Entity,
+  FindOptionsSelect,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import { CarEntity } from '../cars/car.entity';
+
+export const USER_ENTITY_PASSWORD_LESS_SELECT = [
+  'id',
+  'firstName',
+  'lastName',
+  'city',
+  'phoneNumber',
+  'email',
+  'likes',
+] as FindOptionsSelect<UserEntity>;
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -31,7 +41,6 @@ export class UserEntity extends BaseEntity {
   @Column({ default: '', nullable: false })
   email: string;
 
-  @Exclude()
   @Column({ default: '', nullable: false })
   password: string;
 

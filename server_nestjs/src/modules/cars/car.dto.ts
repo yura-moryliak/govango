@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class CarDto {
   @ApiProperty({
     description: 'Car registration plate',
-    default: '',
+    default: 'AA1234AA',
   })
   @IsString()
   @IsNotEmpty()
@@ -12,7 +12,7 @@ export class CarDto {
 
   @ApiProperty({
     description: 'Car make',
-    default: '',
+    default: 'Mercedes-Benz',
   })
   @IsString()
   @IsNotEmpty()
@@ -20,7 +20,7 @@ export class CarDto {
 
   @ApiProperty({
     description: 'Car model',
-    default: '',
+    default: 'Sprinter',
   })
   @IsString()
   @IsNotEmpty()
@@ -28,7 +28,7 @@ export class CarDto {
 
   @ApiProperty({
     description: 'Car length',
-    default: 0,
+    default: 5.5,
   })
   @IsNumber()
   @IsNotEmpty()
@@ -36,7 +36,7 @@ export class CarDto {
 
   @ApiProperty({
     description: 'Car width',
-    default: 0,
+    default: 2.7,
   })
   @IsNumber()
   @IsNotEmpty()
@@ -44,7 +44,7 @@ export class CarDto {
 
   @ApiProperty({
     description: 'Car height',
-    default: 0,
+    default: 2.5,
   })
   @IsNumber()
   @IsNotEmpty()
@@ -52,7 +52,7 @@ export class CarDto {
 
   @ApiProperty({
     description: 'Car carry capacity',
-    default: 0,
+    default: 3.5,
   })
   @IsNumber()
   @IsNotEmpty()
