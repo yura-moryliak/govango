@@ -1,12 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
-import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  FindOptionsSelect,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 import { plainToInstance } from 'class-transformer';
-import { UserEntity } from './user.entity';
+import * as bcryptjs from 'bcryptjs';
 import { UserType } from './user-type.enum';
 import { CarEntity } from '../cars/car.entity';
-import { Encryption } from '../../utils/encryption';
+import { USER_ENTITY_PASSWORD_LESS_SELECT, UserEntity } from './user.entity';
 import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './user.dto';
 
 @Injectable()
@@ -16,7 +20,6 @@ export class UsersService {
     private readonly usersRepository: Repository<UserEntity>,
     @InjectRepository(CarEntity)
     private readonly carsRepository: Repository<CarEntity>,
-    private readonly configService: ConfigService,
   ) {}
 
   async createCustomer(
@@ -32,11 +35,8 @@ export class UsersService {
       throw new HttpException('User already exist', HttpStatus.BAD_REQUEST);
     }
 
-    const encodedPassword: string = Encryption.encode(
-      password,
-      this.configService.get('ENCRYPTION_CIPHER'),
-    );
-
+    const salt: string = bcryptjs.genSaltSync(10);
+    const encodedPassword: string = bcryptjs.hashSync(password, salt);
     const userEntity: UserEntity = this.usersRepository.create({
       ...createCustomerDto.userInfo,
       ...createCustomerDto.userCredentials,
@@ -68,12 +68,31 @@ export class UsersService {
         ? {}
         : { isCarOwner: userType === UserType.Carrier };
 
-    return await this.usersRepository.find({ where: whereCondition });
+    return await this.usersRepository.find({
+      where: whereCondition,
+      select: USER_ENTITY_PASSWORD_LESS_SELECT,
+    });
   }
 
-  async findOne(id: string): Promise<UserEntity> {
+  async findOne(
+    id: string,
+    select: FindOptionsSelect<UserEntity> = USER_ENTITY_PASSWORD_LESS_SELECT,
+  ): Promise<UserEntity> {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: id },
+      select: select,
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return plainToInstance(UserEntity, user);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
+    const user: UserEntity = await this.usersRepository.findOne({
+      where: { email },
     });
 
     if (!user) {
@@ -124,5 +143,12 @@ export class UsersService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async updateRefreshToken(
+    userId: string,
+    refreshToken: string,
+  ): Promise<void> {
+    await this.usersRepository.update(userId, { refreshToken });
   }
 }

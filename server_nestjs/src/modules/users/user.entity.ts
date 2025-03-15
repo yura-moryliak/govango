@@ -2,11 +2,31 @@ import {
   BaseEntity,
   Column,
   Entity,
+  FindOptionsSelect,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import { CarEntity } from '../cars/car.entity';
+
+export const USER_ENTITY_PASSWORD_LESS_SELECT = [
+  'id',
+  'firstName',
+  'lastName',
+  'city',
+  'phoneNumber',
+  'email',
+  'likes',
+] as FindOptionsSelect<UserEntity>;
+export const USER_ENTITY_WITH_REFRESH_TOKEN_SELECT = [
+  'id',
+  'firstName',
+  'lastName',
+  'city',
+  'phoneNumber',
+  'email',
+  'likes',
+  'refreshToken',
+] as FindOptionsSelect<UserEntity>;
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -31,7 +51,6 @@ export class UserEntity extends BaseEntity {
   @Column({ default: '', nullable: false })
   email: string;
 
-  @Exclude()
   @Column({ default: '', nullable: false })
   password: string;
 
@@ -40,4 +59,7 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => CarEntity, (car: CarEntity) => car.user)
   cars: CarEntity[];
+
+  @Column({ default: '', nullable: true })
+  refreshToken?: string;
 }

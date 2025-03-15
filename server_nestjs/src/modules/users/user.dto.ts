@@ -21,7 +21,7 @@ class UserInfoDto {
 
   @ApiProperty({
     description: 'First name of the user',
-    default: '',
+    default: 'John',
   })
   @IsString()
   @IsNotEmpty()
@@ -30,7 +30,7 @@ class UserInfoDto {
 
   @ApiProperty({
     description: 'Last name of the user',
-    default: '',
+    default: 'Doe',
   })
   @IsString()
   @IsNotEmpty()
@@ -39,7 +39,7 @@ class UserInfoDto {
 
   @ApiProperty({
     description: 'City where the user lives',
-    default: '',
+    default: 'Lviv',
   })
   @IsString()
   @IsNotEmpty()
@@ -50,7 +50,7 @@ class UserInfoDto {
 class UserCredentialsDto {
   @ApiProperty({
     description: 'Mobile phone number of the user',
-    default: '',
+    default: '+380 99 1234567',
   })
   @IsString()
   @Matches(/^\+380\s\d{2}\s\d{7}$/)
@@ -59,7 +59,7 @@ class UserCredentialsDto {
 
   @ApiProperty({
     description: 'Email of the user',
-    default: '',
+    default: 'john_doe@test.com',
   })
   @IsEmail()
   @IsOptional()
@@ -67,7 +67,7 @@ class UserCredentialsDto {
 
   @ApiProperty({
     description: 'User password',
-    default: '',
+    default: '1234567',
   })
   @IsString()
   @MinLength(7)
@@ -77,7 +77,7 @@ class UserCredentialsDto {
 class UserCarInfoDto {
   @ApiProperty({
     description: 'Car registration plate',
-    default: '',
+    default: 'AA1234AA',
   })
   @IsString()
   @IsNotEmpty()
@@ -85,7 +85,7 @@ class UserCarInfoDto {
 
   @ApiProperty({
     description: 'Car make',
-    default: '',
+    default: 'Mercedes-Benz',
   })
   @IsString()
   @IsNotEmpty()
@@ -93,7 +93,7 @@ class UserCarInfoDto {
 
   @ApiProperty({
     description: 'Car model',
-    default: '',
+    default: 'Sprinter',
   })
   @IsString()
   @IsNotEmpty()
@@ -101,28 +101,28 @@ class UserCarInfoDto {
 
   @ApiProperty({
     description: 'Car length',
-    default: 0,
+    default: 5.5,
   })
   @IsNumber()
   length: number;
 
   @ApiProperty({
     description: 'Car width',
-    default: 0,
+    default: 2.7,
   })
   @IsNumber()
   width: number;
 
   @ApiProperty({
     description: 'Car height',
-    default: 0,
+    default: 2.5,
   })
   @IsNumber()
   height: number;
 
   @ApiProperty({
     description: 'Car carry capacity',
-    default: 0,
+    default: 3.5,
   })
   @IsNumber()
   carryCapacity: number;
