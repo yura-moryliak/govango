@@ -72,7 +72,7 @@ export class UsersService {
   async findOne(id: string): Promise<UserEntity> {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: id },
-      select: USER_ENTITY_PASSWORD_LESS_SELECT
+      select: USER_ENTITY_PASSWORD_LESS_SELECT,
     });
 
     if (!user) {
