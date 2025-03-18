@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { endpointUrls } from '../endpoint-urls';
 import { environment } from '../../../environments/environment';
 import { RegisterUserInterface } from '../../modules/auth/register/interfaces/register-user.interface';
@@ -13,11 +13,9 @@ export class UsersService {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
   registerUser(userData: RegisterUserInterface): Observable<boolean> {
-    return this.httpClient
-      .post(
-        `${this.baseUrl}/${!userData.userInfo.isCarOwner ? 'customer' : 'carrier'}`,
-        userData,
-      )
-      .pipe(map(() => true));
+    return this.httpClient.post<boolean>(
+      `${this.baseUrl}/${!userData.userInfo.isCarOwner ? 'customer' : 'carrier'}`,
+      userData,
+    );
   }
 }

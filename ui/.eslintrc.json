@@ -26,7 +26,8 @@
             "prefix": "gvg",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@typescript-eslint/no-namespace": "off"
       }
     },
     {

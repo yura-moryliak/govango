@@ -15,6 +15,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { NgClass } from '@angular/common';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 import { FingerprintService } from '../../../shared/services/fingerprint.service';
+import { Store } from '@ngxs/store';
+import { AuthActions } from '../../../shared/states/auth/auth.actions';
+import { LoginCredentialsInterface } from './interfaces/login-credentials.interface';
 
 interface LoginFormGroupInterface {
   emailOrPhone: FormControl<string | null>;
@@ -40,7 +43,9 @@ interface LoginFormGroupInterface {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  private readonly fingerprintService: FingerprintService = inject(FingerprintService);
+  private readonly fingerprintService: FingerprintService =
+    inject(FingerprintService);
+  private readonly store: Store = inject(Store);
 
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
     emailOrPhone: new FormControl('', Validators.required),
@@ -48,10 +53,18 @@ export class LoginComponent {
   });
 
   async login(): Promise<void> {
-    const fingerprint: string = await this.fingerprintService.generateFingerprint();
+    const fingerprint: string =
+      await this.fingerprintService.generateFingerprint();
 
     if (fingerprint) {
-      console.log(fingerprint);
+      const { emailOrPhone, password } = this.form.value;
+      this.store.dispatch(
+        new AuthActions.Login({
+          emailOrPhone,
+          password,
+          fingerprint,
+        } as LoginCredentialsInterface),
+      );
     }
   }
 }

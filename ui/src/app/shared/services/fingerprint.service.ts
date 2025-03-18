@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FingerprintService {
-  /*TODO Tis has to be tested on different devices and OSs*/
-
+  /*TODO This has to be tested on different devices and OSs*/
   async generateFingerprint(): Promise<string> {
     const components: string[] = [
       navigator.userAgent,
@@ -16,7 +15,7 @@ export class FingerprintService {
       screen.height.toString(),
       screen.colorDepth.toString(),
       await this.getWebGLInfo(),
-      await this.getAudioFingerprint()
+      await this.getAudioFingerprint(),
     ];
 
     return await this.hashSHA256(components.join('|'));
@@ -37,11 +36,15 @@ export class FingerprintService {
       const gl = canvas.getContext('webgl') as WebGLRenderingContext | null;
 
       if (!gl) {
-        return 'no-webgl'
+        return 'no-webgl';
       }
 
-      const debugInfo: WEBGL_debug_renderer_info | null = gl.getExtension('WEBGL_debug_renderer_info');
-      return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'unknown';
+      const debugInfo: WEBGL_debug_renderer_info | null = gl.getExtension(
+        'WEBGL_debug_renderer_info',
+      );
+      return debugInfo
+        ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+        : 'unknown';
     } catch {
       return 'no-webgl';
     }
@@ -49,9 +52,11 @@ export class FingerprintService {
 
   private async getAudioFingerprint(): Promise<string> {
     try {
-      const context = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const context = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
       const oscillator: OscillatorNode = context.createOscillator();
-      const compressor: DynamicsCompressorNode = context.createDynamicsCompressor();
+      const compressor: DynamicsCompressorNode =
+        context.createDynamicsCompressor();
 
       oscillator.connect(compressor);
       compressor.connect(context.destination);
