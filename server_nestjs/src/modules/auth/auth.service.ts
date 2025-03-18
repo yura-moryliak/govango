@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
+import { Request, Response } from 'express';
 import { UsersService } from '../users/users.service';
 import { UserEntity } from '../users/user.entity';
 import { UserDevicesService } from '../user-devices/user-devices.service';
@@ -27,10 +28,16 @@ export class AuthService {
     throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
   }
 
-  async login(user: any, ip: string, userAgent: string) {
+  async login(
+    user: any,
+    ip: string,
+    userAgent: string,
+    req: Request,
+    res: Response,
+  ): Promise<{ access_token: string }> {
     const payload = { sub: user.id, email: user.email };
-    const access_token = this.jwtService.sign(payload);
-    const refresh_token = this.generateRefreshToken(user.id);
+    const access_token: string = this.jwtService.sign(payload);
+    const refresh_token: string = this.generateRefreshToken(user.id);
 
     await this.userDevicesService.registerDevice(
       user,
@@ -39,28 +46,55 @@ export class AuthService {
       refresh_token,
     );
 
-    return { access_token, refresh_token };
+    this.setCookies(req, res, refresh_token);
+    return { access_token };
   }
 
-  async refreshTokens(refreshToken: string) {
+  async refreshTokens(
+    req: Request,
+    res: Response,
+  ): Promise<{ access_token: string }> {
+    const refreshToken: string = req.cookies['refresh_token'];
+
+    if (!refreshToken) {
+      throw new HttpException('Refresh token missing', HttpStatus.UNAUTHORIZED);
+    }
+
     const device: UserDeviceEntity =
       await this.userDevicesService.findDeviceByToken(refreshToken);
+
     if (!device) {
       throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
     }
 
     await this.userDevicesService.updateLastActive(device.id);
-    return this.login(device.user, device.ip, device.userAgent);
+
+    const access_token: string = this.jwtService.sign({
+      sub: device.user.id,
+      email: device.user.email,
+    });
+    const refresh_token: string = this.generateRefreshToken(device.user.id);
+
+    await this.userDevicesService.updateRefreshToken(
+      device.user.id,
+      refresh_token,
+    );
+    this.setCookies(req, res, refresh_token);
+
+    return { access_token };
   }
 
-  async logout(userId: string, req: any) {
-    const ip = req.ip || 'Unknown';
-    const userAgent = req.headers['user-agent'] || 'Unknown';
-    return this.userDevicesService.removeDeviceByIpAndAgent(
+  async logout(userId: string, req: Request, res: Response): Promise<void> {
+    const ip: string = req.ip || 'Unknown';
+    const userAgent: string = req.headers['user-agent'] || 'Unknown';
+
+    await this.userDevicesService.removeDeviceByIpAndAgent(
       userId,
       ip,
       userAgent,
     );
+
+    this.clearCookies(req, res);
   }
 
   generateRefreshToken(userId: string): string {
@@ -72,5 +106,41 @@ export class AuthService {
         ),
       },
     );
+  }
+
+  private setCookies(req: Request, res: Response, refresh_token: string): void {
+    const isSwagger: boolean =
+      req.headers['user-agent']?.includes('Swagger') ||
+      req.headers['referer']?.includes('/api/swagger');
+
+    res.cookie('refresh_token', refresh_token, {
+      httpOnly: true,
+      secure: this.configService.get<boolean>(
+        'COOKIE_REFRESH_TOKEN_HTTPS_ONLY',
+      ),
+      sameSite: 'strict',
+      path: isSwagger ? '/' : '/auth',
+      maxAge:
+        +this.configService.get<string>('COOKIE_REFRESH_TOKEN_EXPIRE_IN_DAYS') *
+        24 *
+        60 *
+        60 *
+        1000,
+    });
+  }
+
+  private clearCookies(req: Request, res: Response): void {
+    const isSwagger: boolean =
+      req.headers['user-agent']?.includes('Swagger') ||
+      req.headers['referer']?.includes('/api/swagger');
+
+    res.clearCookie('refresh_token', {
+      httpOnly: true,
+      secure: this.configService.get<boolean>(
+        'COOKIE_REFRESH_TOKEN_HTTPS_ONLY',
+      ),
+      sameSite: 'strict',
+      path: isSwagger ? '/' : '/auth',
+    });
   }
 }

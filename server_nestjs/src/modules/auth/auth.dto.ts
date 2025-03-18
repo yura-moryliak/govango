@@ -18,17 +18,3 @@ export class LoginBodyCredentialsDto {
   @IsString()
   password: string;
 }
-
-export class RefreshBodyCredentialsDto {
-  @ApiProperty({
-    description: 'User ID',
-    default: '1',
-  })
-  userId: string;
-
-  @ApiProperty({
-    description: 'Refresh token',
-    default: 'refresh_token',
-  })
-  refreshToken: string;
-}
