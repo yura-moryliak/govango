@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -14,6 +14,7 @@ import { Divider } from 'primeng/divider';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgClass } from '@angular/common';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
+import { FingerprintService } from '../../../shared/services/fingerprint.service';
 
 interface LoginFormGroupInterface {
   emailOrPhone: FormControl<string | null>;
@@ -39,12 +40,18 @@ interface LoginFormGroupInterface {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+  private readonly fingerprintService: FingerprintService = inject(FingerprintService);
+
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
     emailOrPhone: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
 
-  login(): void {
-    console.log(this.form.value);
+  async login(): Promise<void> {
+    const fingerprint: string = await this.fingerprintService.generateFingerprint();
+
+    if (fingerprint) {
+      console.log(fingerprint);
+    }
   }
 }
