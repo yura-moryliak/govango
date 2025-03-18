@@ -33,6 +33,7 @@ export class AuthController {
       user,
       ip,
       userAgent,
+      req,
       res,
     );
     res.json({ access_token });

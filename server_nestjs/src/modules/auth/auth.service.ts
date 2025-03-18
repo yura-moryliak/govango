@@ -32,6 +32,7 @@ export class AuthService {
     user: any,
     ip: string,
     userAgent: string,
+    req: Request,
     res: Response,
   ): Promise<{ access_token: string }> {
     const payload = { sub: user.id, email: user.email };
@@ -45,7 +46,7 @@ export class AuthService {
       refresh_token,
     );
 
-    this.setCookies(res, refresh_token);
+    this.setCookies(req, res, refresh_token);
     return { access_token };
   }
 
@@ -78,7 +79,7 @@ export class AuthService {
       device.user.id,
       refresh_token,
     );
-    this.setCookies(res, refresh_token);
+    this.setCookies(req, res, refresh_token);
 
     return { access_token };
   }
@@ -93,7 +94,7 @@ export class AuthService {
       userAgent,
     );
 
-    this.clearCookies(res);
+    this.clearCookies(req, res);
   }
 
   generateRefreshToken(userId: string): string {
@@ -107,14 +108,18 @@ export class AuthService {
     );
   }
 
-  private setCookies(res: Response, refresh_token: string): void {
+  private setCookies(req: Request, res: Response, refresh_token: string): void {
+    const isSwagger: boolean =
+      req.headers['user-agent']?.includes('Swagger') ||
+      req.headers['referer']?.includes('/api/swagger');
+
     res.cookie('refresh_token', refresh_token, {
       httpOnly: true,
       secure: this.configService.get<boolean>(
         'COOKIE_REFRESH_TOKEN_HTTPS_ONLY',
       ),
       sameSite: 'strict',
-      path: '/', // TODO /auth
+      path: isSwagger ? '/' : '/auth',
       maxAge:
         +this.configService.get<string>('COOKIE_REFRESH_TOKEN_EXPIRE_IN_DAYS') *
         24 *
@@ -124,14 +129,18 @@ export class AuthService {
     });
   }
 
-  private clearCookies(res: Response): void {
+  private clearCookies(req: Request, res: Response): void {
+    const isSwagger: boolean =
+      req.headers['user-agent']?.includes('Swagger') ||
+      req.headers['referer']?.includes('/api/swagger');
+
     res.clearCookie('refresh_token', {
       httpOnly: true,
       secure: this.configService.get<boolean>(
         'COOKIE_REFRESH_TOKEN_HTTPS_ONLY',
       ),
       sameSite: 'strict',
-      path: '/', // TODO /auth
+      path: isSwagger ? '/' : '/auth',
     });
   }
 }
