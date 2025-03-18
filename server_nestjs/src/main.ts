@@ -24,7 +24,11 @@ async function bootstrap() {
 
   const documentFactory = () =>
     SwaggerModule.createDocument(app, documentBuilder);
-  SwaggerModule.setup('api/swagger', app, documentFactory);
+  SwaggerModule.setup('api/swagger', app, documentFactory, {
+    swaggerOptions: {
+      withCredentials: true,
+    },
+  });
 
   app.use(
     helmet({

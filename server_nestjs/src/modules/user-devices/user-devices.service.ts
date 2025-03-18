@@ -17,6 +17,17 @@ export class UserDevicesService {
     userAgent: string,
     refreshToken: string,
   ): Promise<UserDeviceEntity> {
+    let existingDevice: UserDeviceEntity =
+      await this.userDevicesRepository.findOne({
+        where: { user, ip, userAgent },
+      });
+
+    if (existingDevice) {
+      existingDevice.refreshToken = refreshToken;
+      existingDevice.lastActiveAt = new Date();
+      return this.userDevicesRepository.save(existingDevice);
+    }
+
     const devices: UserDeviceEntity[] = await this.userDevicesRepository.find({
       where: { user },
     });
@@ -29,13 +40,14 @@ export class UserDevicesService {
       await this.userDevicesRepository.delete(oldestDevice.id);
     }
 
-    const device: UserDeviceEntity = this.userDevicesRepository.create({
+    const newDevice: UserDeviceEntity = this.userDevicesRepository.create({
       user,
       ip,
       userAgent,
       refreshToken,
     });
-    return this.userDevicesRepository.save(device);
+
+    return this.userDevicesRepository.save(newDevice);
   }
 
   async getDevices(user: UserEntity): Promise<UserDeviceEntity[]> {
@@ -84,5 +96,15 @@ export class UserDevicesService {
 
     await this.userDevicesRepository.remove(device);
     return true;
+  }
+
+  async updateRefreshToken(
+    userId: string,
+    newRefreshToken: string,
+  ): Promise<void> {
+    await this.userDevicesRepository.update(
+      { user: { id: userId } },
+      { refreshToken: newRefreshToken },
+    );
   }
 }
