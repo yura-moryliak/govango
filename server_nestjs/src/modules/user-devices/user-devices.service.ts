@@ -13,13 +13,12 @@ export class UserDevicesService {
 
   async registerDevice(
     user: UserEntity,
-    ip: string,
-    userAgent: string,
+    fingerprint: string,
     refreshToken: string,
   ): Promise<UserDeviceEntity> {
     let existingDevice: UserDeviceEntity =
       await this.userDevicesRepository.findOne({
-        where: { user, ip, userAgent },
+        where: { user, fingerprint },
       });
 
     if (existingDevice) {
@@ -42,8 +41,7 @@ export class UserDevicesService {
 
     const newDevice: UserDeviceEntity = this.userDevicesRepository.create({
       user,
-      ip,
-      userAgent,
+      fingerprint,
       refreshToken,
     });
 
@@ -53,7 +51,7 @@ export class UserDevicesService {
   async getDevices(user: UserEntity): Promise<UserDeviceEntity[]> {
     return this.userDevicesRepository.find({
       where: { user },
-      select: ['id', 'ip', 'userAgent', 'lastActiveAt', 'createdAt'],
+      select: ['id', 'lastActiveAt', 'createdAt'],
     });
   }
 
@@ -74,20 +72,23 @@ export class UserDevicesService {
     });
   }
 
-  async findDeviceByToken(refreshToken: string): Promise<UserDeviceEntity> {
+  async findDeviceByToken(fingerprint: string, refreshToken: string): Promise<UserDeviceEntity> {
     return this.userDevicesRepository.findOne({
-      where: { refreshToken },
+      where: { fingerprint, refreshToken },
       relations: ['user'],
     });
   }
 
+  async findDeviceByFingerprint(fingerprint: string): Promise<UserDeviceEntity> {
+    return this.userDevicesRepository.findOne({ where: { fingerprint }, relations: ['user'] });
+  }
+
   async removeDeviceByIpAndAgent(
     userId: string,
-    ip: string,
-    userAgent: string,
+    fingerprint: string
   ): Promise<boolean> {
     const device: UserDeviceEntity = await this.userDevicesRepository.findOne({
-      where: { user: { id: userId }, ip, userAgent },
+      where: { user: { id: userId }, fingerprint },
     });
 
     if (!device) {

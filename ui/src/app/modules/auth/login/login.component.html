@@ -6,25 +6,30 @@
       pInputText
       id="email_or_phone_number"
       autocomplete="off"
-      formControlName="emailOrPhone"
+      formControlName="email"
       [ngClass]="{
         'p-invalid':
-          form.controls.emailOrPhone.invalid &&
-          !form.controls.emailOrPhone.untouched,
+          form.controls.email.invalid &&
+          !form.controls.email.untouched,
       }"
     />
     <label for="email_or_phone_number">{{
-      "Email or phone number" | translate
+      "Email" | translate
     }}</label>
 
     @if (
-      form.controls.emailOrPhone.invalid &&
-      !form.controls.emailOrPhone.untouched
+      form.controls.email.invalid &&
+      !form.controls.email.untouched
     ) {
-      @if (form.controls.emailOrPhone.errors?.["required"]) {
+      @if (form.controls.email.errors?.["required"]) {
         <small class="validation-error">{{
           "This field is required" | translate
         }}</small>
+      }
+      @if (form.controls.email.errors?.["email"]) {
+        <small class="validation-error">{{
+            "Invalid email" | translate
+          }}</small>
       }
     }
   </p-iftalabel>

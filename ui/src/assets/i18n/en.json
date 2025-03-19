@@ -1,5 +1,5 @@
 {
-  "Email or phone number": "Email or phone number",
+  "Email": "Email",
   "Password": "Password",
   "Enter a password": "Enter a password",
   "Weak password": "Weak password",
@@ -19,7 +19,6 @@
   "Last name": "Last name",
   "Next": "Next",
   "Phone number": "Phone number",
-  "Email": "Email",
   "Invalid email": "Invalid email",
   "Minimal length is 7 symbols": "Minimal length is 7 symbols",
   "Confirm password": "Confirm password",

@@ -20,7 +20,7 @@ import { AuthActions } from '../../../shared/states/auth/auth.actions';
 import { LoginCredentialsInterface } from './interfaces/login-credentials.interface';
 
 interface LoginFormGroupInterface {
-  emailOrPhone: FormControl<string | null>;
+  email: FormControl<string | null>;
   password: FormControl<string | null>;
 }
 
@@ -48,7 +48,7 @@ export class LoginComponent {
   private readonly store: Store = inject(Store);
 
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
-    emailOrPhone: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
 
@@ -57,10 +57,10 @@ export class LoginComponent {
       await this.fingerprintService.generateFingerprint();
 
     if (fingerprint) {
-      const { emailOrPhone, password } = this.form.value;
+      const { email, password } = this.form.value;
       this.store.dispatch(
         new AuthActions.Login({
-          emailOrPhone,
+          email,
           password,
           fingerprint,
         } as LoginCredentialsInterface),

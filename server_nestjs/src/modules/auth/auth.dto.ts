@@ -17,4 +17,12 @@ export class LoginBodyCredentialsDto {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  @ApiProperty({
+    description: 'Fingerprint',
+    default: 'fingerprint',
+  })
+  @IsNotEmpty()
+  @IsString()
+  fingerprint: string;
 }

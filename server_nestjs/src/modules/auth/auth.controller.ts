@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiHeader, ApiOkResponse } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -22,20 +22,12 @@ export class AuthController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<void> {
-    const userAgent: string = req.headers['user-agent'] || 'Unknown';
-    const ip: string = req.ip || 'Unknown';
-
     const user: UserEntity = await this.authService.validateUser(
       body.email,
       body.password,
     );
-    const { access_token } = await this.authService.login(
-      user,
-      ip,
-      userAgent,
-      req,
-      res,
-    );
+
+    const { access_token } = await this.authService.login(user, body.fingerprint, req, res);
     res.json({ access_token });
   }
 
@@ -44,16 +36,22 @@ export class AuthController {
     description: 'Refresh tokens generated successfully',
     example: { access_token: 'access_token' },
   })
+  @ApiHeader({ name: 'x-fingerprint', description: 'Fingerprint of the device', required: true })
   async refresh(@Req() req: Request, @Res() res: Response): Promise<void> {
-    const { access_token } = await this.authService.refreshTokens(req, res);
+    const fingerprint: string = req.headers['x-fingerprint'] as string;
+    const { access_token } = await this.authService.refreshTokens(req, res, fingerprint);
+
     res.json({ access_token });
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   @ApiOkResponse({ description: 'User logged out successfully', example: true })
+  @ApiHeader({ name: 'x-fingerprint', description: 'Fingerprint of the device', required: true })
   async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
-    await this.authService.logout((req.user as any).userId, req, res);
+    const fingerprint: string = req.headers['x-fingerprint'] as string;
+    await this.authService.logout((req.user as any).userId, fingerprint, req, res);
+
     res.send(true);
   }
 }

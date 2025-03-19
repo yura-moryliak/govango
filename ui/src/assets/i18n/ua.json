@@ -1,5 +1,5 @@
 {
-  "Email or phone number": "Ваші пошта чи номер телефону",
+  "Email": "Електронна пошта",
   "Password": "Ваш пароль",
   "Enter a password": "Введіть пароль",
   "Weak password": "Слабкий пароль",
@@ -19,7 +19,6 @@
   "Last name": "Прізвище",
   "Next": "Далі",
   "Phone number": "Номер телефону",
-  "Email": "Електронна пошта",
   "Invalid email": "Невірна пошта",
   "Minimal length is 7 symbols": "Мінімальна довжина 7 символів",
   "Confirm password": "Підтвердіть пароль",

@@ -1,5 +1,5 @@
 export interface LoginCredentialsInterface {
-  emailOrPhone: string;
+  email: string;
   password: string;
   fingerprint: string;
 }
