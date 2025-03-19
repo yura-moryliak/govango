@@ -1,5 +1,5 @@
 {
-  "Email or phone number": "Email or phone number",
+  "Email": "Email",
   "Password": "Password",
   "Enter a password": "Enter a password",
   "Weak password": "Weak password",
@@ -19,7 +19,6 @@
   "Last name": "Last name",
   "Next": "Next",
   "Phone number": "Phone number",
-  "Email": "Email",
   "Invalid email": "Invalid email",
   "Minimal length is 7 symbols": "Minimal length is 7 symbols",
   "Confirm password": "Confirm password",
@@ -507,5 +506,9 @@
   "Page you tried to enter does not exist": "Page you tried to enter does not exist",
   "Go to home page": "Go to home page",
   "Restore": "Restore",
-  "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password."
+  "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.",
+  "Welcome": "Welcome",
+  "You are successfully logged in": "You are logged in",
+  "Login failed": "Login failed",
+  "User not found": "User not found"
 }

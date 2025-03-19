@@ -30,19 +30,21 @@ export class AuthService {
 
   async login(
     user: any,
-    ip: string,
-    userAgent: string,
+    fingerprint: string,
     req: Request,
     res: Response,
   ): Promise<{ access_token: string }> {
+    if (!fingerprint) {
+      throw new HttpException('Fingerprint is missing', HttpStatus.BAD_REQUEST);
+    }
+
     const payload = { sub: user.id, email: user.email };
     const access_token: string = this.jwtService.sign(payload);
     const refresh_token: string = this.generateRefreshToken(user.id);
 
     await this.userDevicesService.registerDevice(
       user,
-      ip,
-      userAgent,
+      fingerprint,
       refresh_token,
     );
 
@@ -53,15 +55,23 @@ export class AuthService {
   async refreshTokens(
     req: Request,
     res: Response,
+    fingerprint: string,
   ): Promise<{ access_token: string }> {
     const refreshToken: string = req.cookies['refresh_token'];
+
+    if (!fingerprint) {
+      throw new HttpException('Fingerprint missing', HttpStatus.BAD_REQUEST);
+    }
 
     if (!refreshToken) {
       throw new HttpException('Refresh token missing', HttpStatus.UNAUTHORIZED);
     }
 
     const device: UserDeviceEntity =
-      await this.userDevicesService.findDeviceByToken(refreshToken);
+      await this.userDevicesService.findDeviceByToken(
+        fingerprint,
+        refreshToken,
+      );
 
     if (!device) {
       throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
@@ -84,15 +94,27 @@ export class AuthService {
     return { access_token };
   }
 
-  async logout(userId: string, req: Request, res: Response): Promise<void> {
-    const ip: string = req.ip || 'Unknown';
-    const userAgent: string = req.headers['user-agent'] || 'Unknown';
+  async logout(
+    userId: string,
+    fingerprint: string,
+    req: Request,
+    res: Response,
+  ): Promise<void> {
+    if (!fingerprint) {
+      throw new HttpException('Fingerprint missing', HttpStatus.BAD_REQUEST);
+    }
 
-    await this.userDevicesService.removeDeviceByIpAndAgent(
-      userId,
-      ip,
-      userAgent,
-    );
+    const device: UserDeviceEntity =
+      await this.userDevicesService.findDeviceByFingerprint(fingerprint);
+
+    if (!device || device.user.id !== userId) {
+      throw new HttpException(
+        'Invalid fingerprint or user',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    await this.userDevicesService.removeDeviceByIpAndAgent(userId, fingerprint);
 
     this.clearCookies(req, res);
   }

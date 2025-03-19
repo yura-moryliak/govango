@@ -20,6 +20,7 @@ import { MessageService } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
 import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
 import { ngxsConfig } from './ngxs-config';
+import { AuthState } from './shared/states/auth/auth.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -50,10 +51,10 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideStore(
-      [RegisterState, ToastState, AppSettingsPanelState],
+      [RegisterState, ToastState, AppSettingsPanelState, AuthState],
       ngxsConfig,
       withNgxsStoragePlugin({
-        keys: [RegisterState, AppSettingsPanelState],
+        keys: [RegisterState, AppSettingsPanelState, AuthState],
         namespace: 'govango',
       }),
       withNgxsLoggerPlugin({ disabled: environment.production }),

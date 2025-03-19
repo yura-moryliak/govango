@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { RegisterComponent } from './modules/auth/register/register.component';
 import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
+import { authGuard } from './shared/guards/auth.guard';
+import { checkAuthGuard } from './shared/guards/check-auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,6 +17,7 @@ export const routes: Routes = [
       import('./modules/auth/login/login.component').then(
         (cmp): typeof LoginComponent => cmp.LoginComponent,
       ),
+    canActivate: [checkAuthGuard],
   },
   {
     path: 'register',
@@ -26,6 +29,7 @@ export const routes: Routes = [
       import('./modules/auth/register/register-step.routes').then(
         (r) => r.REGISTER_STEP_ROUTES,
       ),
+    canActivate: [checkAuthGuard],
   },
   {
     path: 'forgot-password',
@@ -33,6 +37,7 @@ export const routes: Routes = [
       import('./modules/auth/forgot-password/forgot-password.component').then(
         (cmp): typeof ForgotPasswordComponent => cmp.ForgotPasswordComponent,
       ),
+    canActivate: [checkAuthGuard],
   },
   {
     path: 'dashboard',
@@ -40,6 +45,7 @@ export const routes: Routes = [
       import('./modules/dashboard/dashboard.component').then(
         (cmp) => cmp.DashboardComponent,
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'page-not-found',

@@ -18,11 +18,8 @@ export class UserDeviceEntity extends BaseEntity {
   })
   user: UserEntity;
 
-  @Column()
-  ip: string;
-
-  @Column()
-  userAgent: string;
+  @Column({ unique: true })
+  fingerprint: string;
 
   @Column({ unique: true })
   refreshToken: string;
