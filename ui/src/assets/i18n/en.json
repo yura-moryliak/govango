@@ -506,5 +506,9 @@
   "Page you tried to enter does not exist": "Page you tried to enter does not exist",
   "Go to home page": "Go to home page",
   "Restore": "Restore",
-  "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password."
+  "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.",
+  "Welcome": "Welcome",
+  "You are successfully logged in": "You are logged in",
+  "Login failed": "Login failed",
+  "User not found": "User not found"
 }

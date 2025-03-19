@@ -25,6 +25,11 @@ export class AuthState {
     return state.access_token;
   }
 
+  @Selector()
+  static isAuthenticated(state: AuthStateModel): boolean {
+    return !!state.access_token;
+  }
+
   @Action(AuthActions.Login, { cancelUncompleted: true })
   login(
     { patchState }: StateContext<AuthStateModel>,
@@ -33,5 +38,19 @@ export class AuthState {
     return this.authService
       .login(credentials)
       .pipe(tap(({ access_token }) => patchState({ access_token })));
+  }
+
+  @Action(AuthActions.Logout, { cancelUncompleted: true })
+  logout(
+    { patchState, getState }: StateContext<AuthStateModel>,
+    { fingerprint }: AuthActions.Logout,
+  ): Observable<boolean> {
+    return this.authService
+      .logout(getState().access_token, fingerprint)
+      .pipe(
+        tap(
+          (loggedOut: boolean) => loggedOut && patchState({ access_token: '' }),
+        ),
+      );
   }
 }

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FingerprintService {
-  /*TODO This has to be tested on different devices and OSs*/
   async generateFingerprint(): Promise<string> {
     const components: string[] = [
       navigator.userAgent,
@@ -14,60 +13,72 @@ export class FingerprintService {
       screen.width.toString(),
       screen.height.toString(),
       screen.colorDepth.toString(),
-      await this.getWebGLInfo(),
-      await this.getAudioFingerprint(),
+      this.getWebGLFingerprint(),
+      this.getCanvasFingerprint(),
+      this.getCpuCores(),
+      this.getDeviceMemory(),
     ];
 
     return await this.hashSHA256(components.join('|'));
   }
 
   private async hashSHA256(input: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(input);
+    const encoder: TextEncoder = new TextEncoder();
+    const data: Uint8Array = encoder.encode(input);
     const hashBuffer: ArrayBuffer = await crypto.subtle.digest('SHA-256', data);
     return Array.from(new Uint8Array(hashBuffer))
       .map((b: number) => b.toString(16).padStart(2, '0'))
       .join('');
   }
 
-  private async getWebGLInfo(): Promise<string> {
+  private getWebGLFingerprint(): string {
     try {
       const canvas: HTMLCanvasElement = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') as WebGLRenderingContext | null;
-
-      if (!gl) {
-        return 'no-webgl';
-      }
+      const gl: WebGLRenderingContext | null = canvas.getContext(
+        'webgl',
+      ) as WebGLRenderingContext | null;
+      if (!gl) return 'no-webgl';
 
       const debugInfo: WEBGL_debug_renderer_info | null = gl.getExtension(
         'WEBGL_debug_renderer_info',
       );
       return debugInfo
-        ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+        ? (gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) as string)
         : 'unknown';
     } catch {
       return 'no-webgl';
     }
   }
 
-  private async getAudioFingerprint(): Promise<string> {
+  private getCanvasFingerprint(): string {
     try {
-      const context = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
-      const oscillator: OscillatorNode = context.createOscillator();
-      const compressor: DynamicsCompressorNode =
-        context.createDynamicsCompressor();
+      const canvas: HTMLCanvasElement = document.createElement('canvas');
+      const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+      if (!ctx) return 'no-canvas';
 
-      oscillator.connect(compressor);
-      compressor.connect(context.destination);
+      ctx.fillStyle = 'rgb(255,0,255)';
+      ctx.fillRect(10, 10, 50, 50);
+      ctx.fillStyle = 'rgb(0,255,0)';
+      ctx.font = '18px Arial';
+      ctx.fillText('Hello, fingerprint!', 10, 50);
 
-      oscillator.frequency.value = 0;
-      oscillator.start();
-      oscillator.stop(context.currentTime + 0.01);
-
-      return Math.round(compressor.reduction).toString();
+      return canvas.toDataURL();
     } catch {
-      return 'no-audio';
+      return 'no-canvas';
     }
+  }
+
+  private getCpuCores(): string {
+    return navigator.hardwareConcurrency
+      ? navigator.hardwareConcurrency.toString()
+      : 'unknown';
+  }
+
+  private getDeviceMemory(): string {
+    return (
+      (
+        navigator as Navigator & { deviceMemory?: number }
+      ).deviceMemory?.toString() || 'unknown'
+    );
   }
 }

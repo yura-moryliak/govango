@@ -7,4 +7,9 @@ export namespace AuthActions {
     static readonly type = `${ACTION_SCOPE} Login`;
     constructor(public credentials: LoginCredentialsInterface) {}
   }
+
+  export class Logout {
+    static readonly type = `${ACTION_SCOPE} Logout`;
+    constructor(public fingerprint: string) {}
+  }
 }

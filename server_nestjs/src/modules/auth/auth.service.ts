@@ -34,7 +34,6 @@ export class AuthService {
     req: Request,
     res: Response,
   ): Promise<{ access_token: string }> {
-
     if (!fingerprint) {
       throw new HttpException('Fingerprint is missing', HttpStatus.BAD_REQUEST);
     }
@@ -56,7 +55,7 @@ export class AuthService {
   async refreshTokens(
     req: Request,
     res: Response,
-    fingerprint: string
+    fingerprint: string,
   ): Promise<{ access_token: string }> {
     const refreshToken: string = req.cookies['refresh_token'];
 
@@ -69,7 +68,10 @@ export class AuthService {
     }
 
     const device: UserDeviceEntity =
-      await this.userDevicesService.findDeviceByToken(fingerprint, refreshToken);
+      await this.userDevicesService.findDeviceByToken(
+        fingerprint,
+        refreshToken,
+      );
 
     if (!device) {
       throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
@@ -92,21 +94,27 @@ export class AuthService {
     return { access_token };
   }
 
-  async logout(userId: string, fingerprint: string, req: Request, res: Response): Promise<void> {
+  async logout(
+    userId: string,
+    fingerprint: string,
+    req: Request,
+    res: Response,
+  ): Promise<void> {
     if (!fingerprint) {
       throw new HttpException('Fingerprint missing', HttpStatus.BAD_REQUEST);
     }
 
-    const device: UserDeviceEntity = await this.userDevicesService.findDeviceByFingerprint(fingerprint);
+    const device: UserDeviceEntity =
+      await this.userDevicesService.findDeviceByFingerprint(fingerprint);
 
     if (!device || device.user.id !== userId) {
-      throw new HttpException('Invalid fingerprint or user', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Invalid fingerprint or user',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
-    await this.userDevicesService.removeDeviceByIpAndAgent(
-      userId,
-      fingerprint
-    );
+    await this.userDevicesService.removeDeviceByIpAndAgent(userId, fingerprint);
 
     this.clearCookies(req, res);
   }

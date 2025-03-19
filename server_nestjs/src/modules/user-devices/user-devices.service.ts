@@ -72,20 +72,28 @@ export class UserDevicesService {
     });
   }
 
-  async findDeviceByToken(fingerprint: string, refreshToken: string): Promise<UserDeviceEntity> {
+  async findDeviceByToken(
+    fingerprint: string,
+    refreshToken: string,
+  ): Promise<UserDeviceEntity> {
     return this.userDevicesRepository.findOne({
       where: { fingerprint, refreshToken },
       relations: ['user'],
     });
   }
 
-  async findDeviceByFingerprint(fingerprint: string): Promise<UserDeviceEntity> {
-    return this.userDevicesRepository.findOne({ where: { fingerprint }, relations: ['user'] });
+  async findDeviceByFingerprint(
+    fingerprint: string,
+  ): Promise<UserDeviceEntity> {
+    return this.userDevicesRepository.findOne({
+      where: { fingerprint },
+      relations: ['user'],
+    });
   }
 
   async removeDeviceByIpAndAgent(
     userId: string,
-    fingerprint: string
+    fingerprint: string,
   ): Promise<boolean> {
     const device: UserDeviceEntity = await this.userDevicesRepository.findOne({
       where: { user: { id: userId }, fingerprint },
