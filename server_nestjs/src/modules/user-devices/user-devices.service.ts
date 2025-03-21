@@ -91,12 +91,9 @@ export class UserDevicesService {
     });
   }
 
-  async removeDeviceByIpAndAgent(
-    userId: string,
-    fingerprint: string,
-  ): Promise<boolean> {
+  async removeDeviceByFingerprint(fingerprint: string): Promise<boolean> {
     const device: UserDeviceEntity = await this.userDevicesRepository.findOne({
-      where: { user: { id: userId }, fingerprint },
+      where: { fingerprint },
     });
 
     if (!device) {

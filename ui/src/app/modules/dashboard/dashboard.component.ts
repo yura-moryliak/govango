@@ -5,16 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  Actions,
-  ofActionCompleted,
-  Store,
-} from '@ngxs/store';
-import { AuthActions } from '../../shared/states/auth/auth.actions';
-import { FingerprintService } from '../../shared/services/fingerprint.service';
+import { Actions, ofActionCompleted, Store } from '@ngxs/store';
+import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { AuthActions } from '../../shared/states/auth/auth.actions';
+import { FingerprintService } from '../../shared/services/fingerprint.service';
 
 @Component({
   selector: 'gvg-dashboard',
@@ -37,17 +33,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .pipe(ofActionCompleted(AuthActions.Logout))
         .subscribe(() => this.router.navigate(['/login'])),
     );
+
+    this.generateFingerprint();
   }
 
   async logout(): Promise<void> {
-    this.store.dispatch(
-      new AuthActions.Logout(
-        await this.fingerprintService.generateFingerprint(),
-      ),
-    );
+    this.store.dispatch(new AuthActions.Logout());
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  private async generateFingerprint(): Promise<void> {
+    this.store.dispatch(
+      new AuthActions.SetFingerprint(
+        await this.fingerprintService.generateFingerprint(),
+      ),
+    );
   }
 }

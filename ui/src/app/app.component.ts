@@ -10,6 +10,8 @@ import { Observable, Subscription } from 'rxjs';
 import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
 import { AppSettingsPanelActions } from './shared/states/app-settings-panel/app-settings-panel.actions';
 import { TranslateService } from '@ngx-translate/core';
+import { FingerprintService } from './shared/services/fingerprint.service';
+import { AuthActions } from './shared/states/auth/auth.actions';
 
 @Component({
   selector: 'gvg-root',
@@ -22,6 +24,8 @@ export class AppComponent implements OnInit {
   private readonly messageService: MessageService = inject(MessageService);
   private readonly translateService: TranslateService =
     inject(TranslateService);
+  private readonly fingerprintService: FingerprintService =
+    inject(FingerprintService);
 
   private readonly sub: Subscription = new Subscription();
 
@@ -31,6 +35,8 @@ export class AppComponent implements OnInit {
   readonly toasts: ToastConfig[] = TOASTS_CONFIG;
 
   ngOnInit(): void {
+    this.generateFingerprint();
+
     this.initToastMessages();
     this.initDarkMode();
     this.initAppTranslation();
@@ -75,5 +81,13 @@ export class AppComponent implements OnInit {
         this.translateService.getBrowserLang() || 'ua';
       this.store.dispatch(new AppSettingsPanelActions.SetLanguage(browserLang));
     }
+  }
+
+  private async generateFingerprint(): Promise<void> {
+    this.store.dispatch(
+      new AuthActions.SetFingerprint(
+        await this.fingerprintService.generateFingerprint(),
+      ),
+    );
   }
 }

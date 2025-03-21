@@ -62,7 +62,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly router: Router = inject(Router);
   private readonly sub: Subscription = new Subscription();
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private readonly translateService: TranslateService = inject(TranslateService);
+  private readonly translateService: TranslateService =
+    inject(TranslateService);
   private fingerprint: string | undefined;
 
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
@@ -101,7 +102,9 @@ export class LoginComponent implements OnInit, OnDestroy {
               severity: 'success',
               key: 'success',
               summary: this.translateService.instant('Welcome'),
-              detail: this.translateService.instant('You are successfully logged in'),
+              detail: this.translateService.instant(
+                'You are successfully logged in',
+              ),
             }),
           );
         },

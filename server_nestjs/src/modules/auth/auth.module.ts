@@ -19,6 +19,7 @@ import { UserDevicesModule } from '../user-devices/user-devices.module';
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRES_IN_MIN'),
+          // expiresIn: '30s', // For tests
         },
       }),
     }),
