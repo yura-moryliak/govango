@@ -1,9 +1,10 @@
 import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
   ApiHeader,
-  ApiOkResponse,
+  ApiOkResponse, ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
@@ -21,6 +22,7 @@ export class AuthController {
     description: 'User logged in successfully',
     example: { access_token: 'access_token' },
   })
+  @ApiBadRequestResponse({ description: 'User device fingerprint is missing' })
   @ApiBody({ type: LoginBodyCredentialsDto })
   @ApiHeader({
     name: 'x-fingerprint',
@@ -52,6 +54,8 @@ export class AuthController {
     description: 'Refresh tokens generated successfully',
     example: { access_token: 'access_token' },
   })
+  @ApiBadRequestResponse({ description: 'User device fingerprint is missing' })
+  @ApiUnauthorizedResponse({ description: 'Refresh token has issues or user device is not found' })
   @ApiHeader({
     name: 'x-fingerprint',
     description: 'Fingerprint of the device',
@@ -70,6 +74,7 @@ export class AuthController {
 
   @Post('logout')
   @ApiOkResponse({ description: 'User logged out successfully', example: true })
+  @ApiBadRequestResponse({ description: 'User device fingerprint is missing' })
   @ApiHeader({
     name: 'x-fingerprint',
     description: 'Fingerprint of the device',
