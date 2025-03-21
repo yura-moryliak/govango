@@ -6,11 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { Actions, ofActionCompleted, Store } from '@ngxs/store';
-import { AuthActions } from '../../shared/states/auth/auth.actions';
-import { FingerprintService } from '../../shared/services/fingerprint.service';
+import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { AuthActions } from '../../shared/states/auth/auth.actions';
+import { FingerprintService } from '../../shared/services/fingerprint.service';
 
 @Component({
   selector: 'gvg-dashboard',
@@ -33,6 +33,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .pipe(ofActionCompleted(AuthActions.Logout))
         .subscribe(() => this.router.navigate(['/login'])),
     );
+
+    this.generateFingerprint();
   }
 
   async logout(): Promise<void> {
@@ -41,5 +43,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  private async generateFingerprint(): Promise<void> {
+    this.store.dispatch(
+      new AuthActions.SetFingerprint(
+        await this.fingerprintService.generateFingerprint(),
+      ),
+    );
   }
 }

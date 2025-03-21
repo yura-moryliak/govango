@@ -57,14 +57,27 @@ export class AuthService {
     res: Response,
     fingerprint: string,
   ): Promise<{ access_token: string }> {
-    const refreshToken: string = req.cookies['refresh_token'];
+    const refreshToken: string | undefined = req.cookies['refresh_token'];
 
     if (!fingerprint) {
       throw new HttpException('Fingerprint missing', HttpStatus.BAD_REQUEST);
     }
 
     if (!refreshToken) {
+      await this.userDevicesService.removeDeviceByFingerprint(fingerprint);
       throw new HttpException('Refresh token missing', HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+      this.jwtService.verify(refreshToken, {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      });
+    } catch (error) {
+      await this.userDevicesService.removeDeviceByFingerprint(fingerprint);
+      throw new HttpException(
+        'Refresh token expired or invalid',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const device: UserDeviceEntity =
@@ -74,17 +87,20 @@ export class AuthService {
       );
 
     if (!device) {
-      throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Device not found for given refresh token',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     await this.userDevicesService.updateLastActive(device.id);
 
-    const access_token: string = this.jwtService.sign({
+    const access_token = this.jwtService.sign({
       sub: device.user.id,
       email: device.user.email,
     });
-    const refresh_token: string = this.generateRefreshToken(device.user.id);
 
+    const refresh_token = this.generateRefreshToken(device.user.id);
     await this.userDevicesService.updateRefreshToken(
       device.user.id,
       refresh_token,
@@ -103,17 +119,13 @@ export class AuthService {
       throw new HttpException('Fingerprint missing', HttpStatus.BAD_REQUEST);
     }
 
-    const device: UserDeviceEntity =
+    const device =
       await this.userDevicesService.findDeviceByFingerprint(fingerprint);
 
-    if (!device || device.fingerprint !== fingerprint) {
-      throw new HttpException(
-        'Invalid fingerprint or user',
-        HttpStatus.UNAUTHORIZED,
-      );
+    if (device) {
+      await this.userDevicesService.removeDeviceByFingerprint(fingerprint);
     }
 
-    await this.userDevicesService.removeDeviceByFingerprint(fingerprint);
     this.clearCookies(req, res);
   }
 
@@ -121,10 +133,11 @@ export class AuthService {
     return this.jwtService.sign(
       { sub: userId },
       {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
         expiresIn: this.configService.get<string>(
           'JWT_REFRESH_EXPIRES_IN_DAYS',
         ),
-        // expiresIn: '2m', // For tests
+        // expiresIn: '1m', // For tests
       },
     );
   }
@@ -149,6 +162,7 @@ export class AuthService {
         60 *
         60 *
         1000,
+      // maxAge: 60 * 1000, // 1 minutes for tests as refresh token expires in 1 minute
     });
   }
 

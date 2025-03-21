@@ -8,6 +8,11 @@ export namespace AuthActions {
     constructor(public credentials: LoginCredentialsInterface) {}
   }
 
+  export class RefreshToken {
+    static readonly type = `${ACTION_SCOPE} Refresh Token`;
+    constructor(public access_token: string) {}
+  }
+
   export class Logout {
     static readonly type = `${ACTION_SCOPE} Logout`;
   }
@@ -15,9 +20,5 @@ export namespace AuthActions {
   export class SetFingerprint {
     static readonly type = `${ACTION_SCOPE} Set fingerprint`;
     constructor(public fingerprint: string) {}
-  }
-
-  export class DeleteFingerprint {
-    static readonly type = `${ACTION_SCOPE} Delete fingerprint`;
   }
 }

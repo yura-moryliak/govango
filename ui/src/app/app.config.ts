@@ -6,7 +6,11 @@ import {
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { routes } from './app.routes';
@@ -21,6 +25,7 @@ import { ToastState } from './shared/states/toast/toast.state';
 import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
 import { ngxsConfig } from './ngxs-config';
 import { AuthState } from './shared/states/auth/auth.state';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,7 +36,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     providePrimeNG({
       ripple: true,
       theme: {

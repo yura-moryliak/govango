@@ -23,7 +23,7 @@ export class AuthState {
   private readonly authService: AuthService = inject(AuthService);
 
   @Selector()
-  static accessToken(state: AuthStateModel): string | null {
+  static accessToken(state: AuthStateModel): string {
     return state.access_token;
   }
 
@@ -47,13 +47,18 @@ export class AuthState {
       .pipe(tap(({ access_token }) => patchState({ access_token })));
   }
 
+  @Action(AuthActions.RefreshToken)
+  refreshToken(
+    { patchState }: StateContext<AuthStateModel>,
+    { access_token }: AuthActions.RefreshToken,
+  ) {
+    patchState({ access_token });
+  }
+
   @Action(AuthActions.Logout, { cancelUncompleted: true })
-  logout({
-    patchState,
-    getState,
-  }: StateContext<AuthStateModel>): Observable<boolean> {
+  logout({ patchState }: StateContext<AuthStateModel>): Observable<boolean> {
     return this.authService
-      .logout(getState().fingerprint)
+      .logout()
       .pipe(
         tap(
           (loggedOut: boolean) => loggedOut && patchState({ access_token: '' }),
@@ -67,10 +72,5 @@ export class AuthState {
     { fingerprint }: AuthActions.SetFingerprint,
   ): void {
     patchState({ fingerprint });
-  }
-
-  @Action(AuthActions.DeleteFingerprint)
-  deleteFingerprint({ patchState }: StateContext<AuthStateModel>): void {
-    patchState({ fingerprint: '' });
   }
 }
