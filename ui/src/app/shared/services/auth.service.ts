@@ -26,12 +26,8 @@ export class AuthService {
     );
   }
 
-  logout(access_token: string, fingerprint: string): Observable<boolean> {
-    // TODO This has to be unified and moved into interceptor
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${access_token}`,
-      'x-fingerprint': fingerprint,
-    });
+  logout(fingerprint: string): Observable<boolean> {
+    const headers = new HttpHeaders({ 'x-fingerprint': fingerprint });
     return this.httpClient.post<boolean>(
       `${this.baseUrl}/logout`,
       {},

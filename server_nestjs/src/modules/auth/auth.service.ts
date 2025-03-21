@@ -95,7 +95,6 @@ export class AuthService {
   }
 
   async logout(
-    userId: string,
     fingerprint: string,
     req: Request,
     res: Response,
@@ -107,15 +106,14 @@ export class AuthService {
     const device: UserDeviceEntity =
       await this.userDevicesService.findDeviceByFingerprint(fingerprint);
 
-    if (!device || device.user.id !== userId) {
+    if (!device || device.fingerprint !== fingerprint) {
       throw new HttpException(
         'Invalid fingerprint or user',
         HttpStatus.UNAUTHORIZED,
       );
     }
 
-    await this.userDevicesService.removeDeviceByIpAndAgent(userId, fingerprint);
-
+    await this.userDevicesService.removeDeviceByFingerprint(fingerprint);
     this.clearCookies(req, res);
   }
 

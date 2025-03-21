@@ -68,7 +68,6 @@ export class AuthController {
     res.json({ access_token });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('logout')
   @ApiOkResponse({ description: 'User logged out successfully', example: true })
   @ApiHeader({
@@ -78,12 +77,7 @@ export class AuthController {
   })
   async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
     const fingerprint: string = req.headers['x-fingerprint'] as string;
-    await this.authService.logout(
-      (req.user as any).userId,
-      fingerprint,
-      req,
-      res,
-    );
+    await this.authService.logout(fingerprint, req, res);
 
     res.send(true);
   }

@@ -36,11 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async logout(): Promise<void> {
-    this.store.dispatch(
-      new AuthActions.Logout(
-        await this.fingerprintService.generateFingerprint(),
-      ),
-    );
+    this.store.dispatch(new AuthActions.Logout());
   }
 
   ngOnDestroy(): void {
