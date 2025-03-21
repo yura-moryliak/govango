@@ -126,6 +126,7 @@ export class AuthService {
         expiresIn: this.configService.get<string>(
           'JWT_REFRESH_EXPIRES_IN_DAYS',
         ),
+        // expiresIn: '2m', // For tests
       },
     );
   }
@@ -137,13 +138,15 @@ export class AuthService {
 
     res.cookie('refresh_token', refresh_token, {
       httpOnly: true,
-      secure: this.configService.get<boolean>(
-        'COOKIE_REFRESH_TOKEN_HTTPS_ONLY',
+      secure: this.configService.get<boolean>('COOKIE_REFRESH_TOKEN_SECURE'),
+      sameSite: this.configService.get<'lax' | 'strict' | 'none'>(
+        'COOKIE_REFRESH_TOKEN_SAME_SITE',
       ),
-      sameSite: 'strict',
-      path: isSwagger ? '/' : '/auth',
+      path: isSwagger
+        ? '/'
+        : this.configService.get<string>('COOKIE_REFRESH_TOKEN_PATH'),
       maxAge:
-        +this.configService.get<string>('COOKIE_REFRESH_TOKEN_EXPIRE_IN_DAYS') *
+        +this.configService.get<string>('COOKIE_REFRESH_TOKEN_MAX_AGE') *
         24 *
         60 *
         60 *
@@ -158,11 +161,13 @@ export class AuthService {
 
     res.clearCookie('refresh_token', {
       httpOnly: true,
-      secure: this.configService.get<boolean>(
-        'COOKIE_REFRESH_TOKEN_HTTPS_ONLY',
+      secure: this.configService.get<boolean>('COOKIE_REFRESH_TOKEN_SECURE'),
+      sameSite: this.configService.get<'lax' | 'strict' | 'none'>(
+        'COOKIE_REFRESH_TOKEN_SAME_SITE',
       ),
-      sameSite: 'strict',
-      path: isSwagger ? '/' : '/auth',
+      path: isSwagger
+        ? '/'
+        : this.configService.get<string>('COOKIE_REFRESH_TOKEN_PATH'),
     });
   }
 }

@@ -5,11 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  Actions,
-  ofActionCompleted,
-  Store,
-} from '@ngxs/store';
+import { Actions, ofActionCompleted, Store } from '@ngxs/store';
 import { AuthActions } from '../../shared/states/auth/auth.actions';
 import { FingerprintService } from '../../shared/services/fingerprint.service';
 import { Button } from 'primeng/button';
