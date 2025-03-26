@@ -7,15 +7,22 @@ import { UsersService } from '../users/users.service';
 import { UserEntity } from '../users/user.entity';
 import { UserDevicesService } from '../user-devices/user-devices.service';
 import { UserDeviceEntity } from '../user-devices/user-device.entity';
+import { LoginTicket, OAuth2Client, TokenPayload } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
+  private readonly googleClient: OAuth2Client;
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly userDevicesService: UserDevicesService,
-  ) {}
+  ) {
+    this.googleClient = new OAuth2Client(
+      this.configService.get<string>('GOOGLE_CLIENT_ID'),
+    );
+  }
 
   async validateUser(email: string, pass: string): Promise<UserEntity> {
     const user: UserEntity = await this.usersService.findByEmail(email);
@@ -127,6 +134,48 @@ export class AuthService {
     }
 
     this.clearCookies(req, res);
+  }
+
+  async handleGoogleLogin(
+    idToken: string,
+    fingerprint: string,
+    req: Request,
+    res: Response,
+  ): Promise<{ access_token: string }> {
+    const ticket: LoginTicket = await this.googleClient.verifyIdToken({
+      idToken,
+      audience: this.configService.get('GOOGLE_CLIENT_ID'),
+    });
+
+    const payload: TokenPayload = ticket.getPayload();
+    const { sub, email, email_verified, picture } = payload;
+
+    if (!email || !sub || !email_verified) {
+      throw new HttpException(
+        'Invalid Google credentials',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    let user: UserEntity = await this.usersService.findByEmail(email);
+    let shouldUpdate: boolean = false;
+
+    if (!user.googleId) {
+      user.googleId = sub;
+      shouldUpdate = true;
+    }
+
+    if (picture && (!user.avatar || user.avatarSource === 'google')) {
+      user.avatar = picture;
+      user.avatarSource = 'google';
+      shouldUpdate = true;
+    }
+
+    if (shouldUpdate) {
+      await this.usersService.update(user.id, user);
+    }
+
+    return this.login(user, fingerprint, req, res);
   }
 
   generateRefreshToken(userId: string): string {

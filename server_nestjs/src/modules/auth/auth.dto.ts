@@ -18,3 +18,13 @@ export class LoginBodyCredentialsDto {
   @IsString()
   password: string;
 }
+
+export class GoogleLoginDto {
+  @ApiProperty({
+    description: 'Google credential',
+    default: 'google jwt credential token',
+  })
+  @IsString()
+  @IsNotEmpty()
+  idToken: string;
+}

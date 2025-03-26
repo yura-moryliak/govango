@@ -16,7 +16,7 @@ import {
 import { NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { InputText } from 'primeng/inputtext';
 import { IftaLabel } from 'primeng/iftalabel';
 import { Password } from 'primeng/password';
@@ -33,6 +33,7 @@ import {
 } from '../../../shared/states/toast/toast.actions';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 import { GoogleAuthService } from '../../../shared/services/google-auth.service';
+import { AuthState } from '../../../shared/states/auth/auth.state';
 
 interface LoginFormGroupInterface {
   email: FormControl<string | null>;
@@ -62,12 +63,22 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(FingerprintService);
   private readonly store: Store = inject(Store);
   private readonly router: Router = inject(Router);
-  private readonly sub: Subscription = new Subscription();
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService: TranslateService =
     inject(TranslateService);
-  private readonly googleAuthService: GoogleAuthService = inject(GoogleAuthService);
+  private readonly googleAuthService: GoogleAuthService =
+    inject(GoogleAuthService);
+  private readonly destroyed$: Subject<void> = new Subject<void>();
+
   private fingerprint: string | undefined;
+
+  private readonly isGAuthSuccess$: Observable<boolean> = this.store.select(
+    AuthState.gAuthSuccess,
+  );
+  private readonly isGAthError$: Observable<{
+    isFailed: boolean;
+    error: HttpErrorResponse | null;
+  }> = this.store.select(AuthState.gAuthError);
 
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -78,6 +89,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.fingerprint = await this.fingerprintService.generateFingerprint();
+    this.handleGoogleAuthState();
   }
 
   ngAfterViewInit(): void {
@@ -88,7 +100,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     const { email, password } = this.form.value;
     this.isLoading = true;
 
-    const loginSubscription: Subscription = this.store
+    this.store
       .dispatch(
         new AuthActions.Login({
           email,
@@ -96,45 +108,70 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
           fingerprint: this.fingerprint,
         } as LoginCredentialsInterface),
       )
+      .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
           this.isLoading = false;
-
-          this.form.reset({ email: '', password: '' });
-          this.router.navigate(['/dashboard']);
-
-          this.store.dispatch(
-            new ToastActions.ShowToast({
-              ...INITIAL_TOAST_OPTIONS,
-              severity: 'success',
-              key: 'success',
-              summary: this.translateService.instant('Welcome'),
-              detail: this.translateService.instant(
-                'You are successfully logged in',
-              ),
-            }),
-          );
+          this.handleSuccessLogin();
         },
         error: (error: HttpErrorResponse) => {
           this.isLoading = false;
           this.cdr.markForCheck();
-
-          this.store.dispatch(
-            new ToastActions.ShowToast({
-              ...INITIAL_TOAST_OPTIONS,
-              severity: 'error',
-              key: 'error',
-              summary: this.translateService.instant('Login failed'),
-              detail: this.translateService.instant(`${error.error.message}`),
-            }),
-          );
+          this.showLoginErrorToast(error);
         },
       });
-
-    this.sub.add(loginSubscription);
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  private handleGoogleAuthState(): void {
+    this.isGAuthSuccess$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((isGAuthed: boolean) => {
+        if (!isGAuthed) {
+          return;
+        }
+
+        this.handleSuccessLogin();
+        this.store.dispatch(new AuthActions.ResetGoogleSuccessAuth());
+      });
+
+    this.isGAthError$.pipe(takeUntil(this.destroyed$)).subscribe((response) => {
+      if (!response.isFailed) {
+        return;
+      }
+
+      this.showLoginErrorToast(response?.error as HttpErrorResponse);
+    });
+  }
+
+  private handleSuccessLogin(): void {
+    this.form.reset({ email: '', password: '' });
+    this.router.navigate(['/dashboard']);
+
+    this.store.dispatch([
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'success',
+        key: 'success',
+        summary: this.translateService.instant('Welcome'),
+        detail: this.translateService.instant('You are successfully logged in'),
+      }),
+    ]);
+  }
+
+  private showLoginErrorToast(error: HttpErrorResponse): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'error',
+        key: 'error',
+        summary: this.translateService.instant('Login failed'),
+        detail: this.translateService.instant(`${error.error.message}`),
+      }),
+    );
   }
 }

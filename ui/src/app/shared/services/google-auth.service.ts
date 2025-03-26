@@ -23,7 +23,8 @@ export class GoogleAuthService {
 
     window.google.accounts.id.initialize({
       client_id: this.clientId,
-      callback: (response: GoogleAuthResponse) => this.handleCredential(response)
+      callback: (response: GoogleAuthResponse) =>
+        this.handleCredential(response),
     });
 
     window.google.accounts.id.renderButton(
@@ -34,7 +35,7 @@ export class GoogleAuthService {
         text: 'signin_with',
         shape: 'square',
         width: '100%',
-      }
+      },
     );
   }
 

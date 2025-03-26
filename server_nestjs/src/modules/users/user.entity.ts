@@ -17,6 +17,7 @@ export const USER_ENTITY_PASSWORD_LESS_SELECT = [
   'phoneNumber',
   'email',
   'likes',
+  'avatar',
 ] as FindOptionsSelect<UserEntity>;
 
 @Entity()
@@ -47,6 +48,15 @@ export class UserEntity extends BaseEntity {
 
   @Column({ default: 0, nullable: false })
   likes: number;
+
+  @Column({ default: '', nullable: false, unique: true })
+  googleId: string;
+
+  @Column({ default: '', nullable: false })
+  avatar: string;
+
+  @Column({ default: '', nullable: false })
+  avatarSource: string;
 
   @OneToMany(() => CarEntity, (car: CarEntity) => car.user)
   cars: CarEntity[];

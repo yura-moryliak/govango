@@ -4,12 +4,13 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiHeader,
-  ApiOkResponse, ApiUnauthorizedResponse,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { LoginBodyCredentialsDto } from './auth.dto';
+import { GoogleLoginDto, LoginBodyCredentialsDto } from './auth.dto';
 import { UserEntity } from '../users/user.entity';
 
 @ApiBearerAuth()
@@ -55,7 +56,9 @@ export class AuthController {
     example: { access_token: 'access_token' },
   })
   @ApiBadRequestResponse({ description: 'User device fingerprint is missing' })
-  @ApiUnauthorizedResponse({ description: 'Refresh token has issues or user device is not found' })
+  @ApiUnauthorizedResponse({
+    description: 'Refresh token has issues or user device is not found',
+  })
   @ApiHeader({
     name: 'x-fingerprint',
     description: 'Fingerprint of the device',
@@ -85,5 +88,33 @@ export class AuthController {
     await this.authService.logout(fingerprint, req, res);
 
     res.send(true);
+  }
+
+  @Post('google-auth')
+  @ApiOkResponse({
+    description: 'User logged in successfully with Google Auth',
+    example: { access_token: 'access_token' },
+  })
+  @ApiBadRequestResponse({ description: 'User device fingerprint is missing' })
+  @ApiBody({ type: LoginBodyCredentialsDto })
+  @ApiHeader({
+    name: 'x-fingerprint',
+    description: 'Fingerprint of the device',
+    required: true,
+  })
+  @ApiBody({ type: GoogleLoginDto })
+  async googleAuth(
+    @Body() { idToken }: GoogleLoginDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<void> {
+    const fingerprint = req.headers['x-fingerprint'] as string;
+    const access_token = await this.authService.handleGoogleLogin(
+      idToken,
+      fingerprint,
+      req,
+      res,
+    );
+    res.json({ access_token });
   }
 }

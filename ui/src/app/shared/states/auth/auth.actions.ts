@@ -22,10 +22,16 @@ export namespace AuthActions {
     constructor(public fingerprint: string) {}
   }
 
-  // Google auth actions
   export class LoginWithGoogle {
     static readonly type = `${ACTION_SCOPE} Login with Google`;
-    constructor(public credential: string) {
-    }
+    constructor(public credential: string) {}
+  }
+
+  export class ResetGoogleSuccessAuth {
+    static readonly type = `${ACTION_SCOPE} Reset Google Auth success`;
+  }
+
+  export class ResetGoogleErrorAuth {
+    static readonly type = `${ACTION_SCOPE} Reset Google Auth error`;
   }
 }
