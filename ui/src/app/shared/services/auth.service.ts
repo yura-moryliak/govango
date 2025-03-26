@@ -31,4 +31,11 @@ export class AuthService {
   logout(): Observable<boolean> {
     return this.httpClient.post<boolean>(`${this.baseUrl}/logout`, {});
   }
+
+  loginWithGoogle(credential: string): Observable<{ access_token: string }> {
+    return this.httpClient.post<{ access_token: string }>(
+      `${this.baseUrl}/google-auth`,
+      { idToken: credential },
+    );
+  }
 }

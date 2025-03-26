@@ -21,4 +21,17 @@ export namespace AuthActions {
     static readonly type = `${ACTION_SCOPE} Set fingerprint`;
     constructor(public fingerprint: string) {}
   }
+
+  export class LoginWithGoogle {
+    static readonly type = `${ACTION_SCOPE} Login with Google`;
+    constructor(public credential: string) {}
+  }
+
+  export class ResetGoogleSuccessAuth {
+    static readonly type = `${ACTION_SCOPE} Reset Google Auth success`;
+  }
+
+  export class ResetGoogleErrorAuth {
+    static readonly type = `${ACTION_SCOPE} Reset Google Auth error`;
+  }
 }

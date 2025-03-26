@@ -1,12 +1,18 @@
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthActions } from './auth.actions';
 import { AuthService } from '../../services/auth.service';
 
 export interface AuthStateModel {
   access_token: string;
   fingerprint: string;
+  gAuthSuccess: boolean;
+  gAuthError: {
+    isFailed: boolean;
+    error: HttpErrorResponse | null;
+  };
 }
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>('auth');
@@ -16,6 +22,11 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>('auth');
   defaults: {
     access_token: '',
     fingerprint: '',
+    gAuthSuccess: false,
+    gAuthError: {
+      isFailed: false,
+      error: null,
+    },
   },
 })
 @Injectable()
@@ -35,6 +46,19 @@ export class AuthState {
   @Selector()
   static fingerprint(state: AuthStateModel): string {
     return state.fingerprint;
+  }
+
+  @Selector()
+  static gAuthSuccess(state: AuthStateModel): boolean {
+    return state.gAuthSuccess;
+  }
+
+  @Selector()
+  static gAuthError(state: AuthStateModel): {
+    isFailed: boolean;
+    error: HttpErrorResponse | null;
+  } {
+    return state.gAuthError;
   }
 
   @Action(AuthActions.Login, { cancelUncompleted: true })
@@ -72,5 +96,31 @@ export class AuthState {
     { fingerprint }: AuthActions.SetFingerprint,
   ): void {
     patchState({ fingerprint });
+  }
+
+  @Action(AuthActions.LoginWithGoogle, { cancelUncompleted: true })
+  loginWithGoogle(
+    { patchState }: StateContext<AuthStateModel>,
+    { credential }: AuthActions.LoginWithGoogle,
+  ): Observable<{ access_token: string }> {
+    return this.authService.loginWithGoogle(credential).pipe(
+      catchError((err: HttpErrorResponse) => {
+        patchState({ gAuthError: { isFailed: true, error: err } });
+        return throwError(() => err);
+      }),
+      tap(({ access_token }) =>
+        patchState({ access_token, gAuthSuccess: true }),
+      ),
+    );
+  }
+
+  @Action(AuthActions.ResetGoogleSuccessAuth)
+  resetGoogleSuccessAuth({ patchState }: StateContext<AuthStateModel>): void {
+    patchState({ gAuthSuccess: false });
+  }
+
+  @Action(AuthActions.ResetGoogleErrorAuth)
+  resetGoogleErrorAuth({ patchState }: StateContext<AuthStateModel>): void {
+    patchState({ gAuthError: { isFailed: false, error: null } });
   }
 }

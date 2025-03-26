@@ -48,6 +48,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding-top: 1em;
 
       small {
         display: flex;
@@ -69,5 +70,10 @@
       padding: 1em;
       background: none;
     }
+  }
+
+  #gvg-google-login-render-placeholder {
+    margin-top: 2em;
+    display: flex;
   }
 }

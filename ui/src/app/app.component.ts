@@ -6,7 +6,7 @@ import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { ToastState } from './shared/states/toast/toast.state';
 import { ToastConfig, TOASTS_CONFIG } from './shared/toasts.config';
 import { AppSettingsPanelComponent } from './shared/components/app-settings-panel/app-settings-panel.component';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-settings-panel.state';
 import { AppSettingsPanelActions } from './shared/states/app-settings-panel/app-settings-panel.actions';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   private readonly fingerprintService: FingerprintService =
     inject(FingerprintService);
 
-  private readonly sub: Subscription = new Subscription();
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   readonly language$: Observable<string> = this.store.select(
     AppSettingsPanelState.getLanguage,
@@ -43,34 +43,32 @@ export class AppComponent implements OnInit {
   }
 
   private initToastMessages(): void {
-    this.sub.add(
-      this.store
-        .select(ToastState.toast)
-        .subscribe((options: ToastMessageOptions) =>
-          this.messageService.add(options),
-        ),
-    );
+    this.store
+      .select(ToastState.toast)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((options: ToastMessageOptions) =>
+        this.messageService.add(options),
+      );
   }
 
   private initDarkMode(): void {
-    this.sub.add(
-      this.store
-        .select(AppSettingsPanelState.isDarkMode)
-        .subscribe((isDarkMode: boolean) => {
-          if (isDarkMode) {
-            document.querySelector('html')?.classList.add('gvg-dark-theme');
-          }
-        }),
-    );
+    this.store
+      .select(AppSettingsPanelState.isDarkMode)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((isDarkMode: boolean) => {
+        if (isDarkMode) {
+          document.querySelector('html')?.classList.add('gvg-dark-theme');
+        }
+      });
   }
 
   private initAppTranslation(): void {
-    this.sub.add(
-      this.language$.subscribe((language: string) => {
+    this.language$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((language: string) => {
         this.translateService.use(language);
         this.translateService.setDefaultLang(language);
-      }),
-    );
+      });
 
     const storedLang: string = this.store.selectSnapshot(
       AppSettingsPanelState.getLanguage,

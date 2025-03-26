@@ -23,7 +23,7 @@ import { RegisterActions } from '../register.actions';
 import { RegisterStepEnum } from '../register.component';
 import { Store } from '@ngxs/store';
 import { RegisterState } from '../register.state';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { UserCarInfoDataInterface } from '../interfaces/user-car-info-data.interface';
 import { Router } from '@angular/router';
 import { Select, SelectChangeEvent } from 'primeng/select';
@@ -71,7 +71,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService: TranslateService =
     inject(TranslateService);
-  private readonly sub: Subscription = new Subscription();
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   readonly form: FormGroup<UserCarInfoFormGroupInterface> = new FormGroup({
     registrationPlate: new FormControl('', Validators.required),
@@ -134,8 +134,10 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
       new RegisterActions.RegisterNewUser(),
     ];
 
-    this.sub.add(
-      this.store.dispatch(storeActions).subscribe({
+    this.store
+      .dispatch(storeActions)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
         next: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
@@ -151,43 +153,42 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
           this.showErrorToast();
         },
-      }),
-    );
+      });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   private populateForm(): void {
-    this.sub.add(
-      this.store
-        .select(RegisterState.userCarInfo)
-        .subscribe((data: UserCarInfoDataInterface) => {
-          this.form.patchValue(data);
-          this.form.updateValueAndValidity();
+    this.store
+      .select(RegisterState.userCarInfo)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((data: UserCarInfoDataInterface) => {
+        this.form.patchValue(data);
+        this.form.updateValueAndValidity();
 
-          if (!this.form.controls.make.value?.id) {
-            this.form.controls.make.patchValue(null);
-            this.form.controls.model.disable();
-          }
+        if (!this.form.controls.make.value?.id) {
+          this.form.controls.make.patchValue(null);
+          this.form.controls.model.disable();
+        }
 
-          this.carsModelsList = data.make?.models ? data.make.models : [];
+        this.carsModelsList = data.make?.models ? data.make.models : [];
 
-          if (
-            this.store.selectSnapshot(RegisterState.isStep3FormInvalid) &&
-            this.form.pristine
-          ) {
-            Object.values(this.form.controls).forEach(
-              (control: AbstractControl) => {
-                control.markAsDirty();
-                control.markAsTouched();
-                control.updateValueAndValidity();
-              },
-            );
-          }
-        }),
-    );
+        if (
+          this.store.selectSnapshot(RegisterState.isStep3FormInvalid) &&
+          this.form.pristine
+        ) {
+          Object.values(this.form.controls).forEach(
+            (control: AbstractControl) => {
+              control.markAsDirty();
+              control.markAsTouched();
+              control.updateValueAndValidity();
+            },
+          );
+        }
+      });
   }
 
   private showSuccessToast(): void {
