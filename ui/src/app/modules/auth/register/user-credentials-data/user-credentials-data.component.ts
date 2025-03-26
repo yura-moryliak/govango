@@ -27,7 +27,7 @@ import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { Router } from '@angular/router';
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { RegisterState } from '../register.state';
 import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
 import { UserCredentialsDataInterface } from '../interfaces/user-credentials-data.interface';
@@ -67,7 +67,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService: TranslateService =
     inject(TranslateService);
-  private readonly sub: Subscription = new Subscription();
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   readonly form: FormGroup<UserCredentialsFormGroupInterface> = new FormGroup({
     phoneNumber: new FormControl<string | null>('', Validators.required),
@@ -121,8 +121,10 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
       new RegisterActions.RegisterNewUser(),
     ];
 
-    this.sub.add(
-      this.store.dispatch(storeActions).subscribe({
+    this.store
+      .dispatch(storeActions)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
         next: () => {
           this.isLoading = false;
           this.cdr.markForCheck();
@@ -138,36 +140,35 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
           this.showErrorToast();
         },
-      }),
-    );
+      });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   private populateForm(): void {
-    this.sub.add(
-      this.store
-        .selectOnce(RegisterState.userCredentialsData)
-        .subscribe((data: UserCredentialsDataInterface) => {
-          this.form.patchValue(data);
-          this.form.updateValueAndValidity();
+    this.store
+      .selectOnce(RegisterState.userCredentialsData)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((data: UserCredentialsDataInterface) => {
+        this.form.patchValue(data);
+        this.form.updateValueAndValidity();
 
-          if (
-            this.store.selectSnapshot(RegisterState.isStep2FormInvalid) &&
-            this.form.pristine
-          ) {
-            Object.values(this.form.controls).forEach(
-              (control: AbstractControl) => {
-                control.markAsDirty();
-                control.markAsTouched();
-                control.updateValueAndValidity();
-              },
-            );
-          }
-        }),
-    );
+        if (
+          this.store.selectSnapshot(RegisterState.isStep2FormInvalid) &&
+          this.form.pristine
+        ) {
+          Object.values(this.form.controls).forEach(
+            (control: AbstractControl) => {
+              control.markAsDirty();
+              control.markAsTouched();
+              control.updateValueAndValidity();
+            },
+          );
+        }
+      });
   }
 
   private showSuccessToast(): void {

@@ -24,7 +24,7 @@ import { Button } from 'primeng/button';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { RegisterActions } from '../register.actions';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { RegisterStepEnum } from '../register.component';
 import { UserInfoDataInterface } from '../interfaces/user-info-data.interface';
@@ -60,7 +60,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   private readonly route: Router = inject(Router);
   private readonly translateService: TranslateService =
     inject(TranslateService);
-  private readonly sub: Subscription = new Subscription();
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   readonly form: FormGroup<UserInfoFormGroupInterface> = new FormGroup({
     isCarOwner: new FormControl<boolean>(false),
@@ -93,14 +93,14 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete;
   }
 
   private populateForm(): void {
-    this.sub.add(
-      this.store
-        .selectOnce(RegisterState.userDataInfo)
-        .subscribe((data: UserInfoDataInterface) => this.form.patchValue(data)),
-    );
+    this.store
+      .selectOnce(RegisterState.userDataInfo)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((data: UserInfoDataInterface) => this.form.patchValue(data));
   }
 }

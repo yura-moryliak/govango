@@ -8,7 +8,7 @@ import {
 import { Actions, ofActionCompleted, Store } from '@ngxs/store';
 import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthActions } from '../../shared/states/auth/auth.actions';
 import { FingerprintService } from '../../shared/services/fingerprint.service';
 
@@ -25,16 +25,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly actions$: Actions = inject(Actions);
   private readonly router: Router = inject(Router);
-  private readonly sub: Subscription = new Subscription();
+
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   ngOnInit(): void {
-    this.sub.add(
-      this.actions$
-        .pipe(ofActionCompleted(AuthActions.Logout))
-        .subscribe(() => this.router.navigate(['/login'])),
-    );
-
-    this.generateFingerprint();
+    this.actions$
+      .pipe(ofActionCompleted(AuthActions.Logout), takeUntil(this.destroyed$))
+      .subscribe(() => this.router.navigate(['/login'])),
+      this.generateFingerprint();
   }
 
   async logout(): Promise<void> {
@@ -42,7 +40,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   private async generateFingerprint(): Promise<void> {

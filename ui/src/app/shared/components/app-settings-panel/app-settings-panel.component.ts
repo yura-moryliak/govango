@@ -10,7 +10,7 @@ import {
 import { Drawer } from 'primeng/drawer';
 import { Store } from '@ngxs/store';
 import { AppSettingsPanelState } from '../../states/app-settings-panel/app-settings-panel.state';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Button } from 'primeng/button';
 import { AppSettingsPanelActions } from '../../states/app-settings-panel/app-settings-panel.actions';
 import { ToggleSwitch } from 'primeng/toggleswitch';
@@ -46,7 +46,7 @@ import { PrimeTemplate } from 'primeng/api';
 export class AppSettingsPanelComponent implements OnInit, OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private readonly sub: Subscription = new Subscription();
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   private readonly isOpened$: Observable<boolean> = this.store.select(
     AppSettingsPanelState.isOpened,
@@ -108,16 +108,17 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   private initIsPanelOpened(): void {
-    this.sub.add(
-      this.isOpened$.subscribe((isOpened: boolean) => {
+    this.isOpened$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((isOpened: boolean) => {
         this.isOpened = isOpened;
         this.cdr.detectChanges();
-      }),
-    );
+      });
   }
 
   private initTranslations(): void {

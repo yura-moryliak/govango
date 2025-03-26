@@ -9,7 +9,7 @@ import { Step, StepList, Stepper } from 'primeng/stepper';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
-import { delay, Observable, Subscription } from 'rxjs';
+import { delay, Observable, Subject, takeUntil } from 'rxjs';
 import { RegisterState } from './register.state';
 import { UserInfoDataInterface } from './interfaces/user-info-data.interface';
 import { AsyncPipe } from '@angular/common';
@@ -48,8 +48,8 @@ const initialRegisterSteps: RegisterStep[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  private store: Store = inject(Store);
-  private readonly sub: Subscription = new Subscription();
+  private readonly store: Store = inject(Store);
+  private readonly destroyed$: Subject<void> = new Subject<void>();
 
   steps: RegisterStep[] = [
     { label: 'User Info', route: 'user-info' },
@@ -61,23 +61,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
     .pipe(delay(10));
 
   ngOnInit(): void {
-    this.sub.add(
-      this.store
-        .select(RegisterState.userDataInfo)
-        .subscribe((userDataInfo: UserInfoDataInterface) => {
-          this.steps = userDataInfo.isCarOwner
-            ? this.steps.some((step) => step.route === 'user-car-info')
-              ? [...this.steps]
-              : [
-                  ...this.steps,
-                  { label: 'User Car Info', route: 'user-car-info' },
-                ]
-            : [...initialRegisterSteps];
-        }),
-    );
+    this.store
+      .select(RegisterState.userDataInfo)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((userDataInfo: UserInfoDataInterface) => {
+        this.steps = userDataInfo.isCarOwner
+          ? this.steps.some((step) => step.route === 'user-car-info')
+            ? [...this.steps]
+            : [
+                ...this.steps,
+                { label: 'User Car Info', route: 'user-car-info' },
+              ]
+          : [...initialRegisterSteps];
+      });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 }
