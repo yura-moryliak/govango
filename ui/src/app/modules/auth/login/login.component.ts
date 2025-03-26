@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -31,6 +32,7 @@ import {
   ToastActions,
 } from '../../../shared/states/toast/toast.actions';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
+import { GoogleAuthService } from '../../../shared/services/google-auth.service';
 
 interface LoginFormGroupInterface {
   email: FormControl<string | null>;
@@ -55,7 +57,7 @@ interface LoginFormGroupInterface {
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly fingerprintService: FingerprintService =
     inject(FingerprintService);
   private readonly store: Store = inject(Store);
@@ -64,6 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService: TranslateService =
     inject(TranslateService);
+  private readonly googleAuthService: GoogleAuthService = inject(GoogleAuthService);
   private fingerprint: string | undefined;
 
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
@@ -75,6 +78,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.fingerprint = await this.fingerprintService.generateFingerprint();
+  }
+
+  ngAfterViewInit(): void {
+    this.googleAuthService.initialize();
   }
 
   login(): void {

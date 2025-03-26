@@ -73,4 +73,15 @@ export class AuthState {
   ): void {
     patchState({ fingerprint });
   }
+
+  // Google auth actions
+  @Action(AuthActions.LoginWithGoogle, { cancelUncompleted: true })
+  loginWithGoogle(
+    { patchState }: StateContext<AuthStateModel>,
+    { credential }: AuthActions.LoginWithGoogle,
+  ): Observable<{ access_token: string }> {
+    return this.authService
+      .loginWithGoogle(credential)
+      .pipe(tap(({ access_token }) => patchState({ access_token })));
+  }
 }
