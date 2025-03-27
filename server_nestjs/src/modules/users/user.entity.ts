@@ -58,7 +58,7 @@ export class UserEntity extends BaseEntity {
   @Column({ default: '', nullable: false })
   avatar: string;
 
-  @Column({ default: '', nullable: false })
+  @Column({ default: 'ua', nullable: false })
   lang: string;
 
   // Do not select

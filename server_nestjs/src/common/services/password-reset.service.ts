@@ -44,9 +44,10 @@ export class PasswordResetService {
 
     const resetLink: string = `${this.configService.get<string>('CLIENT_CORS_ORIGIN')}/reset-password?token=${token}`;
 
+    // TODO add email template with localization
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Скидання паролю',
+      subject: 'Password reset',
       template: './reset-password',
       context: {
         name: user.firstName || user.email,
