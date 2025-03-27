@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { MailerService } from '@nestjs-modules/mailer';
 import * as bcryptjs from 'bcryptjs';
 import { UserEntity } from '../../modules/users/user.entity';
 import { UsersService } from '../../modules/users/users.service';
@@ -11,6 +12,7 @@ export class PasswordResetService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async requestPasswordReset(email: string): Promise<void> {
@@ -41,7 +43,16 @@ export class PasswordResetService {
     await this.usersService.update(user.id, user);
 
     const resetLink: string = `${this.configService.get<string>('CLIENT_CORS_ORIGIN')}/reset-password?token=${token}`;
-    console.log('Send this to user via email:', resetLink); // TODO NODE MAILER
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Скидання паролю',
+      template: './reset-password',
+      context: {
+        name: user.firstName || user.email,
+        resetLink,
+      },
+    });
   }
 
   async confirmPasswordReset(token: string, password: any): Promise<void> {
