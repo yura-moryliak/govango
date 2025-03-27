@@ -7,7 +7,6 @@ import { UsersService } from '../../modules/users/users.service';
 
 @Injectable()
 export class PasswordResetService {
-
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -27,11 +26,18 @@ export class PasswordResetService {
     };
     const token: string = this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_PASSWORD_RESET_SECRET'),
-      expiresIn: this.configService.get<string>('JWT_PASSWORD_RESET_EXPIRES_IN_MIN'),
+      expiresIn: this.configService.get<string>(
+        'JWT_PASSWORD_RESET_EXPIRES_IN_MIN',
+      ),
     });
 
     user.passwordResetToken = token;
-    user.passwordResetExpires = new Date(Date.now() + +this.configService.get<string>('JWT_PASSWORD_RESET_EXPIRES_IN') * 60 * 1000);
+    user.passwordResetExpires = new Date(
+      Date.now() +
+        +this.configService.get<string>('JWT_PASSWORD_RESET_EXPIRES_IN') *
+          60 *
+          1000,
+    );
     await this.usersService.update(user.id, user);
 
     const resetLink: string = `${this.configService.get<string>('CLIENT_CORS_ORIGIN')}/reset-password?token=${token}`;
@@ -47,16 +53,34 @@ export class PasswordResetService {
       const salt: string = bcryptjs.genSaltSync(10);
       const encodedPassword: string = bcryptjs.hashSync(password, salt);
 
-      const user: UserEntity = await this.usersService.findInternalOne(payload.sub);
+      const user: UserEntity = await this.usersService.findInternalOne(
+        payload.sub,
+      );
 
-      if (!user.passwordResetToken || user.passwordResetToken !== token || !user.passwordResetExpires || user.passwordResetExpires < new Date()) {
-        throw new HttpException('Invalid or expired token', HttpStatus.BAD_REQUEST);
+      if (
+        !user.passwordResetToken ||
+        user.passwordResetToken !== token ||
+        !user.passwordResetExpires ||
+        user.passwordResetExpires < new Date()
+      ) {
+        throw new HttpException(
+          'Invalid or expired token',
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
-      const updatedUser = { ...user, password: encodedPassword, passwordResetToken: null, passwordResetExpires: null };
+      const updatedUser = {
+        ...user,
+        password: encodedPassword,
+        passwordResetToken: null,
+        passwordResetExpires: null,
+      };
       await this.usersService.update(user.id, updatedUser);
     } catch (err) {
-      throw new HttpException('Invalid or expired token', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Invalid or expired token',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

@@ -11,7 +11,12 @@ import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { UserEntity } from '../users/user.entity';
 import { PasswordResetService } from '../../common/services/password-reset.service';
-import { ConfirmPasswordResetDto, GoogleLoginDto, LoginBodyCredentialsDto, PasswordResetRequestDto } from './auth.dto';
+import {
+  ConfirmPasswordResetDto,
+  GoogleLoginDto,
+  LoginBodyCredentialsDto,
+  PasswordResetRequestDto,
+} from './auth.dto';
 
 @ApiBearerAuth()
 @Controller()
@@ -124,7 +129,9 @@ export class AuthController {
   @Post('reset-password/request')
   @ApiOkResponse({ description: 'Password reset request sent successfully' })
   @ApiBody({ type: PasswordResetRequestDto })
-  async resetPassword(@Body() { email } : PasswordResetRequestDto): Promise<void> {
+  async resetPassword(
+    @Body() { email }: PasswordResetRequestDto,
+  ): Promise<void> {
     await this.resetPasswordService.requestPasswordReset(email);
   }
 
@@ -132,7 +139,9 @@ export class AuthController {
   @ApiOkResponse({ description: 'Password reset confirmed successfully' })
   @ApiBadRequestResponse({ description: 'Invalid or expired token' })
   @ApiBody({ type: ConfirmPasswordResetDto })
-  async confirmPasswordReset(@Body() { token, newPassword }: ConfirmPasswordResetDto): Promise<void> {
+  async confirmPasswordReset(
+    @Body() { token, newPassword }: ConfirmPasswordResetDto,
+  ): Promise<void> {
     await this.resetPasswordService.confirmPasswordReset(token, newPassword);
   }
 }

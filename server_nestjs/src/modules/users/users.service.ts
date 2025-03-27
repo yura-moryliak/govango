@@ -90,11 +90,9 @@ export class UsersService {
     return plainToInstance(UserEntity, user);
   }
 
-  async findInternalOne(
-    id: string
-  ): Promise<UserEntity> {
+  async findInternalOne(id: string): Promise<UserEntity> {
     const user: UserEntity = await this.usersRepository.findOne({
-      where: { id: id }
+      where: { id: id },
     });
 
     if (!user) {
