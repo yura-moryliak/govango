@@ -90,6 +90,20 @@ export class UsersService {
     return plainToInstance(UserEntity, user);
   }
 
+  async findInternalOne(
+    id: string
+  ): Promise<UserEntity> {
+    const user: UserEntity = await this.usersRepository.findOne({
+      where: { id: id }
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return plainToInstance(UserEntity, user);
+  }
+
   async findByEmail(email: string): Promise<UserEntity> {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { email },

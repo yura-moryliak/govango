@@ -28,3 +28,31 @@ export class GoogleLoginDto {
   @IsNotEmpty()
   idToken: string;
 }
+
+export class PasswordResetRequestDto {
+  @ApiProperty({
+    description: 'Email',
+    default: 'john_doe@test.com',
+  })
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}
+
+export class ConfirmPasswordResetDto {
+  @ApiProperty({
+    description: 'Token to reset password',
+    default: 'password-reset-token',
+  })
+  @IsString()
+  @IsNotEmpty()
+  token: string;
+
+  @ApiProperty({
+    description: 'New password',
+    default: '7654321',
+  })
+  @IsString()
+  @IsNotEmpty()
+  newPassword: string;
+}
