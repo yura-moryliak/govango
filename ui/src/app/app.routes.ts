@@ -54,5 +54,12 @@ export const routes: Routes = [
         (cmp) => cmp.NotFoundComponent,
       ),
   },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import(
+        './modules/auth/confirm-reset-password/confirm-reset-password.component'
+      ).then((cmp) => cmp.ConfirmResetPasswordComponent),
+  },
   { path: '**', redirectTo: 'page-not-found' },
 ];

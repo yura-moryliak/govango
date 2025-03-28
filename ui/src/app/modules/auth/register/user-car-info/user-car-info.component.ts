@@ -91,7 +91,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
   readonly carsList: CarsListInterface[] = StaticAssetsService.carsList;
 
   carsModelsList: Array<{ makeId: string; name: string }> = [];
-  isLoading: boolean = false;
+  isBusy: boolean = false;
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -124,7 +124,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.isLoading = true;
+    this.isBusy = true;
 
     const storeActions = [
       new RegisterActions.AddUserCarInfoData(
@@ -139,7 +139,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          this.isLoading = false;
+          this.isBusy = false;
           this.cdr.markForCheck();
           this.store.dispatch([
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
@@ -149,7 +149,7 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
           this.showSuccessToast();
         },
         error: () => {
-          this.isLoading = false;
+          this.isBusy = false;
           this.cdr.markForCheck();
           this.showErrorToast();
         },

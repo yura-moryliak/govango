@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -9,14 +9,22 @@ import {
 } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { GoogleLoginDto, LoginBodyCredentialsDto } from './auth.dto';
 import { UserEntity } from '../users/user.entity';
+import { PasswordResetService } from '../../common/services/password-reset.service';
+import {
+  ConfirmPasswordResetDto,
+  GoogleLoginDto,
+  LoginBodyCredentialsDto,
+  PasswordResetRequestDto,
+} from './auth.dto';
 
 @ApiBearerAuth()
 @Controller()
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly resetPasswordService: PasswordResetService,
+  ) {}
 
   @Post('login')
   @ApiOkResponse({
@@ -116,5 +124,24 @@ export class AuthController {
       res,
     );
     res.json({ access_token });
+  }
+
+  @Post('reset-password/request')
+  @ApiOkResponse({ description: 'Password reset request sent successfully' })
+  @ApiBody({ type: PasswordResetRequestDto })
+  async resetPassword(
+    @Body() { email }: PasswordResetRequestDto,
+  ): Promise<void> {
+    await this.resetPasswordService.requestPasswordReset(email);
+  }
+
+  @Post('reset-password/confirm')
+  @ApiOkResponse({ description: 'Password reset confirmed successfully' })
+  @ApiBadRequestResponse({ description: 'Invalid or expired token' })
+  @ApiBody({ type: ConfirmPasswordResetDto })
+  async confirmPasswordReset(
+    @Body() { token, newPassword }: ConfirmPasswordResetDto,
+  ): Promise<void> {
+    await this.resetPasswordService.confirmPasswordReset(token, newPassword);
   }
 }

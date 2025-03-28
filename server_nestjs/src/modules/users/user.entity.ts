@@ -11,6 +11,7 @@ import { UserDeviceEntity } from '../user-devices/user-device.entity';
 
 export const USER_ENTITY_PASSWORD_LESS_SELECT = [
   'id',
+  'isCarOwner',
   'firstName',
   'lastName',
   'city',
@@ -43,20 +44,34 @@ export class UserEntity extends BaseEntity {
   @Column({ default: '', nullable: false })
   email: string;
 
+  // Do not select
   @Column({ default: '', nullable: false })
   password: string;
 
   @Column({ default: 0, nullable: false })
   likes: number;
 
-  @Column({ default: '', nullable: false, unique: true })
+  // Do not select
+  @Column({ type: 'varchar', nullable: true, unique: true })
   googleId: string;
 
   @Column({ default: '', nullable: false })
   avatar: string;
 
   @Column({ default: '', nullable: false })
+  lang: string;
+
+  // Do not select
+  @Column({ default: '', nullable: false })
   avatarSource: string;
+
+  // Do not select
+  @Column({ default: '', nullable: true })
+  passwordResetToken: string;
+
+  // Do not select
+  @Column({ type: 'timestamp', nullable: true })
+  passwordResetExpires: Date;
 
   @OneToMany(() => CarEntity, (car: CarEntity) => car.user)
   cars: CarEntity[];

@@ -24,6 +24,7 @@ export class UsersService {
 
   async createCustomer(
     createCustomerDto: CreateCustomerDto,
+    userLanguage: string,
   ): Promise<UserEntity> {
     const { phoneNumber, email, password } = createCustomerDto.userCredentials;
 
@@ -40,13 +41,20 @@ export class UsersService {
     const userEntity: UserEntity = this.usersRepository.create({
       ...createCustomerDto.userInfo,
       ...createCustomerDto.userCredentials,
+      lang: userLanguage,
       password: encodedPassword,
     });
     return await this.usersRepository.save(userEntity);
   }
 
-  async createCarrier(createCarrierDto: CreateCarrierDto): Promise<UserEntity> {
-    const carrier: UserEntity = await this.createCustomer(createCarrierDto);
+  async createCarrier(
+    createCarrierDto: CreateCarrierDto,
+    userLanguage: string,
+  ): Promise<UserEntity> {
+    const carrier: UserEntity = await this.createCustomer(
+      createCarrierDto,
+      userLanguage,
+    );
 
     const { userCarInfo } = createCarrierDto;
     const car: CarEntity = this.carsRepository.create({
@@ -81,6 +89,18 @@ export class UsersService {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: id },
       select: select,
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return plainToInstance(UserEntity, user);
+  }
+
+  async findInternalOne(id: string): Promise<UserEntity> {
+    const user: UserEntity = await this.usersRepository.findOne({
+      where: { id: id },
     });
 
     if (!user) {

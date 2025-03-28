@@ -41,7 +41,6 @@ export class GoogleAuthService {
 
   private handleCredential(response: GoogleAuthResponse): void {
     if (!response?.credential) {
-      console.log('Google Auth data not found: ', response);
       return;
     }
 

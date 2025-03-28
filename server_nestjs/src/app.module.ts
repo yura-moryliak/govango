@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { RouterModule } from '@nestjs/core';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 import { typeormFactory } from './db.connection';
 import { apiRoutes } from './routes';
@@ -30,6 +32,29 @@ const configurationModules = [
   }),
   CacheModule.register({
     isGlobal: true,
+  }),
+  MailerModule.forRootAsync({
+    useFactory: (configService: ConfigService) => ({
+      transport: {
+        host: configService.get('MAIL_HOST'),
+        port: configService.get('MAIL_PORT'),
+        auth: {
+          user: configService.get('MAIL_USER'),
+          pass: configService.get('MAIL_PASS'),
+        },
+      },
+      defaults: {
+        from: configService.get('MAIL_FROM'),
+      },
+      template: {
+        dir: join(__dirname, '../../src/', 'mail-templates'),
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
+    inject: [ConfigService],
   }),
 ];
 const commonModules = [AuthModule, UsersModule, CarsModule, UserDevicesModule];

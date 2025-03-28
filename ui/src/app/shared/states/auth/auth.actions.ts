@@ -27,11 +27,16 @@ export namespace AuthActions {
     constructor(public credential: string) {}
   }
 
-  export class ResetGoogleSuccessAuth {
-    static readonly type = `${ACTION_SCOPE} Reset Google Auth success`;
+  export class ResetPassword {
+    static readonly type = `${ACTION_SCOPE} Reset Password`;
+    constructor(public email: string) {}
   }
 
-  export class ResetGoogleErrorAuth {
-    static readonly type = `${ACTION_SCOPE} Reset Google Auth error`;
+  export class ConfirmResetPassword {
+    static readonly type = `${ACTION_SCOPE} Confirm Reset Password`;
+    constructor(
+      public token: string,
+      public password: string,
+    ) {}
   }
 }

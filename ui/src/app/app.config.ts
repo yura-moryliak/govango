@@ -26,6 +26,7 @@ import { AppSettingsPanelState } from './shared/states/app-settings-panel/app-se
 import { ngxsConfig } from './ngxs-config';
 import { AuthState } from './shared/states/auth/auth.state';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { JwtModule } from '@auth0/angular-jwt';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -65,5 +66,6 @@ export const appConfig: ApplicationConfig = {
       withNgxsLoggerPlugin({ disabled: environment.production }),
     ),
     MessageService,
+    importProvidersFrom(JwtModule.forRoot({ config: {} })),
   ],
 };

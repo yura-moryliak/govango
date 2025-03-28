@@ -503,12 +503,21 @@
   "Language": "Мова",
   "English": "Англійська",
   "Ukrainian": "Українська",
-  "Page you tried to enter does not exist": "Сторінка, на яку ви намагалися увійти, не існує",
+  "Page you tried to enter does not exist or data related to this page expired in case other events": "Сторінка, яку ви намагалися відкрити, не існує або дані, пов'язані з цією сторінкою, застаріли в разі інших подій",
   "Go to home page": "Перейти на головну сторінку",
   "Restore": "Відновити",
   "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "Для відновлення паролю введіть свій електронний адрес нижче. Ми надішлемо вам листа з інстукціями для відновлення паролю.",
   "Welcome": "Ласкаво просимо",
   "You are successfully logged in": "Ви успішно увійшли в систему",
   "Login failed": "Помилка входу",
-  "User not found": "Користувача не знайдено"
+  "User not found": "Користувача не знайдено",
+  "We sent an email with instructions to the specified email address": "Ми надіслали листа з інструкціями на вказану електронну адресу",
+  "Change password": "Змінити пароль",
+  "Time remaining to change you password": "Час, що залишився для зміни паролю",
+  "hh": "год",
+  "mm": "хв",
+  "ss": "с",
+  "Your password has been successfully change. You can now log in with your new password": "Ваш пароль успішно змінено. Тепер ви можете увійти в систему з новим паролем",
+  "Invalid or expired token": "Недійсний або прострочений токен",
+  "Invalid credentials": "Недійсні облікові дані"
 }

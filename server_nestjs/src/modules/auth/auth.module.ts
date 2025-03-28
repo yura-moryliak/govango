@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { UserDevicesModule } from '../user-devices/user-devices.module';
+import { PasswordResetService } from '../../common/services/password-reset.service';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { UserDevicesModule } from '../user-devices/user-devices.module';
     UserDevicesModule,
   ],
   exports: [AuthService],
-  providers: [AuthService],
+  providers: [AuthService, PasswordResetService],
   controllers: [AuthController],
 })
 export class AuthModule {}
