@@ -24,6 +24,7 @@ export class UsersService {
 
   async createCustomer(
     createCustomerDto: CreateCustomerDto,
+    userLanguage: string,
   ): Promise<UserEntity> {
     const { phoneNumber, email, password } = createCustomerDto.userCredentials;
 
@@ -40,13 +41,14 @@ export class UsersService {
     const userEntity: UserEntity = this.usersRepository.create({
       ...createCustomerDto.userInfo,
       ...createCustomerDto.userCredentials,
+      lang: userLanguage,
       password: encodedPassword,
     });
     return await this.usersRepository.save(userEntity);
   }
 
-  async createCarrier(createCarrierDto: CreateCarrierDto): Promise<UserEntity> {
-    const carrier: UserEntity = await this.createCustomer(createCarrierDto);
+  async createCarrier(createCarrierDto: CreateCarrierDto, userLanguage: string,): Promise<UserEntity> {
+    const carrier: UserEntity = await this.createCustomer(createCarrierDto, userLanguage);
 
     const { userCarInfo } = createCarrierDto;
     const car: CarEntity = this.carsRepository.create({

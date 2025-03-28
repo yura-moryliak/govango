@@ -6,13 +6,13 @@ import {
   Param,
   Post,
   Put,
-  Query,
+  Query, Req,
   UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiBody,
+  ApiBody, ApiHeader,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -26,6 +26,7 @@ import { UserType } from './user-type.enum';
 import { UserEntity } from './user.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { USER_LIST_OK_RESPONSE_EXAMPLE } from './users.swagger';
+import { Request } from 'express';
 
 @ApiBearerAuth()
 @Controller()
@@ -39,10 +40,17 @@ export class UsersController {
   })
   @ApiBadRequestResponse({ description: 'User already exist' })
   @ApiBody({ type: CreateCustomerDto })
+  @ApiHeader({
+    name: 'x-user-language',
+    description: 'User current language',
+    required: true,
+  })
   async createCustomer(
     @Body() createCustomerDto: CreateCustomerDto,
+    @Req() req: Request,
   ): Promise<boolean> {
-    await this.usersService.createCustomer(createCustomerDto);
+    const userLanguage = req.headers['x-user-language'] as string;
+    await this.usersService.createCustomer(createCustomerDto, userLanguage);
     return true;
   }
 
@@ -53,10 +61,17 @@ export class UsersController {
   })
   @ApiBadRequestResponse({ description: 'User already exist' })
   @ApiBody({ type: CreateCarrierDto })
+  @ApiHeader({
+    name: 'x-user-language',
+    description: 'User current language',
+    required: true,
+  })
   async createCarrier(
     @Body() createCarrierDto: CreateCarrierDto,
+    @Req() req: Request,
   ): Promise<boolean> {
-    await this.usersService.createCarrier(createCarrierDto);
+    const userLanguage = req.headers['x-user-language'] as string;
+    await this.usersService.createCarrier(createCarrierDto, userLanguage);
     return true;
   }
 
