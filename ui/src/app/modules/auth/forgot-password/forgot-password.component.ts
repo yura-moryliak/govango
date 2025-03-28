@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -7,7 +8,12 @@ import {
 import { RouterLink } from '@angular/router';
 import { IftaLabel } from 'primeng/iftalabel';
 import { InputText } from 'primeng/inputtext';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngxs/store';
@@ -33,6 +39,7 @@ import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-
     Divider,
     AppSettingsPanelButtonComponent,
     RouterLink,
+    FormsModule,
   ],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss',
@@ -42,6 +49,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   private readonly store: Store = inject(Store);
   private readonly translateService: TranslateService =
     inject(TranslateService);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyed$: Subject<void> = new Subject<void>();
 
   readonly emailFormControl: FormControl<string | null> = new FormControl(
@@ -56,7 +64,7 @@ export class ForgotPasswordComponent implements OnDestroy {
 
     this.store
       .dispatch(
-        new AuthActions.RestorePassword(this.emailFormControl.value as string),
+        new AuthActions.ResetPassword(this.emailFormControl.value as string),
       )
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
@@ -65,7 +73,11 @@ export class ForgotPasswordComponent implements OnDestroy {
           this.emailFormControl.reset('');
           this.showResetPasswordSuccessToast();
         },
-        error: () => (this.isBusy = false),
+        error: () => {
+          this.isBusy = false;
+          this.cdr.markForCheck();
+          this.showResetPasswordSuccessToast();
+        },
       });
   }
 
@@ -82,7 +94,7 @@ export class ForgotPasswordComponent implements OnDestroy {
         key: 'success',
         summary: this.translateService.instant('Success'),
         detail: this.translateService.instant(
-          'Please check you email box for our letter with instructions',
+          'We sent an email with instructions to the specified email address',
         ),
       }),
     ]);

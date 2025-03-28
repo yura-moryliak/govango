@@ -52,7 +52,7 @@ export class UserEntity extends BaseEntity {
   likes: number;
 
   // Do not select
-  @Column({ default: '', nullable: false, unique: true })
+  @Column({ type: 'varchar', nullable: true, unique: true })
   googleId: string;
 
   @Column({ default: '', nullable: false })

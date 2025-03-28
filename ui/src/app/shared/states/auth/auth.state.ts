@@ -86,11 +86,21 @@ export class AuthState {
     );
   }
 
-  @Action(AuthActions.RestorePassword, { cancelUncompleted: true })
-  restorePassword(
+  @Action(AuthActions.ResetPassword, { cancelUncompleted: true })
+  resetPassword(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { patchState }: StateContext<AuthStateModel>,
-    { email }: AuthActions.RestorePassword,
+    { email }: AuthActions.ResetPassword,
   ): Observable<void> {
-    return this.authService.restorePassword(email);
+    return this.authService.resetPassword(email);
+  }
+
+  @Action(AuthActions.ConfirmResetPassword, { cancelUncompleted: true })
+  confirmResetPassword(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    { patchState }: StateContext<AuthStateModel>,
+    { token, password }: AuthActions.ConfirmResetPassword,
+  ): Observable<void> {
+    return this.authService.confirmResetPassword(token, password);
   }
 }

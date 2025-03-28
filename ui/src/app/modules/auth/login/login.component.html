@@ -1,6 +1,6 @@
 <h1>GoVanGo</h1>
 
-<form novalidate [formGroup]="form">
+<form novalidate [formGroup]="form" (ngSubmit)="login()">
   <p-iftalabel>
     <input
       pInputText
@@ -52,10 +52,10 @@
   </p-iftalabel>
 
   <p-button
-    label="{{ 'Login' | translate }}"
+    type="submit"
+    [label]="isBusy ? ('In progress' | translate) : ('Login' | translate)"
     [loading]="isBusy"
-    (onClick)="login()"
-    [disabled]="form.invalid"
+    [disabled]="form.invalid || isBusy"
   ></p-button>
 
   <div class="extras">

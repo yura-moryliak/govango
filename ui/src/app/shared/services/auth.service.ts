@@ -39,11 +39,21 @@ export class AuthService {
     );
   }
 
-  restorePassword(email: string): Observable<void> {
+  resetPassword(email: string): Observable<void> {
     return this.httpClient.post<void>(
       `${this.baseUrl}/reset-password/request`,
       {
         email,
+      },
+    );
+  }
+
+  confirmResetPassword(token: string, newPassword: string): Observable<void> {
+    return this.httpClient.post<void>(
+      `${this.baseUrl}/reset-password/confirm`,
+      {
+        token,
+        newPassword,
       },
     );
   }

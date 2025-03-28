@@ -503,7 +503,7 @@
   "Language": "Language",
   "English": "English",
   "Ukrainian": "Ukrainian",
-  "Page you tried to enter does not exist": "Page you tried to enter does not exist",
+  "Page you tried to enter does not exist or data related to this page expired in case other events": "Page you tried to enter does not exist or data related to this page expired in case other events",
   "Go to home page": "Go to home page",
   "Restore": "Restore",
   "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.": "To reset your password, enter your email address below. We will send you an email with instructions for resetting your password.",
@@ -511,5 +511,13 @@
   "You are successfully logged in": "You are logged in",
   "Login failed": "Login failed",
   "User not found": "User not found",
-  "Please check you email box for our letter with instructions": "Please check you email box for our letter with instructions"
+  "We sent an email with instructions to the specified email address": "We sent an email with instructions to, the specified email address",
+  "Change password": "Change password",
+  "Time remaining to change you password": "Time remaining to change you password",
+  "hh": "h",
+  "mm": "m",
+  "ss": "s",
+  "Your password has been successfully change. You can now log in with your new password": "Your password has been successfully change. You can now log in with your new password",
+  "Invalid or expired token": "Invalid or expired token",
+  "Invalid credentials": "Invalid credentials"
 }

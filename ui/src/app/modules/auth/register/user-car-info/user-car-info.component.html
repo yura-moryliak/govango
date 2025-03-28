@@ -1,4 +1,4 @@
-<form novalidate [formGroup]="form">
+<form novalidate [formGroup]="form" (ngSubmit)="submit()">
   <p-iftalabel>
     <p-inputmask
       id="registrationPlate"
@@ -212,6 +212,7 @@
     ></p-button>
 
     <p-button
+      type="submit"
       [label]="isBusy ? ('In progress' | translate) : ('Register' | translate)"
       [loading]="isBusy"
       (onClick)="submit()"
@@ -228,9 +229,9 @@
   ></p-button>
 
   <p-button
+    type="submit"
     [label]="isBusy ? ('In progress' | translate) : ('Register' | translate)"
     [loading]="isBusy"
-    (onClick)="submit()"
-    [disabled]="form.invalid"
+    [disabled]="form.invalid || isBusy"
   ></p-button>
 </div>

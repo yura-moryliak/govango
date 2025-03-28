@@ -27,8 +27,16 @@ export namespace AuthActions {
     constructor(public credential: string) {}
   }
 
-  export class RestorePassword {
-    static readonly type = `${ACTION_SCOPE} Restore Password`;
+  export class ResetPassword {
+    static readonly type = `${ACTION_SCOPE} Reset Password`;
     constructor(public email: string) {}
+  }
+
+  export class ConfirmResetPassword {
+    static readonly type = `${ACTION_SCOPE} Confirm Reset Password`;
+    constructor(
+      public token: string,
+      public password: string,
+    ) {}
   }
 }

@@ -1,4 +1,4 @@
-<form novalidate [formGroup]="form">
+<form novalidate [formGroup]="form" (ngSubmit)="goToNextStep()">
   <div class="custom-form-control">
     <span>{{ "Are you a carrier?" | translate }}</span>
     <p-toggleswitch formControlName="isCarOwner" />
@@ -82,8 +82,8 @@
   </p-iftalabel>
 
   <p-button
+    type="submit"
     label="{{ 'Next' | translate }}"
-    (onClick)="goToNextStep()"
     [disabled]="form.invalid"
   ></p-button>
 </form>
