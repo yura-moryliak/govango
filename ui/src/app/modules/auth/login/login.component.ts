@@ -16,14 +16,19 @@ import {
 import { NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { InputText } from 'primeng/inputtext';
 import { IftaLabel } from 'primeng/iftalabel';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { Store } from '@ngxs/store';
+import {
+  Actions,
+  ofActionErrored,
+  ofActionSuccessful,
+  Store,
+} from '@ngxs/store';
 import { AuthActions } from '../../../shared/states/auth/auth.actions';
 import { FingerprintService } from '../../../shared/services/fingerprint.service';
 import { LoginCredentialsInterface } from './interfaces/login-credentials.interface';
@@ -33,7 +38,6 @@ import {
 } from '../../../shared/states/toast/toast.actions';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 import { GoogleAuthService } from '../../../shared/services/google-auth.service';
-import { AuthState } from '../../../shared/states/auth/auth.state';
 
 interface LoginFormGroupInterface {
   email: FormControl<string | null>;
@@ -62,6 +66,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly fingerprintService: FingerprintService =
     inject(FingerprintService);
   private readonly store: Store = inject(Store);
+  private readonly actions$ = inject(Actions);
   private readonly router: Router = inject(Router);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService: TranslateService =
@@ -72,14 +77,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private fingerprint: string | undefined;
 
-  private readonly isGAuthSuccess$: Observable<boolean> = this.store.select(
-    AuthState.gAuthSuccess,
-  );
-  private readonly isGAthError$: Observable<{
-    isFailed: boolean;
-    error: HttpErrorResponse | null;
-  }> = this.store.select(AuthState.gAuthError);
-
   readonly form: FormGroup<LoginFormGroupInterface> = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
@@ -89,11 +86,24 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.fingerprint = await this.fingerprintService.generateFingerprint();
-    this.handleGoogleAuthState();
   }
 
   ngAfterViewInit(): void {
     this.googleAuthService.initialize();
+    this.actions$
+      .pipe(
+        ofActionSuccessful(AuthActions.LoginWithGoogle),
+        takeUntil(this.destroyed$),
+      )
+      .subscribe(() => this.handleSuccessLogin());
+    this.actions$
+      .pipe(
+        ofActionErrored(AuthActions.LoginWithGoogle),
+        takeUntil(this.destroyed$),
+      )
+      .subscribe((errorEvent) =>
+        this.showLoginErrorToast(errorEvent.result.error as HttpErrorResponse),
+      );
   }
 
   login(): void {
@@ -125,27 +135,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-  }
-
-  private handleGoogleAuthState(): void {
-    this.isGAuthSuccess$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((isGAuthed: boolean) => {
-        if (!isGAuthed) {
-          return;
-        }
-
-        this.handleSuccessLogin();
-        this.store.dispatch(new AuthActions.ResetGoogleSuccessAuth());
-      });
-
-    this.isGAthError$.pipe(takeUntil(this.destroyed$)).subscribe((response) => {
-      if (!response.isFailed) {
-        return;
-      }
-
-      this.showLoginErrorToast(response?.error as HttpErrorResponse);
-    });
   }
 
   private handleSuccessLogin(): void {

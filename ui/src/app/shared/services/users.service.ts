@@ -17,13 +17,15 @@ export class UsersService {
 
   registerUser(userData: RegisterUserInterface): Observable<boolean> {
     const headers: HttpHeaders = new HttpHeaders({
-      'x-user-language': this.store.selectSnapshot(AppSettingsPanelState.getLanguage)
+      'x-user-language': this.store.selectSnapshot(
+        AppSettingsPanelState.getLanguage,
+      ),
     });
 
     return this.httpClient.post<boolean>(
       `${this.baseUrl}/${!userData.userInfo.isCarOwner ? 'customer' : 'carrier'}`,
       userData,
-      { headers }
+      { headers },
     );
   }
 }

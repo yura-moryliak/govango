@@ -26,12 +26,4 @@ export namespace AuthActions {
     static readonly type = `${ACTION_SCOPE} Login with Google`;
     constructor(public credential: string) {}
   }
-
-  export class ResetGoogleSuccessAuth {
-    static readonly type = `${ACTION_SCOPE} Reset Google Auth success`;
-  }
-
-  export class ResetGoogleErrorAuth {
-    static readonly type = `${ACTION_SCOPE} Reset Google Auth error`;
-  }
 }
