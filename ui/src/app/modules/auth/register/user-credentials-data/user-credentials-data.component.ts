@@ -89,7 +89,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
     RegisterState.userDataInfo,
   );
 
-  isLoading: boolean = false;
+  isBusy: boolean = false;
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -111,7 +111,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.isLoading = true;
+    this.isBusy = true;
 
     const storeActions = [
       new RegisterActions.AddUserCredentialsData(
@@ -126,7 +126,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          this.isLoading = false;
+          this.isBusy = false;
           this.cdr.markForCheck();
           this.store.dispatch([
             new RegisterActions.SetActiveStep(RegisterStepEnum.UserInfo),
@@ -136,7 +136,7 @@ export class UserCredentialsDataComponent implements OnInit, OnDestroy {
           this.showSuccessToast();
         },
         error: () => {
-          this.isLoading = false;
+          this.isBusy = false;
           this.cdr.markForCheck();
           this.showErrorToast();
         },

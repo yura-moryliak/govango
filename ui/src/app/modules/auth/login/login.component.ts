@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     password: new FormControl('', Validators.required),
   });
 
-  isLoading: boolean = false;
+  isBusy: boolean = false;
 
   async ngOnInit(): Promise<void> {
     this.fingerprint = await this.fingerprintService.generateFingerprint();
@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   login(): void {
     const { email, password } = this.form.value;
-    this.isLoading = true;
+    this.isBusy = true;
 
     this.store
       .dispatch(
@@ -121,11 +121,11 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          this.isLoading = false;
+          this.isBusy = false;
           this.handleSuccessLogin();
         },
         error: (error: HttpErrorResponse) => {
-          this.isLoading = false;
+          this.isBusy = false;
           this.cdr.markForCheck();
           this.showLoginErrorToast(error);
         },

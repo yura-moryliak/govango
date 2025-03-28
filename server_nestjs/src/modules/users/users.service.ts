@@ -47,8 +47,14 @@ export class UsersService {
     return await this.usersRepository.save(userEntity);
   }
 
-  async createCarrier(createCarrierDto: CreateCarrierDto, userLanguage: string,): Promise<UserEntity> {
-    const carrier: UserEntity = await this.createCustomer(createCarrierDto, userLanguage);
+  async createCarrier(
+    createCarrierDto: CreateCarrierDto,
+    userLanguage: string,
+  ): Promise<UserEntity> {
+    const carrier: UserEntity = await this.createCustomer(
+      createCarrierDto,
+      userLanguage,
+    );
 
     const { userCarInfo } = createCarrierDto;
     const car: CarEntity = this.carsRepository.create({

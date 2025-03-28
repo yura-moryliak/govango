@@ -38,4 +38,13 @@ export class AuthService {
       { idToken: credential },
     );
   }
+
+  restorePassword(email: string): Observable<void> {
+    return this.httpClient.post<void>(
+      `${this.baseUrl}/reset-password/request`,
+      {
+        email,
+      },
+    );
+  }
 }

@@ -6,13 +6,15 @@ import {
   Param,
   Post,
   Put,
-  Query, Req,
+  Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiBody, ApiHeader,
+  ApiBody,
+  ApiHeader,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,

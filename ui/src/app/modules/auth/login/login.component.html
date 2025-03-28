@@ -53,7 +53,7 @@
 
   <p-button
     label="{{ 'Login' | translate }}"
-    [loading]="isLoading"
+    [loading]="isBusy"
     (onClick)="login()"
     [disabled]="form.invalid"
   ></p-button>

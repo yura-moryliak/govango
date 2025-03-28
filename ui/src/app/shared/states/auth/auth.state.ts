@@ -85,4 +85,12 @@ export class AuthState {
       tap(({ access_token }) => patchState({ access_token })),
     );
   }
+
+  @Action(AuthActions.RestorePassword, { cancelUncompleted: true })
+  restorePassword(
+    { patchState }: StateContext<AuthStateModel>,
+    { email }: AuthActions.RestorePassword,
+  ): Observable<void> {
+    return this.authService.restorePassword(email);
+  }
 }

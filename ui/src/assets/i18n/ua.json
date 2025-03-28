@@ -510,5 +510,6 @@
   "Welcome": "Ласкаво просимо",
   "You are successfully logged in": "Ви успішно увійшли в систему",
   "Login failed": "Помилка входу",
-  "User not found": "Користувача не знайдено"
+  "User not found": "Користувача не знайдено",
+  "Please check you email box for our letter with instructions": "Будь ласка, перевірте свою електронну пошту на наявність листа з інструкціями"
 }

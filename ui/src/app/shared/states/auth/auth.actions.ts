@@ -26,4 +26,9 @@ export namespace AuthActions {
     static readonly type = `${ACTION_SCOPE} Login with Google`;
     constructor(public credential: string) {}
   }
+
+  export class RestorePassword {
+    static readonly type = `${ACTION_SCOPE} Restore Password`;
+    constructor(public email: string) {}
+  }
 }

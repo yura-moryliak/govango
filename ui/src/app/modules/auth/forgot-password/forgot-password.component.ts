@@ -1,13 +1,25 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IftaLabel } from 'primeng/iftalabel';
 import { InputText } from 'primeng/inputtext';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { Button } from 'primeng/button';
 import { NgClass } from '@angular/common';
 import { Divider } from 'primeng/divider';
+import { AuthActions } from '../../../shared/states/auth/auth.actions';
+import {
+  INITIAL_TOAST_OPTIONS,
+  ToastActions,
+} from '../../../shared/states/toast/toast.actions';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'gvg-forgot-password',
@@ -26,13 +38,53 @@ import { RouterLink } from '@angular/router';
   styleUrl: './forgot-password.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnDestroy {
+  private readonly store: Store = inject(Store);
+  private readonly translateService: TranslateService =
+    inject(TranslateService);
+  private readonly destroyed$: Subject<void> = new Subject<void>();
+
   readonly emailFormControl: FormControl<string | null> = new FormControl(
     null,
     [Validators.required, Validators.email],
   );
 
+  isBusy: boolean = false;
+
   restore(): void {
-    console.log('Restore: ', this.emailFormControl.value);
+    this.isBusy = true;
+
+    this.store
+      .dispatch(
+        new AuthActions.RestorePassword(this.emailFormControl.value as string),
+      )
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          this.isBusy = false;
+          this.emailFormControl.reset('');
+          this.showResetPasswordSuccessToast();
+        },
+        error: () => (this.isBusy = false),
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  private showResetPasswordSuccessToast(): void {
+    this.store.dispatch([
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'success',
+        key: 'success',
+        summary: this.translateService.instant('Success'),
+        detail: this.translateService.instant(
+          'Please check you email box for our letter with instructions',
+        ),
+      }),
+    ]);
   }
 }
