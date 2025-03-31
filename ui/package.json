@@ -29,7 +29,6 @@
     "@angular/router": "^19.0.0",
     "@auth0/angular-jwt": "^5.2.0",
     "@fontsource-variable/montserrat": "^5.1.1",
-    "@microsoft/signalr": "^8.0.7",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^16.0.1",
     "@ngxs/logger-plugin": "^19.0.0",
