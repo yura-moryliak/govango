@@ -519,5 +519,6 @@
   "ss": "с",
   "Your password has been successfully change. You can now log in with your new password": "Ваш пароль успішно змінено. Тепер ви можете увійти в систему з новим паролем",
   "Invalid or expired token": "Недійсний або прострочений токен",
-  "Invalid credentials": "Недійсні облікові дані"
+  "Invalid credentials": "Введені невірні пароль або електронна пошта",
+  "User already exist": "Користувач вже існує з таким обліковими записом. Переконайтесь у правильності введених облікових даних"
 }
