@@ -215,7 +215,6 @@
       type="submit"
       [label]="isBusy ? ('In progress' | translate) : ('Register' | translate)"
       [loading]="isBusy"
-      (onClick)="submit()"
       [disabled]="form.invalid || !form.value.model?.name"
     ></p-button>
   </div>

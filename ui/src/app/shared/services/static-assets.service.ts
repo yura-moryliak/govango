@@ -13,6 +13,11 @@ export interface LanguagesListInterface {
   name: string;
   value: string;
   prefix: string;
+  iconPath: string;
+  iconDimensions: {
+    width?: string;
+    height?: string;
+  };
 }
 
 export type CarMakeType = { name: string; makeId: string };
@@ -26,11 +31,19 @@ export class StaticAssetsService {
       name: 'English',
       value: 'English',
       prefix: 'en',
+      iconPath: 'assets/icons/en-flag.svg',
+      iconDimensions: {
+        width: '1.5em',
+      },
     },
     {
       name: 'Ukrainian',
       value: 'Ukrainian',
       prefix: 'ua',
+      iconPath: 'assets/icons/ua-flag.svg',
+      iconDimensions: {
+        width: '1.5em',
+      },
     },
   ];
   static languagesListUa: LanguagesListInterface[] = [
@@ -38,11 +51,19 @@ export class StaticAssetsService {
       name: 'Англійська',
       value: 'Англійська',
       prefix: 'en',
+      iconPath: 'assets/icons/en-flag.svg',
+      iconDimensions: {
+        width: '1.5em',
+      },
     },
     {
       name: 'Українська',
       value: 'Українська',
       prefix: 'ua',
+      iconPath: 'assets/icons/ua-flag.svg',
+      iconDimensions: {
+        width: '1.5em',
+      },
     },
   ];
 

@@ -29,8 +29,26 @@ body {
     justify-content: space-between;
     margin-bottom: 2em;
 
-    p-iftalabel {
-      width: 100%;
+    &.theme-selection {
+      i.pi {
+        margin-right: 0.5em;
+      }
+    }
+
+    &.language-selection {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 2em;
+
+      .caption-with-icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1em;
+
+        i.pi {
+          margin-right: 0.5em;
+        }
+      }
     }
 
     p-select {

@@ -14,16 +14,16 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { Button } from 'primeng/button';
 import { AppSettingsPanelActions } from '../../states/app-settings-panel/app-settings-panel.actions';
 import { ToggleSwitch } from 'primeng/toggleswitch';
-import { IftaLabel } from 'primeng/iftalabel';
 import { Select, SelectChangeEvent } from 'primeng/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   LanguagesListInterface,
   StaticAssetsService,
 } from '../../services/static-assets.service';
 import { PrimeTemplate } from 'primeng/api';
+import { Divider } from 'primeng/divider';
 
 @Component({
   selector: 'gvg-app-settings-panel',
@@ -31,13 +31,14 @@ import { PrimeTemplate } from 'primeng/api';
     Drawer,
     Button,
     ToggleSwitch,
-    IftaLabel,
     Select,
     FormsModule,
     AsyncPipe,
     TranslatePipe,
     PrimeTemplate,
     ReactiveFormsModule,
+    NgStyle,
+    Divider,
   ],
   templateUrl: './app-settings-panel.component.html',
   styleUrl: './app-settings-panel.component.scss',
@@ -61,6 +62,7 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
     | undefined;
 
   languagesList: LanguagesListInterface[] = [];
+  selectedDefaultLanguage: LanguagesListInterface | undefined;
 
   readonly languageFormControl: FormControl<string | null> = new FormControl<
     string | null
@@ -82,18 +84,19 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
   }
 
   selectLanguage(changeEvent: SelectChangeEvent): void {
-    const defaultLanguage: LanguagesListInterface | undefined =
-      this.languagesList.find(
-        (languageItem: LanguagesListInterface) =>
-          languageItem.value === changeEvent.value,
-      );
+    this.selectedDefaultLanguage = this.languagesList.find(
+      (languageItem: LanguagesListInterface) =>
+        languageItem.value === changeEvent.value,
+    );
 
-    if (!defaultLanguage) {
+    if (!this.selectedDefaultLanguage) {
       return;
     }
 
     this.store.dispatch(
-      new AppSettingsPanelActions.SetLanguage(defaultLanguage.prefix),
+      new AppSettingsPanelActions.SetLanguage(
+        this.selectedDefaultLanguage.prefix,
+      ),
     );
   }
 
@@ -122,20 +125,21 @@ export class AppSettingsPanelComponent implements OnInit, OnDestroy {
   }
 
   private initTranslations(): void {
-    this.language$.subscribe((language: string) => {
-      this.languagesList = StaticAssetsService.languageMap[language];
+    this.language$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((language: string) => {
+        this.languagesList = StaticAssetsService.languageMap[language];
 
-      const defaultLanguage: LanguagesListInterface | undefined =
-        this.languagesList.find(
+        this.selectedDefaultLanguage = this.languagesList.find(
           (languageItem: LanguagesListInterface) =>
             languageItem.prefix === language,
         );
 
-      if (!defaultLanguage) {
-        return;
-      }
+        if (!this.selectedDefaultLanguage) {
+          return;
+        }
 
-      this.languageFormControl.patchValue(defaultLanguage.name);
-    });
+        this.languageFormControl.patchValue(this.selectedDefaultLanguage.name);
+      });
   }
 }

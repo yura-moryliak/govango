@@ -37,6 +37,7 @@ import {
   INITIAL_TOAST_OPTIONS,
   ToastActions,
 } from '../../../../shared/states/toast/toast.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface UserCarInfoFormGroupInterface {
   registrationPlate: FormControl<string | null>;
@@ -148,10 +149,10 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
           this.router.navigate(['login']);
           this.showSuccessToast();
         },
-        error: () => {
+        error: (error) => {
           this.isBusy = false;
           this.cdr.markForCheck();
-          this.showErrorToast();
+          this.showErrorToast(error);
         },
       });
   }
@@ -205,16 +206,14 @@ export class UserCarInfoComponent implements OnInit, OnDestroy {
     );
   }
 
-  private showErrorToast(): void {
+  private showErrorToast(error: HttpErrorResponse): void {
     this.store.dispatch(
       new ToastActions.ShowToast({
         ...INITIAL_TOAST_OPTIONS,
-        severity: 'warn',
-        key: 'success',
+        severity: 'error',
+        key: 'error',
         summary: this.translateService.instant('Error'),
-        detail: this.translateService.instant(
-          'Something went wrong. Please try again later',
-        ),
+        detail: this.translateService.instant(error.error.message),
       }),
     );
   }
