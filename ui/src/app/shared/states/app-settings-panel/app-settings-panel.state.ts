@@ -16,7 +16,7 @@ export const APP_SETTINGS_PANEL_STATE_TOKEN =
   name: APP_SETTINGS_PANEL_STATE_TOKEN,
   defaults: {
     isOpened: false,
-    isDarkMode: false,
+    isDarkMode: true,
     defaultLanguage: 'ua',
   },
 })

@@ -16,34 +16,57 @@
     ></p-button>
   </ng-template>
 
-  <div class="app-settings-panel-item">
-    <span>{{ "Dark theme" | translate }}</span>
+  <div class="app-settings-panel-item theme-selection">
+    <div>
+      <i class="pi {{ (isDarkMode$ | async) ? 'pi-moon' : 'pi-sun' }}"></i>
+      <span>{{ "Dark theme" | translate }}</span>
+    </div>
     <p-toggleswitch
       (onChange)="toggleTheme()"
       [ngModel]="isDarkMode$ | async"
     />
   </div>
 
-  <div class="app-settings-panel-item">
-    <p-iftalabel>
-      <p-select
-        [filter]="true"
-        [options]="languagesList"
-        (onChange)="selectLanguage($event)"
-        [formControl]="languageFormControl"
-        filterBy="name"
-        inputId="language"
-        optionLabel="name"
-        optionValue="value"
-        appendTo="body"
-        emptyMessage="{{ 'No results found' | translate }}"
-        emptyFilterMessage="{{ 'No results found' | translate }}"
-      >
-        <ng-template let-language pTemplate="item">{{
-          language.name | translate
-        }}</ng-template>
-      </p-select>
-      <label for="language">{{ "Language" | translate }}</label>
-    </p-iftalabel>
+  <p-divider />
+
+  <div class="app-settings-panel-item language-selection">
+    <div class="caption-with-icon">
+      <i class="pi pi-language"></i>
+      <span>{{ "Language" | translate }}</span>
+      <img
+        src="{{ selectedDefaultLanguage?.iconPath }}"
+        alt="{{ selectedDefaultLanguage?.name }}"
+        [ngStyle]="{
+          width: selectedDefaultLanguage?.iconDimensions?.width,
+          'margin-left': '0.5em',
+        }"
+      />
+    </div>
+
+    <p-select
+      [filter]="true"
+      [options]="languagesList"
+      (onChange)="selectLanguage($event)"
+      [formControl]="languageFormControl"
+      filterBy="name"
+      inputId="language"
+      optionLabel="name"
+      optionValue="value"
+      appendTo="body"
+      emptyMessage="{{ 'No results found' | translate }}"
+      emptyFilterMessage="{{ 'No results found' | translate }}"
+    >
+      <ng-template let-language pTemplate="item">
+        <img
+          src="{{ language.iconPath }}"
+          alt="{{ language.name | translate }}"
+          [ngStyle]="{
+            width: language.iconDimensions.width,
+            'margin-right': '0.5em',
+          }"
+        />
+        {{ language.name | translate }}
+      </ng-template>
+    </p-select>
   </div>
 </p-drawer>
