@@ -6,7 +6,7 @@ import * as cookieParser from 'cookie-parser';
 
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 

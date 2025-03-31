@@ -7,7 +7,11 @@
     "nest:start": "nest start",
     "nest:start:dev": "nest start --watch",
     "nest:start:debug": "nest start --debug --watch",
-    "nest:start:prod": "pm2 start ../dist/server_nestjs/main"
+    "nest:start:prod": "pm2 start dist/server_nestjs/main.js",
+    "pm2:stop:all": "pm2 stop all",
+    "pm2:restart:all": "pm2 restart all",
+    "pm2:delete:all": "pm2 delete all",
+    "pm2:logs:all": "pm2 logs"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
