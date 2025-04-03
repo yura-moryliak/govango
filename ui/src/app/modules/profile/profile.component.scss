@@ -2,8 +2,6 @@
   .structure {
     display: grid;
     grid-template-rows: 20em auto;
-    height: 100vh;
-    overflow: auto;
 
     .structure-content {
       justify-self: center;
