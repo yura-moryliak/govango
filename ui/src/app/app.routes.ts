@@ -48,6 +48,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'profile',
+    loadComponent: () =>
+      import('./modules/profile/profile.component').then(
+        (cmp) => cmp.ProfileComponent,
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'page-not-found',
     loadComponent: () =>
       import('./shared/components/not-found/not-found.component').then(
