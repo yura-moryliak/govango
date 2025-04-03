@@ -12,11 +12,12 @@ import { AppSettingsPanelActions } from './shared/states/app-settings-panel/app-
 import { TranslateService } from '@ngx-translate/core';
 import { FingerprintService } from './shared/services/fingerprint.service';
 import { AuthActions } from './shared/states/auth/auth.actions';
+import { HeaderComponent } from './shared/components/header/header.component';
 
 @Component({
   selector: 'gvg-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet, Toast, AppSettingsPanelComponent],
+  imports: [RouterOutlet, Toast, AppSettingsPanelComponent, HeaderComponent],
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {

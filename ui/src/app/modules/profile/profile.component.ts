@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { HeaderComponent } from '../../shared/components/header/header.component';
 import { Store } from '@ngxs/store';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthState } from '../../shared/states/auth/auth.state';
@@ -10,16 +9,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 
 @Component({
   selector: 'gvg-profile',
-  imports: [
-    HeaderComponent,
-    Avatar,
-    Button,
-    Tabs,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
-  ],
+  imports: [Avatar, Button, Tabs, TabList, Tab, TabPanels, TabPanel],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

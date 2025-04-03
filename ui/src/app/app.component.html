@@ -1,4 +1,8 @@
-<router-outlet></router-outlet>
+<gvg-header></gvg-header>
+
+<div class="gvg-root-container">
+  <router-outlet></router-outlet>
+</div>
 
 @for (toast of toasts; track $index) {
   <p-toast
