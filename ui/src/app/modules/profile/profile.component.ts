@@ -18,7 +18,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
     TabList,
     Tab,
     TabPanels,
-    TabPanel
+    TabPanel,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
