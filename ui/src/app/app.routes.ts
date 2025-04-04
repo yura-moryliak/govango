@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { RegisterComponent } from './modules/auth/register/register.component';
 import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
-import { authGuard } from './shared/guards/auth.guard';
 import { checkAuthGuard } from './shared/guards/check-auth.guard';
 
 export const routes: Routes = [
@@ -40,20 +39,11 @@ export const routes: Routes = [
     canActivate: [checkAuthGuard],
   },
   {
-    path: 'dashboard',
-    loadComponent: () =>
-      import('./modules/dashboard/dashboard.component').then(
-        (cmp) => cmp.DashboardComponent,
-      ),
-    canActivate: [authGuard],
-  },
-  {
-    path: 'profile',
-    loadComponent: () =>
-      import('./modules/profile/profile.component').then(
-        (cmp) => cmp.ProfileComponent,
-      ),
-    canActivate: [authGuard],
+    path: 'gvg',
+    loadChildren: () =>
+      import(
+        './shared/components/gvg-app-container/gvg-app-container.routes'
+      ).then((r) => r.GVG_APP_CONTAINER_ROUTES),
   },
   {
     path: 'page-not-found',

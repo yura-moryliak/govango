@@ -1,0 +1,10 @@
+:host {
+  display: grid;
+  grid-template-rows: 4em 1fr;
+  height: 100%;
+
+  .gvg-app-container {
+    padding: 1em;
+    overflow: auto;
+  }
+}

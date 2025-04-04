@@ -38,6 +38,7 @@ import {
 } from '../../../shared/states/toast/toast.actions';
 import { AppSettingsPanelButtonComponent } from '../../../shared/components/app-settings-panel-button/app-settings-panel-button.component';
 import { GoogleAuthService } from '../../../shared/services/google-auth.service';
+import { redirectRoutePrefix } from '../../../shared/components/gvg-app-container/gvg-app-container.routes';
 
 interface LoginFormGroupInterface {
   email: FormControl<string | null>;
@@ -139,7 +140,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private handleSuccessLogin(): void {
     this.form.reset({ email: '', password: '' });
-    this.router.navigate(['/dashboard']);
+    this.router.navigate([redirectRoutePrefix]);
 
     this.store.dispatch([
       new ToastActions.ShowToast({

@@ -14,7 +14,7 @@ export const checkAuthGuard: CanActivateFn = async () => {
   if (!isAuthenticated) {
     return true;
   } else {
-    await router.navigate(['/dashboard']);
+    await router.navigate(['/gvg']);
     return false;
   }
 };
