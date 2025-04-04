@@ -46,23 +46,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initCurrentUser();
+    this.initLogoutHandler();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  private initCurrentUser(): void {
     this.store
       .select(AuthState.id(this.jwtHelperService))
       .pipe(takeUntil(this.destroyed$))
       .subscribe((id: string) =>
         this.store.dispatch(new UsersActions.LoadCurrentUser(id)),
       );
+  }
 
+  private initLogoutHandler(): void {
     this.actions$
       .pipe(ofActionCompleted(AuthActions.Logout), takeUntil(this.destroyed$))
       .subscribe(() => {
         this.store.dispatch(new UsersActions.ClearCurrentUser());
         this.router.navigate(['/login']);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 }
