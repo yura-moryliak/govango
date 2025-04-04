@@ -37,66 +37,10 @@
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel value="0">
-          <!--TODO This should be moved into own component as user-info-tab-->
-          <ul class="info-items">
-            <li>
-              <p>
-                <span>
-                  <i class="pi pi-phone"></i>
-                  {{ "Phone number" | translate }}
-                </span>
-                <a href="tel:{{ (currentUser$ | async)?.phoneNumber }}">{{
-                  (currentUser$ | async)?.phoneNumber
-                }}</a>
-              </p>
-            </li>
-            <li>
-              <p>
-                <span>
-                  <i class="pi pi-envelope"></i>
-                  {{ "Email" | translate }}
-                </span>
-                <a href="mailto:{{ (currentUser$ | async)?.email }}">{{
-                  (currentUser$ | async)?.email
-                }}</a>
-              </p>
-            </li>
-            <li>
-              <p>
-                <span>
-                  <i class="pi pi-map-marker"></i>
-                  {{ "City" | translate }}
-                </span>
-                @if (currentUser$ | async; as user) {
-                  <span>{{ user.city | translate }}</span>
-                }
-              </p>
-            </li>
-            <li>
-              <p>
-                <span>
-                  <i class="pi pi-heart-fill"></i>
-                  {{ "Likes" | translate }}
-                </span>
-                <span>{{ (currentUser$ | async)?.likes }}</span>
-              </p>
-            </li>
-
-            <!--TODO This has to be added later-->
-            <!--            <li>-->
-            <!--              <p>-->
-            <!--                <span>-->
-            <!--                  <i class="pi pi-users"></i>-->
-            <!--                  Reviews-->
-            <!--                </span>-->
-            <!--                <span>0</span>-->
-            <!--              </p>-->
-            <!--            </li>-->
-          </ul>
+          <gvg-user-info-tab [user]="currentUser$ | async"></gvg-user-info-tab>
         </p-tabpanel>
         <p-tabpanel value="1">
-          <!--TODO This should be moved into own component as user-cars-tab-->
-          <p class="m-0">Cars</p>
+          <gvg-user-cars-tab></gvg-user-cars-tab>
         </p-tabpanel>
       </p-tabpanels>
     </p-tabs>

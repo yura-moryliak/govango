@@ -1,0 +1,51 @@
+<ul class="info-items">
+  <li>
+    <p>
+      <span>
+        <i class="pi pi-phone"></i>
+        {{ "Phone number" | translate }}
+      </span>
+      <a href="tel:{{ user?.phoneNumber }}">{{ user?.phoneNumber }}</a>
+    </p>
+  </li>
+  <li>
+    <p>
+      <span>
+        <i class="pi pi-envelope"></i>
+        {{ "Email" | translate }}
+      </span>
+      <a href="mailto:{{ user?.email }}">{{ user?.email }}</a>
+    </p>
+  </li>
+  <li>
+    <p>
+      <span>
+        <i class="pi pi-map-marker"></i>
+        {{ "City" | translate }}
+      </span>
+      @if (user) {
+        <span>{{ user.city | translate }}</span>
+      }
+    </p>
+  </li>
+  <li>
+    <p>
+      <span>
+        <i class="pi pi-heart-fill"></i>
+        {{ "Likes" | translate }}
+      </span>
+      <span>{{ user?.likes }}</span>
+    </p>
+  </li>
+
+  <!--TODO This has to be added later-->
+  <!--            <li>-->
+  <!--              <p>-->
+  <!--                <span>-->
+  <!--                  <i class="pi pi-users"></i>-->
+  <!--                  Reviews-->
+  <!--                </span>-->
+  <!--                <span>0</span>-->
+  <!--              </p>-->
+  <!--            </li>-->
+</ul>

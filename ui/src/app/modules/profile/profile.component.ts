@@ -14,6 +14,8 @@ import { User } from '../../shared/states/users/user.interface';
 import { AsyncPipe } from '@angular/common';
 import { fallbackAvatar } from '../../shared/fallback-avatar';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UserInfoTabComponent } from './user-info-tab/user-info-tab.component';
+import { UserCarsTabComponent } from './user-cars-tab/user-cars-tab.component';
 
 @Component({
   selector: 'gvg-profile',
@@ -27,6 +29,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     TabPanel,
     AsyncPipe,
     TranslatePipe,
+    UserInfoTabComponent,
+    UserCarsTabComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
