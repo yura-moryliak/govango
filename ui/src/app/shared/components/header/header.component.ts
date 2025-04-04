@@ -17,11 +17,12 @@ import { UsersActions } from '../../states/users/users.actions';
 import { UsersState } from '../../states/users/users.state';
 import { User } from '../../states/users/user.interface';
 import { AsyncPipe } from '@angular/common';
+import { Skeleton } from 'primeng/skeleton';
 import { fallbackAvatar } from '../../fallback-avatar';
 
 @Component({
   selector: 'gvg-header',
-  imports: [RouterLink, Avatar, Button, AsyncPipe],
+  imports: [RouterLink, Avatar, Button, AsyncPipe, Skeleton],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

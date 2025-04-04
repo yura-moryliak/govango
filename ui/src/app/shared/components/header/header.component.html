@@ -12,6 +12,9 @@
         shape="circle"
         [image]="user.avatar ? user.avatar : fallbackAvatar"
       />
+    } @else {
+      <p-skeleton width="5em" />
+      <p-skeleton shape="circle" size="2.5em" />
     }
   </a>
 
