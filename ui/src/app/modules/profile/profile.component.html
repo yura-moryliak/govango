@@ -14,6 +14,7 @@
                   ? (currentUser$ | async)?.avatar
                   : fallbackAvatar
               "
+              (onImageError)="handleAvatarImageError()"
             >
             </p-avatar>
 
@@ -30,8 +31,8 @@
 
     <p-tabs value="0">
       <p-tablist>
-        <p-tab value="0">Info</p-tab>
-        <p-tab value="1">Cars</p-tab>
+        <p-tab value="0">{{ 'User information' | translate }}</p-tab>
+        <p-tab value="1">{{ 'User cars' | translate }}</p-tab>
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel value="0">
@@ -41,7 +42,7 @@
               <p>
                 <span>
                   <i class="pi pi-phone"></i>
-                  Phone number
+                  {{ 'Phone number' | translate }}
                 </span>
                 <a href="tel:{{ (currentUser$ | async)?.phoneNumber }}">{{
                   (currentUser$ | async)?.phoneNumber
@@ -52,7 +53,7 @@
               <p>
                 <span>
                   <i class="pi pi-envelope"></i>
-                  Email
+                  {{ 'Email' | translate }}
                 </span>
                 <a href="mailto:{{ (currentUser$ | async)?.email }}">{{
                   (currentUser$ | async)?.email
@@ -63,16 +64,18 @@
               <p>
                 <span>
                   <i class="pi pi-map-marker"></i>
-                  City
+                  {{ 'City' | translate }}
                 </span>
-                <span>{{ (currentUser$ | async)?.city }}</span>
+                @if (currentUser$ | async; as user) {
+                  <span>{{ user.city | translate }}</span>
+                }
               </p>
             </li>
             <li>
               <p>
                 <span>
                   <i class="pi pi-heart-fill"></i>
-                  Likes
+                  {{ 'Likes' | translate }}
                 </span>
                 <span>{{ (currentUser$ | async)?.likes }}</span>
               </p>

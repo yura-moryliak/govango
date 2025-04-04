@@ -9,8 +9,10 @@
     @if (currentUser$ | async; as user) {
       <span>{{ user?.firstName }} {{ user?.lastName }}</span>
       <p-avatar
+        #avatar
         shape="circle"
         [image]="user?.avatar ? user?.avatar : fallbackAvatar"
+        (onImageError)="handleAvatarImageError()"
       />
     } @else {
       <p-skeleton width="5em" />

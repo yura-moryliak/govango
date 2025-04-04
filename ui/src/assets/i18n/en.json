@@ -520,5 +520,8 @@
   "Your password has been successfully change. You can now log in with your new password": "Your password has been successfully change. You can now log in with your new password",
   "Invalid or expired token": "Invalid or expired token",
   "Invalid credentials": "Invalid credentials",
-  "User already exist": "User already exists with such credentials. Make sure user credentials are correct"
+  "User already exist": "User already exists with such credentials. Make sure user credentials are correct",
+  "Likes": "Likes",
+  "User information": "User information",
+  "User cars": "User cars"
 }

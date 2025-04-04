@@ -3,13 +3,13 @@ import {
   Component,
   inject,
   OnDestroy,
-  OnInit,
+  OnInit, ViewChild,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Avatar } from 'primeng/avatar';
 import { Button } from 'primeng/button';
-import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
+import { Actions, Store } from '@ngxs/store';
 import { AuthActions } from '../../states/auth/auth.actions';
 import { AuthState } from '../../states/auth/auth.state';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -35,6 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     inject(JwtHelperService);
   private readonly destroyed$: Subject<void> = new Subject<void>();
 
+  @ViewChild('avatar') private avatarEl: Avatar | undefined;
+
   readonly currentUser$: Observable<User | null> = this.store.select(
     UsersState.currentUser,
   );
@@ -42,12 +44,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly fallbackAvatar = fallbackAvatar;
 
   logout(): void {
-    this.store.dispatch(new AuthActions.Logout());
+    this.store.dispatch(new AuthActions.Logout()).pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.store.dispatch(new UsersActions.ClearCurrentUser());
+      this.router.navigate(['/login']);
+    });
   }
 
   ngOnInit(): void {
     this.initCurrentUser();
-    this.initLogoutHandler();
+  }
+
+  handleAvatarImageError(): void {
+    if (!this.avatarEl) {
+      return;
+    }
+
+    this.avatarEl.image = this.fallbackAvatar;
   }
 
   ngOnDestroy(): void {
@@ -59,19 +71,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store
       .select(AuthState.id(this.jwtHelperService))
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((id: string) => {
-        console.log('THIS IS CALLED...');
-
-        this.store.dispatch(new UsersActions.LoadCurrentUser(id));
-      });
-  }
-
-  private initLogoutHandler(): void {
-    this.actions$
-      .pipe(ofActionSuccessful(AuthActions.Logout), takeUntil(this.destroyed$))
-      .subscribe(() => {
-        this.store.dispatch(new UsersActions.ClearCurrentUser());
-        this.router.navigate(['/login']);
-      });
+      .subscribe((id: string) => this.store.dispatch(new UsersActions.LoadCurrentUser(id)));
   }
 }
