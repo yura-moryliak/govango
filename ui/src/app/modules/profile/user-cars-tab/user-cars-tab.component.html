@@ -1,1 +1,7 @@
-<p>user-cars-tab works!</p>
+@if (!user?.isCarOwner) {
+  <div class="warning-panel">
+    <small>{{ 'You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.' | translate }}</small>
+
+    <p-button icon="pi pi-plus" size="small" rounded />
+  </div>
+}
