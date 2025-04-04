@@ -27,6 +27,7 @@ import { ngxsConfig } from './ngxs-config';
 import { AuthState } from './shared/states/auth/auth.state';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
+import { UsersState } from './shared/states/users/users.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -57,10 +58,10 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideStore(
-      [RegisterState, ToastState, AppSettingsPanelState, AuthState],
+      [RegisterState, ToastState, AppSettingsPanelState, AuthState, UsersState],
       ngxsConfig,
       withNgxsStoragePlugin({
-        keys: [RegisterState, AppSettingsPanelState, AuthState],
+        keys: [RegisterState, AppSettingsPanelState, AuthState, UsersState],
         namespace: 'govango',
       }),
       withNgxsLoggerPlugin({ disabled: environment.production }),
