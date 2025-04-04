@@ -43,7 +43,7 @@
         flex-shrink: 0;
         width: 2.5em;
         height: 2.5em;
-        border: 3px solid var(--p-button-secondary-background);
+        border: 0.188em solid var(--p-button-secondary-background);
         transition: 0.3s ease-in;
 
         ::ng-deep {
@@ -59,7 +59,7 @@
         color: var(--p-primary-color);
 
         p-avatar {
-          border: 3px solid var(--p-primary-color);
+          border: 0.188em solid var(--p-primary-color);
         }
       }
 

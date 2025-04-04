@@ -52,16 +52,15 @@
           position: relative;
 
           p-avatar {
-            width: 5em;
-            height: 5em;
-            border: 3px solid var(--p-button-secondary-background);
+            width: 10em;
+            height: 10em;
+            border: 0.188em solid var(--p-button-secondary-background);
+            font-size: initial;
 
             ::ng-deep {
               img {
                 object-fit: cover;
                 object-position: top center;
-                width: inherit;
-                height: inherit;
               }
             }
           }
