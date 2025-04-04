@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Avatar } from 'primeng/avatar';
 import { Button } from 'primeng/button';

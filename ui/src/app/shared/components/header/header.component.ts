@@ -3,7 +3,8 @@ import {
   Component,
   inject,
   OnDestroy,
-  OnInit, ViewChild,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -44,10 +45,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly fallbackAvatar = fallbackAvatar;
 
   logout(): void {
-    this.store.dispatch(new AuthActions.Logout()).pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.store.dispatch(new UsersActions.ClearCurrentUser());
-      this.router.navigate(['/login']);
-    });
+    this.store
+      .dispatch(new AuthActions.Logout())
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.store.dispatch(new UsersActions.ClearCurrentUser());
+        this.router.navigate(['/login']);
+      });
   }
 
   ngOnInit(): void {
@@ -71,6 +75,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store
       .select(AuthState.id(this.jwtHelperService))
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((id: string) => this.store.dispatch(new UsersActions.LoadCurrentUser(id)));
+      .subscribe((id: string) =>
+        this.store.dispatch(new UsersActions.LoadCurrentUser(id)),
+      );
   }
 }
