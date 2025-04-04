@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthState } from '../../shared/states/auth/auth.state';
-import { Observable } from 'rxjs';
 import { Avatar } from 'primeng/avatar';
 import { Button } from 'primeng/button';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
@@ -16,10 +13,4 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 })
 export class ProfileComponent {
   private readonly store: Store = inject(Store);
-  private readonly jwtHelperService: JwtHelperService =
-    inject(JwtHelperService);
-
-  readonly userId$: Observable<string> = this.store.select(
-    AuthState.id(this.jwtHelperService),
-  );
 }

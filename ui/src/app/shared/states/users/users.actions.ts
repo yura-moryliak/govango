@@ -7,4 +7,8 @@ export namespace UsersActions {
     constructor(public id: string) { }
   }
 
+  export class ClearCurrentUser {
+    static readonly type = `${ ACTION_SCOPE } Clear current user`;
+  }
+
 }
