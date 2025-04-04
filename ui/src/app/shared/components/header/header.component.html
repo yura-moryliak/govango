@@ -5,7 +5,7 @@
 </div>
 
 <div class="right-side">
-  <a class="user-section" routerLink="/gvg/profile">
+  <a class="user-section" routerLink="/gvg/profile" routerLinkActive="active-profile">
     @if (currentUser$ | async; as user) {
       <span>{{ user?.firstName }} {{ user?.lastName }}</span>
       <p-avatar

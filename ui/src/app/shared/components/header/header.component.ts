@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Avatar } from 'primeng/avatar';
 import { Button } from 'primeng/button';
@@ -23,7 +23,7 @@ import { fallbackAvatar } from '../../fallback-avatar';
 
 @Component({
   selector: 'gvg-header',
-  imports: [RouterLink, Avatar, Button, AsyncPipe, Skeleton],
+  imports: [RouterLink, Avatar, Button, AsyncPipe, Skeleton, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
