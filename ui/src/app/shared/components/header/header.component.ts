@@ -6,10 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Avatar } from 'primeng/avatar';
 import { Button } from 'primeng/button';
-import { Actions, ofActionCompleted, Store } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
 import { AuthActions } from '../../states/auth/auth.actions';
 import { AuthState } from '../../states/auth/auth.state';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -35,9 +35,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     inject(JwtHelperService);
   private readonly destroyed$: Subject<void> = new Subject<void>();
 
-  readonly currentUser$: Observable<User> = this.store
-    .select(UsersState.currentUser)
-    .pipe(filter((user: User | null) => !!user));
+  readonly currentUser$: Observable<User | null> = this.store.select(
+    UsersState.currentUser,
+  );
 
   readonly fallbackAvatar = fallbackAvatar;
 
@@ -59,14 +59,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store
       .select(AuthState.id(this.jwtHelperService))
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((id: string) =>
-        this.store.dispatch(new UsersActions.LoadCurrentUser(id)),
-      );
+      .subscribe((id: string) => {
+        console.log('THIS IS CALLED...');
+
+        this.store.dispatch(new UsersActions.LoadCurrentUser(id));
+      });
   }
 
   private initLogoutHandler(): void {
     this.actions$
-      .pipe(ofActionCompleted(AuthActions.Logout), takeUntil(this.destroyed$))
+      .pipe(ofActionSuccessful(AuthActions.Logout), takeUntil(this.destroyed$))
       .subscribe(() => {
         this.store.dispatch(new UsersActions.ClearCurrentUser());
         this.router.navigate(['/login']);

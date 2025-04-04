@@ -9,14 +9,21 @@
             <p-avatar
               size="xlarge"
               shape="circle"
-              image="https://scontent.flwo3-1.fna.fbcdn.net/v/t39.30808-6/480511661_955202340036218_2611899093260712739_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=YScY9kzAaYUQ7kNvgGPnfp-&_nc_oc=AdkvKSVY7nZkyWesLznOUidg_DdtQfj-jKmMx7Bth3wr0-3wh1u3jGEjGk2Te9X8CDk&_nc_zt=23&_nc_ht=scontent.flwo3-1.fna&_nc_gid=FtSgVLaQPTWn7fpEadLB7g&oh=00_AYGPYRoG2pZZ2TPIwqdZL1KWVzydQLDerOBbKEeeglUyQA&oe=67F213C1"
+              [image]="
+                (currentUser$ | async)?.avatar
+                  ? (currentUser$ | async)?.avatar
+                  : fallbackAvatar
+              "
             >
             </p-avatar>
 
             <p-button icon="pi pi-camera" size="small" rounded />
           </div>
 
-          <h2>Khabi Lame</h2>
+          <h2>
+            {{ (currentUser$ | async)?.firstName }}
+            {{ (currentUser$ | async)?.lastName }}
+          </h2>
         </div>
       </div>
     </div>
@@ -28,6 +35,7 @@
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel value="0">
+          <!--TODO This should be moved into own component as user-info-tab-->
           <ul class="info-items">
             <li>
               <p>
@@ -35,7 +43,9 @@
                   <i class="pi pi-phone"></i>
                   Phone number
                 </span>
-                <a href="tel:+380981234567">+380981234567</a>
+                <a href="tel:{{ (currentUser$ | async)?.phoneNumber }}">{{
+                  (currentUser$ | async)?.phoneNumber
+                }}</a>
               </p>
             </li>
             <li>
@@ -44,7 +54,9 @@
                   <i class="pi pi-envelope"></i>
                   Email
                 </span>
-                <a href="mailto:test_email#test.com">test_email#test.com</a>
+                <a href="mailto:{{ (currentUser$ | async)?.email }}">{{
+                  (currentUser$ | async)?.email
+                }}</a>
               </p>
             </li>
             <li>
@@ -53,7 +65,7 @@
                   <i class="pi pi-map-marker"></i>
                   City
                 </span>
-                <span>Drohobych</span>
+                <span>{{ (currentUser$ | async)?.city }}</span>
               </p>
             </li>
             <li>
@@ -62,21 +74,24 @@
                   <i class="pi pi-heart-fill"></i>
                   Likes
                 </span>
-                <span>0</span>
+                <span>{{ (currentUser$ | async)?.likes }}</span>
               </p>
             </li>
-            <li>
-              <p>
-                <span>
-                  <i class="pi pi-users"></i>
-                  Reviews
-                </span>
-                <span>0</span>
-              </p>
-            </li>
+
+            <!--TODO This has to be added later-->
+            <!--            <li>-->
+            <!--              <p>-->
+            <!--                <span>-->
+            <!--                  <i class="pi pi-users"></i>-->
+            <!--                  Reviews-->
+            <!--                </span>-->
+            <!--                <span>0</span>-->
+            <!--              </p>-->
+            <!--            </li>-->
           </ul>
         </p-tabpanel>
         <p-tabpanel value="1">
+          <!--TODO This should be moved into own component as user-cars-tab-->
           <p class="m-0">Cars</p>
         </p-tabpanel>
       </p-tabpanels>

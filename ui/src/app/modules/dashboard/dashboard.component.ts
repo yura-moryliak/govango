@@ -7,11 +7,10 @@ import {
 import { Store } from '@ngxs/store';
 import { AuthActions } from '../../shared/states/auth/auth.actions';
 import { FingerprintService } from '../../shared/services/fingerprint.service';
-import { HeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
   selector: 'gvg-dashboard',
-  imports: [HeaderComponent],
+  imports: [],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

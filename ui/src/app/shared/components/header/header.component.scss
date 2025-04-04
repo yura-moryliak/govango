@@ -30,6 +30,7 @@
       text-decoration: none;
       color: initial;
       gap: 0.5em;
+      transition: 0.3s ease-in;
 
       @media screen and (max-width: 37.5em) {
         span {
@@ -43,12 +44,21 @@
         width: 2.5em;
         height: 2.5em;
         border: 3px solid var(--p-button-secondary-background);
+        transition: 0.3s ease-in;
 
         ::ng-deep {
           img {
             object-fit: cover;
             object-position: top center;
           }
+        }
+      }
+
+      &:hover {
+        color: var(--p-primary-color);
+
+        p-avatar {
+          border: 3px solid var(--p-primary-color);
         }
       }
     }

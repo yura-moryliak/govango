@@ -7,10 +7,10 @@
 <div class="right-side">
   <a class="user-section" routerLink="/gvg/profile">
     @if (currentUser$ | async; as user) {
-      <span>{{ user.firstName }} {{ user.lastName }}</span>
+      <span>{{ user?.firstName }} {{ user?.lastName }}</span>
       <p-avatar
         shape="circle"
-        [image]="user.avatar ? user.avatar : fallbackAvatar"
+        [image]="user?.avatar ? user?.avatar : fallbackAvatar"
       />
     } @else {
       <p-skeleton width="5em" />
