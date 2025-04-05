@@ -4,6 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { UsersActions } from './users.actions';
 import { UsersService } from '../../services/users.service';
 import { Observable, tap } from 'rxjs';
+import { patch } from '@ngxs/store/operators';
 
 export interface UsersStateModel {
   currentUser: User | null;
@@ -49,6 +50,25 @@ export class UsersState {
             updated && patchState({ currentUser: user as User }),
         ),
       );
+  }
+
+  @Action(UsersActions.UploadCurrentUserAvatar, { cancelUncompleted: true })
+  uploadCurrentUserAvatar(
+    { setState, getState }: StateContext<UsersStateModel>,
+    { id, file }: UsersActions.UploadCurrentUserAvatar,
+  ): Observable<string> {
+    return this.usersService.uploadAvatar(id, file).pipe(
+      tap((avatarUrl: string) =>
+        setState(
+          patch({
+            currentUser: {
+              ...getState().currentUser,
+              avatar: avatarUrl,
+            } as User,
+          }),
+        ),
+      ),
+    );
   }
 
   @Action(UsersActions.ClearCurrentUser)

@@ -12,6 +12,10 @@ import { UserType } from './user-type.enum';
 import { CarEntity } from '../cars/car.entity';
 import { USER_ENTITY_PASSWORD_LESS_SELECT, UserEntity } from './user.entity';
 import { CreateCarrierDto, CreateCustomerDto, UpdateUserDto } from './user.dto';
+import { ConfigService } from '@nestjs/config';
+import * as path from 'node:path';
+import { unlink } from 'node:fs';
+import { join } from 'path';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +24,7 @@ export class UsersService {
     private readonly usersRepository: Repository<UserEntity>,
     @InjectRepository(CarEntity)
     private readonly carsRepository: Repository<CarEntity>,
+    private readonly configService: ConfigService,
   ) {}
 
   async createCustomer(
@@ -144,6 +149,41 @@ export class UsersService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async updateAvatar(
+    id: string,
+    fileName: string,
+    avatarSource: 'google' | 'custom',
+  ): Promise<UserEntity> {
+    const baseUrl: string = this.configService.get<string>('SERVER_BASE_URL');
+    const avatarUrl = `${baseUrl}/uploads/avatars/${fileName}`;
+
+    const userEntity: UserEntity = await this.usersRepository.findOne({
+      where: { id },
+    });
+
+    if (!userEntity) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (userEntity.avatar && userEntity.avatarSource === 'custom') {
+      const oldAvatarPath = `${join(__dirname, '../../../../', 'uploads', 'avatars', path.basename(userEntity.avatar))}`;
+
+      unlink(oldAvatarPath, (err) => {
+        if (err) {
+          throw new HttpException(
+            'Failed to delete old avatar',
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }
+      });
+    }
+
+    userEntity.avatar = avatarUrl;
+    userEntity.avatarSource = avatarSource;
+
+    return this.usersRepository.save(userEntity);
   }
 
   async remove(id: string): Promise<DeleteResult> {

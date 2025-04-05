@@ -3,12 +3,16 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
   Query,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -29,6 +33,8 @@ import { UserEntity } from './user.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { USER_LIST_OK_RESPONSE_EXAMPLE } from './users.swagger';
 import { Request } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { avatarFileUploadStorage } from '../../storage';
 
 @ApiBearerAuth()
 @Controller()
@@ -127,6 +133,51 @@ export class UsersController {
   ): Promise<boolean> {
     await this.usersService.update(id, updateUserInfoDto);
     return true;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/avatar')
+  @ApiOkResponse({
+    description: 'Avatar uploaded successfully',
+    schema: {
+      example: {
+        avatarUrl: 'http://localhost:1111/uploads/avatars/avatar.jpg',
+      },
+    },
+  })
+  @ApiBadRequestResponse({ description: 'File not uploaded' })
+  @ApiUnauthorizedResponse({ description: 'Access denied' })
+  @ApiParam({ name: 'id', required: true, description: 'User ID' })
+  @ApiBody({
+    description: 'Avatar file',
+    schema: {
+      type: 'object',
+      properties: {
+        avatar: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('avatar', { storage: avatarFileUploadStorage }),
+  )
+  async uploadAvatar(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request,
+  ): Promise<{ avatarUrl: string }> {
+    if (!file) {
+      throw new HttpException('File not uploaded', HttpStatus.BAD_REQUEST);
+    }
+
+    const { avatar } = await this.usersService.updateAvatar(
+      (req.user as any).userId,
+      file.filename,
+      'custom',
+    );
+
+    return { avatarUrl: avatar };
   }
 
   @UseGuards(JwtAuthGuard)

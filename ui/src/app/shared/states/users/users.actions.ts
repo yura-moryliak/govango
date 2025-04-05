@@ -13,6 +13,14 @@ export namespace UsersActions {
     constructor(public user: Partial<User>) {}
   }
 
+  export class UploadCurrentUserAvatar {
+    static readonly type = `${ACTION_SCOPE} Upload current user avatar`;
+    constructor(
+      public id: string,
+      public file: File,
+    ) {}
+  }
+
   export class ClearCurrentUser {
     static readonly type = `${ACTION_SCOPE} Clear current user`;
   }

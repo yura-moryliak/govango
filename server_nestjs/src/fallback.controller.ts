@@ -20,6 +20,10 @@ export class FallbackController {
       return next();
     }
 
+    if (req.url.startsWith('/uploads/')) {
+      return next();
+    }
+
     if (req.url.includes('.')) {
       const filePath = join(angularDistPath, req.url);
 

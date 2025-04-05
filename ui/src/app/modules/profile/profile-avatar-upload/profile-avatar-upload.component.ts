@@ -16,6 +16,8 @@ import {
   INITIAL_TOAST_OPTIONS,
   ToastActions,
 } from '../../../shared/states/toast/toast.actions';
+import { UsersActions } from '../../../shared/states/users/users.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'gvg-profile-avatar-upload',
@@ -36,7 +38,12 @@ export class ProfileAvatarUploadComponent {
 
   @ViewChild('fileUpload') fileUpload: FileUpload | undefined;
 
-  allowedTypes: string[] = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+  allowedTypes: string[] = [
+    'image/png',
+    'image/jpeg',
+    'image/jpg',
+    'image/webp',
+  ];
   maxFileSize: number = 1000000; // 1MB
   isUploading: boolean = false;
 
@@ -53,7 +60,9 @@ export class ProfileAvatarUploadComponent {
       if (!this.isFileTypeAllowed(file)) {
         this.showErrorToast(`FILE_UNSUPPORTED_TYPE`, {
           fileType: file.type.split('/')[1],
-          allowedTypes: this.allowedTypes.map(type => type.split('/')[1]).join(', '),
+          allowedTypes: this.allowedTypes
+            .map((type) => type.split('/')[1])
+            .join(', '),
         });
         this.fileUpload?.clear();
         return;
@@ -83,21 +92,36 @@ export class ProfileAvatarUploadComponent {
       }
 
       if (!file.lastModified) {
-        this.showErrorToast('Invalid file. Modification date is not available.');
+        this.showErrorToast(
+          'Invalid file. Modification date is not available.',
+        );
         this.fileUpload?.clear();
         return;
       }
 
-      // TODO Simulate upload process
-      of('Start upload')
-        .pipe(delay(5000), takeUntil(this.destroyed$))
-        .subscribe(() => {
-          this.isUploading = false;
-          this.cdr.markForCheck();
-
-          this.showSuccessToast();
-        });
+      this.upload(file);
     }
+  }
+
+  private upload(file: File): void {
+    this.store
+      .dispatch(
+        new UsersActions.UploadCurrentUserAvatar(this.user?.id || '', file),
+      )
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          this.isUploading = false;
+          this.cdr.detectChanges();
+
+          this.fileUpload?.clear();
+          this.showSuccessToast();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isUploading = false;
+          console.warn('Error uploading file:', error);
+        },
+      });
   }
 
   private isFileTypeAllowed(file: File): boolean {
@@ -109,10 +133,7 @@ export class ProfileAvatarUploadComponent {
     return fileSizeMB < 1;
   }
 
-  private showErrorToast(
-    errorMessage: string,
-    param?: InterpolationParameters,
-  ): void {
+  private showErrorToast(error: string, param?: InterpolationParameters): void {
     this.isUploading = false;
 
     this.store.dispatch(
@@ -121,7 +142,7 @@ export class ProfileAvatarUploadComponent {
         severity: 'error',
         key: 'success',
         summary: this.translateService.instant('Error'),
-        detail: this.translateService.instant(errorMessage, param),
+        detail: this.translateService.instant(error, param),
       }),
     );
   }

@@ -17,10 +17,27 @@ import { UserDevicesModule } from './modules/user-devices/user-devices.module';
 
 const configurationModules = [
   RouterModule.register(apiRoutes),
-  ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '../../', 'dist', 'ui', 'browser', 'index.html'),
-    serveRoot: '/',
-  }),
+  ServeStaticModule.forRoot(
+    {
+      rootPath: join(
+        __dirname,
+        '../../',
+        'dist',
+        'ui',
+        'browser',
+        'index.html',
+      ),
+      serveRoot: '/',
+    },
+    {
+      rootPath: join(__dirname, '../../', 'uploads', 'avatars'),
+      serveRoot: '/uploads/avatars',
+    },
+    {
+      rootPath: join(__dirname, '../../', 'uploads', 'cars'),
+      serveRoot: '/uploads/cars',
+    },
+  ),
   ConfigModule.forRoot({
     envFilePath: '.env.development',
     cache: true,
