@@ -34,7 +34,6 @@ import {
 } from '../../shared/services/static-assets.service';
 import { InputText } from 'primeng/inputtext';
 import { InputMask } from 'primeng/inputmask';
-import { ButtonGroup } from 'primeng/buttongroup';
 import { Divider } from 'primeng/divider';
 import { getObjectDifference } from '../../shared/utils/object-difference';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -76,7 +75,6 @@ interface UpdateUserDataInterface {
     NgClass,
     InputText,
     InputMask,
-    ButtonGroup,
     Divider,
     ConfirmDialog,
   ],
@@ -93,7 +91,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     inject(ConfirmationService);
 
   private readonly destroyed$: Subject<void> = new Subject<void>();
-
   private initialFormValue: UpdateUserDataInterface | undefined;
 
   @ViewChild('avatar') private avatarEl: Avatar | undefined;
@@ -145,14 +142,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   cancel(): void {
-    this.checkChanges();
+    this.checkChangesOnHide();
   }
 
   update(): void {
     console.log(this.form.getRawValue());
   }
 
-  checkChanges(): void {
+  checkChangesOnHide(): void {
     const { hasDifference } = getObjectDifference(
       this.initialFormValue as UpdateUserDataInterface,
       this.form.getRawValue(),
