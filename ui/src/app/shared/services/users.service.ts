@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { endpointUrls } from '../endpoint-urls';
 import { environment } from '../../../environments/environment';
 import { RegisterUserInterface } from '../../modules/auth/register/interfaces/register-user.interface';
@@ -36,5 +36,14 @@ export class UsersService {
 
   updateUser(user: Partial<User>): Observable<boolean> {
     return this.httpClient.put<boolean>(`${this.baseUrl}/${user.id}`, user);
+  }
+
+  uploadAvatar(id: string, file: File): Observable<string> {
+    const formData: FormData = new FormData();
+    formData.append('avatar', file);
+
+    return this.httpClient
+      .post<{ avatarUrl: string }>(`${this.baseUrl}/${id}/avatar`, formData)
+      .pipe(map((data: { avatarUrl: string }) => data.avatarUrl));
   }
 }

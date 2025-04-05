@@ -63,7 +63,7 @@ export class UserEntity extends BaseEntity {
 
   // Do not select
   @Column({ default: '', nullable: false })
-  avatarSource: string;
+  avatarSource: 'google' | 'custom' = 'custom';
 
   // Do not select
   @Column({ default: '', nullable: true })

@@ -533,5 +533,11 @@
   "Unsaved changes": "Незбережені зміни",
   "You have unsaved changes. Are you sure you want to leave?": "У вас є незбережені зміни. Ви впевнені, що хочете вийти?",
   "Yes": "Так",
-  "Your account has been updated successfully": "Ваш обліковий запис успішно оновлено"
+  "Your account has been updated successfully": "Ваш обліковий запис успішно оновлено",
+  "FILE_UNSUPPORTED_TYPE": "Непідтримуваний тип файлу: {{ fileType }}. Дозволені лише {{ allowedTypes }}.",
+  "FILE_SIZE_EXCEEDS": "Розмір файлу перевищує ліміт {{ fileSizeLimit }}Мб. Розмір вашого файлу {{ actualFileSize }}Мб",
+  "File is empty. Please select a valid file.": "Файл порожній. Будь ласка, виберіть дійсний файл.",
+  "Invalid file. File name is missing.": "Недійсний файл. Відсутня назва файлу.",
+  "Invalid file. Modification date is not available.": "Недійсний файл. Дата зміни недоступна.",
+  "Your avatar has been uploaded successfully": "Ваш аватар успішно завантажено"
 }
