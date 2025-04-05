@@ -1,0 +1,36 @@
+@mixin app-settings-panel-drawer {
+  .app-settings-panel-drawer {
+    .app-settings-panel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2em;
+
+      &.theme-selection {
+        i.pi {
+          margin-right: 0.5em;
+        }
+      }
+
+      &.language-selection {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 2em;
+
+        .caption-with-icon {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 1em;
+
+          i.pi {
+            margin-right: 0.5em;
+          }
+        }
+      }
+
+      p-select {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -19,7 +19,7 @@ import { UsersState } from '../../states/users/users.state';
 import { User } from '../../states/users/user.interface';
 import { AsyncPipe } from '@angular/common';
 import { Skeleton } from 'primeng/skeleton';
-import { fallbackAvatar } from '../../fallback-avatar';
+import { fallbackAvatar } from '../../utils/fallback-avatar';
 
 @Component({
   selector: 'gvg-header',

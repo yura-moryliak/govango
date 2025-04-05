@@ -525,5 +525,13 @@
   "Likes": "Likes",
   "User information": "User information",
   "User cars": "User cars",
-  "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.": "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time."
+  "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.": "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.",
+  "Update profile": "Update profile",
+  "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy.": "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy.",
+  "Cancel": "Cancel",
+  "Update": "Update",
+  "Unsaved changes": "Unsaved changes",
+  "You have unsaved changes. Are you sure you want to leave?": "You have unsaved changes. Are you sure you want to leave?",
+  "Yes": "Yes",
+  "Your account has been updated successfully": "Your account has been updated successfully"
 }

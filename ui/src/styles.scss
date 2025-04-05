@@ -1,4 +1,7 @@
-@import "primeicons/primeicons.css";
+@use "primeicons/primeicons.css";
+
+@use "./assets/styles/mixins/app-settings-panel-drawer.mixin" as app-settings;
+@use "./assets/styles/mixins/update-profile-drawer.mixin" as update-pforile;
 
 * {
   box-sizing: border-box;
@@ -21,38 +24,10 @@ body {
   display: block;
 }
 
-// Drawers
-.app-settings-panel-drawer {
-  .app-settings-panel-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2em;
+@include app-settings.app-settings-panel-drawer;
+@include update-pforile.update-profile-drawer;
 
-    &.theme-selection {
-      i.pi {
-        margin-right: 0.5em;
-      }
-    }
-
-    &.language-selection {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 2em;
-
-      .caption-with-icon {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1em;
-
-        i.pi {
-          margin-right: 0.5em;
-        }
-      }
-    }
-
-    p-select {
-      width: 100%;
-    }
-  }
+// Update profile unsaved changes dialog
+.unsaved-profile-changes-dialog {
+  margin: 1em;
 }

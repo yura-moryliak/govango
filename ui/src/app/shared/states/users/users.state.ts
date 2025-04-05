@@ -36,6 +36,21 @@ export class UsersState {
       .pipe(tap((user: User) => patchState({ currentUser: user })));
   }
 
+  @Action(UsersActions.UpdateCurrentUser, { cancelUncompleted: true })
+  updateCurrentUser(
+    { patchState }: StateContext<UsersStateModel>,
+    { user }: UsersActions.UpdateCurrentUser,
+  ): Observable<boolean> {
+    return this.usersService
+      .updateUser(user)
+      .pipe(
+        tap(
+          (updated: boolean) =>
+            updated && patchState({ currentUser: user as User }),
+        ),
+      );
+  }
+
   @Action(UsersActions.ClearCurrentUser)
   clearCurrentUser({ patchState }: StateContext<UsersStateModel>): void {
     patchState({ currentUser: null });
