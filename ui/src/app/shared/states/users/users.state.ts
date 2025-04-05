@@ -39,7 +39,7 @@ export class UsersState {
 
   @Action(UsersActions.UpdateCurrentUser, { cancelUncompleted: true })
   updateCurrentUser(
-    { patchState }: StateContext<UsersStateModel>,
+    { patchState, getState }: StateContext<UsersStateModel>,
     { user }: UsersActions.UpdateCurrentUser,
   ): Observable<boolean> {
     return this.usersService
@@ -47,7 +47,10 @@ export class UsersState {
       .pipe(
         tap(
           (updated: boolean) =>
-            updated && patchState({ currentUser: user as User }),
+            updated &&
+            patchState({
+              currentUser: { ...getState().currentUser, ...user } as User,
+            }),
         ),
       );
   }
