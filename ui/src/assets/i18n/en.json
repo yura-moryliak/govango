@@ -534,10 +534,10 @@
   "You have unsaved changes. Are you sure you want to leave?": "You have unsaved changes. Are you sure you want to leave?",
   "Yes": "Yes",
   "Your account has been updated successfully": "Your account has been updated successfully",
-  "FILE_UNSUPPORTED_FILE_TYPE": "Unsupported file type: {{ fileType }}. Only PNG and JPEG are allowed.",
+  "FILE_UNSUPPORTED_TYPE": "Unsupported file type: {{ fileType }}. Only {{ allowedTypes }} are allowed.",
   "FILE_SIZE_EXCEEDS": "File size exceeds the limit of {{ fileSizeLimit }}Mи. Your file size is {{ actualFileSize }}Mb",
-  "FILE_EMPTY": "File is empty. Please select a valid file.",
-  "INVALID_FILE_NAME": "Invalid file. File name is missing.",
-  "INVALID_FILE_MODIFICATION_DATE": "Invalid file. Modification date is not available.",
+  "File is empty. Please select a valid file.": "File is empty. Please select a valid file.",
+  "Invalid file. File name is missing.": "Invalid file. File name is missing.",
+  "Invalid file. Modification date is not available.": "Invalid file. Modification date is not available.",
   "Your avatar has been uploaded successfully": "Your avatar has been uploaded successfully"
 }

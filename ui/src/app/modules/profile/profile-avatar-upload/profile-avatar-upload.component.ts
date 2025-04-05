@@ -36,7 +36,7 @@ export class ProfileAvatarUploadComponent {
 
   @ViewChild('fileUpload') fileUpload: FileUpload | undefined;
 
-  allowedTypes: string[] = ['image/png', 'image/jpeg', 'image/jpg'];
+  allowedTypes: string[] = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
   maxFileSize: number = 1000000; // 1MB
   isUploading: boolean = false;
 
@@ -51,8 +51,9 @@ export class ProfileAvatarUploadComponent {
 
     for (const file of files) {
       if (!this.isFileTypeAllowed(file)) {
-        this.showErrorToast(`FILE_UNSUPPORTED_FILE_TYPE`, {
-          fileType: file.type,
+        this.showErrorToast(`FILE_UNSUPPORTED_TYPE`, {
+          fileType: file.type.split('/')[1],
+          allowedTypes: this.allowedTypes.map(type => type.split('/')[1]).join(', '),
         });
         this.fileUpload?.clear();
         return;
@@ -70,19 +71,19 @@ export class ProfileAvatarUploadComponent {
       }
 
       if (file.size === 0) {
-        this.showErrorToast('FILE_EMPTY');
+        this.showErrorToast('File is empty. Please select a valid file.');
         this.fileUpload?.clear();
         return;
       }
 
       if (!file.name) {
-        this.showErrorToast('INVALID_FILE_NAME');
+        this.showErrorToast('Invalid file. File name is missing.');
         this.fileUpload?.clear();
         return;
       }
 
       if (!file.lastModified) {
-        this.showErrorToast('INVALID_FILE_MODIFICATION_DATE');
+        this.showErrorToast('Invalid file. Modification date is not available.');
         this.fileUpload?.clear();
         return;
       }
