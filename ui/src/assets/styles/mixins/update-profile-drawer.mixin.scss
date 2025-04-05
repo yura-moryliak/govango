@@ -1,0 +1,38 @@
+@mixin update-profile-drawer {
+  .update-profile-drawer {
+    &.p-drawer-right {
+      width: 37.5em;
+
+      @media screen and (max-width: 37.5em) {
+        width: 100%;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5em;
+      margin-bottom: 1.5em;
+
+      p-select,
+      input[pInputText] {
+        width: 100%;
+      }
+
+      small.warning-panel {
+        display: inline-flex;
+        align-items: center;
+        gap: 1em;
+        color: var(--p-yellow-600);
+        border: 1px solid var(--p-yellow-600);
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}
