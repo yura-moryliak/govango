@@ -30,7 +30,7 @@ import { UserCarsTabComponent } from './user-cars-tab/user-cars-tab.component';
     AsyncPipe,
     TranslatePipe,
     UserInfoTabComponent,
-    UserCarsTabComponent,
+    UserCarsTabComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
