@@ -23,8 +23,9 @@
               (onImageError)="handleAvatarImageError()"
             >
             </p-avatar>
-
-            <p-button icon="pi pi-camera" size="small" rounded />
+            <gvg-profile-avatar-upload
+              [user]="currentUser$ | async"
+            ></gvg-profile-avatar-upload>
           </div>
 
           <h2>

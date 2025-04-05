@@ -1,0 +1,17 @@
+<p-button
+  icon="pi pi-camera"
+  size="small"
+  rounded
+  [loading]="isUploading"
+  (onClick)="triggerFileUpload()"
+/>
+
+<p-fileupload
+  #fileUpload
+  hidden
+  mode="basic"
+  name="avatar"
+  accept="image/*"
+  [maxFileSize]="maxFileSize"
+  (onSelect)="onFileSelect($event)"
+/>

@@ -44,6 +44,7 @@ import {
   ToastActions,
 } from '../../shared/states/toast/toast.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ProfileAvatarUploadComponent } from './profile-avatar-upload/profile-avatar-upload.component';
 
 interface UpdateUserFormGroupInterface {
   firstName: FormControl<string | null>;
@@ -84,6 +85,7 @@ interface UpdateUserDataInterface {
     InputMask,
     Divider,
     ConfirmDialog,
+    ProfileAvatarUploadComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
