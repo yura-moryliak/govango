@@ -1,0 +1,13 @@
+:host {
+  .warning-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+
+    small {
+      color: var(--p-yellow-600);
+      text-align: center;
+    }
+  }
+}

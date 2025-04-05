@@ -123,7 +123,7 @@ export class AuthController {
       req,
       res,
     );
-    res.json({ access_token });
+    res.json(access_token);
   }
 
   @Post('reset-password/request')

@@ -1,0 +1,118 @@
+:host {
+  .structure {
+    display: grid;
+    grid-template-rows: 20em auto;
+
+    .structure-content {
+      justify-self: center;
+      width: 100%;
+      max-width: 50em;
+    }
+  }
+
+  .profile-container {
+    align-items: center;
+    height: 100%;
+
+    .user-section {
+      background-color: var(--p-drawer-background);
+      background-image: url("/assets/images/cover.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 55% 55%;
+      padding: 1em;
+      border-radius: 0.5em;
+      height: 10em;
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+
+      @media screen and (max-width: 37.5em) {
+        height: 6em;
+      }
+
+      .avatar-and-user-info {
+        position: absolute;
+        display: flex;
+        align-items: flex-end;
+        bottom: -5em;
+        left: 0;
+        padding-left: 1em;
+        justify-content: flex-end;
+
+        @media screen and (max-width: 37.5em) {
+          flex-direction: column;
+          align-items: center;
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: -8em;
+        }
+
+        .avatar-with-camera-icon {
+          position: relative;
+
+          p-avatar {
+            width: 10em;
+            height: 10em;
+            border: 0.188em solid var(--p-button-secondary-background);
+            font-size: initial;
+
+            ::ng-deep {
+              img {
+                object-fit: cover;
+                object-position: top center;
+              }
+            }
+          }
+
+          p-button {
+            position: absolute;
+            left: 0;
+          }
+        }
+
+        h2 {
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  p-tabs {
+    padding: 1em;
+
+    ::ng-deep {
+      .p-tablist-tab-list,
+      .p-tabpanels {
+        background: transparent;
+      }
+
+      p-tabpanels {
+        padding: 1em 0;
+
+        p-tabpanel {
+          display: flex;
+          flex-direction: column;
+          gap: 1em;
+        }
+      }
+    }
+  }
+
+  p-card {
+    ::ng-deep {
+      .p-card-body {
+        padding: 0.5em 1em;
+
+        p {
+          display: inline-flex;
+          flex-direction: column;
+          gap: 0.5em;
+        }
+      }
+    }
+  }
+}

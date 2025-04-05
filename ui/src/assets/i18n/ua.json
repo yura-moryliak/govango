@@ -1,5 +1,6 @@
 {
   "Email": "Електронна пошта",
+  "Email.shorten": "Ел. пошта",
   "Password": "Ваш пароль",
   "Enter a password": "Введіть пароль",
   "Weak password": "Слабкий пароль",
@@ -18,7 +19,7 @@
   "First name": "Ім'я",
   "Last name": "Прізвище",
   "Next": "Далі",
-  "Phone number": "Номер телефону",
+  "Phone number": "Телефон",
   "Invalid email": "Невірна пошта",
   "Minimal length is 7 symbols": "Мінімальна довжина 7 символів",
   "Confirm password": "Підтвердіть пароль",
@@ -520,5 +521,9 @@
   "Your password has been successfully change. You can now log in with your new password": "Ваш пароль успішно змінено. Тепер ви можете увійти в систему з новим паролем",
   "Invalid or expired token": "Недійсний або прострочений токен",
   "Invalid credentials": "Введені невірні пароль або електронна пошта",
-  "User already exist": "Користувач вже існує з таким обліковими записом. Переконайтесь у правильності введених облікових даних"
+  "User already exist": "Користувач вже існує з таким обліковими записом. Переконайтесь у правильності введених облікових даних",
+  "Likes": "Файники",
+  "User information": "Інформація",
+  "User cars": "Автівки",
+  "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.": "На даний момент ви не являєтеь перевізником, але це завжди можна змінити. Тицяй кнопку знизу додати своє авто та починай заробляти на перевезеннях будучи завжди достпуним в реальному часі."
 }

@@ -1,7 +1,15 @@
-import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
+import {
+  Action,
+  createSelector,
+  Selector,
+  State,
+  StateContext,
+  StateToken,
+} from '@ngxs/store';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthActions } from './auth.actions';
 import { AuthService } from '../../services/auth.service';
 
@@ -26,6 +34,13 @@ export class AuthState {
   @Selector()
   static accessToken(state: AuthStateModel): string {
     return state.access_token;
+  }
+
+  static id(jwtHelperService: JwtHelperService) {
+    return createSelector(
+      [AuthState.accessToken],
+      (accessToken: string) => jwtHelperService.decodeToken(accessToken)?.sub,
+    );
   }
 
   @Selector()

@@ -1,0 +1,24 @@
+<div class="left-side">
+  <a routerLink="">
+    <h4>GoVanGo</h4>
+  </a>
+</div>
+
+<div class="right-side">
+  <a class="user-section" routerLink="/gvg/profile" routerLinkActive="active-profile">
+    @if (currentUser$ | async; as user) {
+      <span>{{ user?.firstName }} {{ user?.lastName }}</span>
+      <p-avatar
+        #avatar
+        shape="circle"
+        [image]="user?.avatar ? user?.avatar : fallbackAvatar"
+        (onImageError)="handleAvatarImageError()"
+      />
+    } @else {
+      <p-skeleton width="5em" />
+      <p-skeleton shape="circle" size="2.5em" />
+    }
+  </a>
+
+  <p-button size="small" icon="pi pi-sign-out" rounded (onClick)="logout()" />
+</div>

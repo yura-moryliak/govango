@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { RegisterUserInterface } from '../../modules/auth/register/interfaces/register-user.interface';
 import { Store } from '@ngxs/store';
 import { AppSettingsPanelState } from '../states/app-settings-panel/app-settings-panel.state';
+import { User } from '../states/users/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +28,9 @@ export class UsersService {
       userData,
       { headers },
     );
+  }
+
+  getUser(id: string): Observable<User> {
+    return this.httpClient.get<User>(`${this.baseUrl}/${id}`);
   }
 }

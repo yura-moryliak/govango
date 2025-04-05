@@ -1,0 +1,71 @@
+:host {
+  display: flex;
+  height: 4em;
+  align-self: center;
+  padding: 0 1em;
+  border-bottom: 0.063em solid var(--p-divider-border-color);
+
+  .left-side {
+    flex: 1;
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: initial;
+    }
+  }
+
+  .right-side {
+    display: flex;
+    align-items: center;
+    flex: 3;
+    justify-content: flex-end;
+    gap: 1em;
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: initial;
+      gap: 0.5em;
+      transition: 0.3s ease-in;
+
+      @media screen and (max-width: 37.5em) {
+        span {
+          display: none;
+        }
+      }
+
+      p-avatar {
+        display: flex;
+        flex-shrink: 0;
+        width: 2.5em;
+        height: 2.5em;
+        border: 0.188em solid var(--p-button-secondary-background);
+        transition: 0.3s ease-in;
+
+        ::ng-deep {
+          img {
+            object-fit: cover;
+            object-position: top center;
+          }
+        }
+      }
+
+      &:hover,
+      &.active-profile {
+        color: var(--p-primary-color);
+
+        p-avatar {
+          border: 0.188em solid var(--p-primary-color);
+        }
+      }
+
+      &.active-profile {
+        cursor: default;
+      }
+    }
+  }
+}
