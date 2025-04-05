@@ -33,4 +33,8 @@ export class UsersService {
   getUser(id: string): Observable<User> {
     return this.httpClient.get<User>(`${this.baseUrl}/${id}`);
   }
+
+  updateUser(user: Partial<User>): Observable<boolean> {
+    return this.httpClient.put<boolean>(`${this.baseUrl}/${user.id}`, user);
+  }
 }

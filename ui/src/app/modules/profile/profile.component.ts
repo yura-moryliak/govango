@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -37,6 +38,12 @@ import { InputMask } from 'primeng/inputmask';
 import { Divider } from 'primeng/divider';
 import { getObjectDifference } from '../../shared/utils/object-difference';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { UsersActions } from '../../shared/states/users/users.actions';
+import {
+  INITIAL_TOAST_OPTIONS,
+  ToastActions,
+} from '../../shared/states/toast/toast.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface UpdateUserFormGroupInterface {
   firstName: FormControl<string | null>;
@@ -89,6 +96,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     inject(TranslateService);
   private readonly confirmationService: ConfirmationService =
     inject(ConfirmationService);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   private readonly destroyed$: Subject<void> = new Subject<void>();
   private initialFormValue: UpdateUserDataInterface | undefined;
@@ -110,27 +118,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   });
 
   readonly citiesList: CitiesListInterface[] =
-    StaticAssetsService.citiesList.map((city) => ({
+    StaticAssetsService.citiesList.map((city: CitiesListInterface) => ({
       name: this.translateService.instant(city.name),
       value: city.value,
     }));
 
-  isOpened: boolean = false;
+  isDrawerOpened: boolean = false;
   isBusy: boolean = false;
   hasDifference$: Observable<boolean> | undefined;
 
   ngOnInit(): void {
     this.populateForm();
-
-    this.hasDifference$ = this.form.valueChanges.pipe(
-      map(
-        () =>
-          getObjectDifference(
-            this.initialFormValue as UpdateUserDataInterface,
-            this.form.getRawValue(),
-          ).hasDifference,
-      ),
-    );
+    this.setHasDifference();
   }
 
   handleAvatarImageError(): void {
@@ -145,8 +144,32 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.checkChangesOnHide();
   }
 
-  update(): void {
-    console.log(this.form.getRawValue());
+  update(userId: string): void {
+    this.isBusy = true;
+
+    this.store
+      .dispatch(
+        new UsersActions.UpdateCurrentUser({
+          id: userId,
+          ...this.form.getRawValue(),
+        } as User),
+      )
+      .subscribe({
+        next: () => {
+          this.isBusy = false;
+          this.cdr.markForCheck();
+
+          this.initialFormValue =
+            this.form.getRawValue() as UpdateUserDataInterface;
+          this.setHasDifference();
+          this.showSuccessToast();
+        },
+        error: (error) => {
+          this.isBusy = false;
+          this.cdr.markForCheck();
+          this.showErrorToast(error);
+        },
+      });
   }
 
   checkChangesOnHide(): void {
@@ -158,7 +181,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (hasDifference) {
       this.showConfirmationDialog();
     } else {
-      this.isOpened = false;
+      this.isDrawerOpened = false;
     }
   }
 
@@ -205,10 +228,48 @@ export class ProfileComponent implements OnInit, OnDestroy {
       },
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.isOpened = false;
+        this.isDrawerOpened = false;
         this.form.reset(this.initialFormValue);
       },
-      reject: () => (this.isOpened = true),
+      reject: () => (this.isDrawerOpened = true),
     });
+  }
+
+  private setHasDifference(): void {
+    this.hasDifference$ = this.form.valueChanges.pipe(
+      map(
+        () =>
+          getObjectDifference(
+            this.initialFormValue as UpdateUserDataInterface,
+            this.form.getRawValue(),
+          ).hasDifference,
+      ),
+    );
+  }
+
+  private showSuccessToast(): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'success',
+        key: 'success',
+        summary: this.translateService.instant('Success'),
+        detail: this.translateService.instant(
+          'Your account has been updated successfully',
+        ),
+      }),
+    );
+  }
+
+  private showErrorToast(error: HttpErrorResponse): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'error',
+        key: 'error',
+        summary: this.translateService.instant('Error'),
+        detail: this.translateService.instant(error.error.message),
+      }),
+    );
   }
 }

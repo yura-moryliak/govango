@@ -69,7 +69,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     city: new FormControl<string | null>(null, Validators.required),
   });
   readonly citiesList: CitiesListInterface[] =
-    StaticAssetsService.citiesList.map((city) => ({
+    StaticAssetsService.citiesList.map((city: CitiesListInterface) => ({
       name: this.translateService.instant(city.name),
       value: city.value,
     }));
