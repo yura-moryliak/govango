@@ -1,0 +1,236 @@
+<p-drawer
+  [(visible)]="visible"
+  [closable]="false"
+  [closeOnEscape]="false"
+  [blockScroll]="true"
+  [dismissible]="false"
+  position="right"
+  styleClass="common-profile-sidebar"
+>
+  <ng-template #header>
+    <h4>{{ "Add vehicle" | translate }}</h4>
+  </ng-template>
+
+  <form novalidate [formGroup]="form" (ngSubmit)="submit()">
+    <p-iftalabel>
+      <p-inputmask
+        id="registrationPlate"
+        mask="aa9999aa"
+        placeholder="AA000BB"
+        formControlName="registrationPlate"
+        [ngClass]="{
+          'ng-dirty ng-invalid':
+            form.controls.registrationPlate.invalid &&
+            !form.controls.registrationPlate.untouched,
+        }"
+      />
+      <label for="registrationPlate"
+        >{{ "Registration plate" | translate }}
+        <i>({{ "Latin letters" | translate }})</i></label
+      >
+
+      @if (
+        form.controls.registrationPlate.invalid &&
+        !form.controls.registrationPlate.untouched
+      ) {
+        @if (form.controls.registrationPlate.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+      }
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select
+        [options]="carsList"
+        [filter]="true"
+        [virtualScroll]="true"
+        [showClear]="true"
+        [virtualScrollItemSize]="40"
+        [lazy]="true"
+        (onChange)="carMakeChanges($event)"
+        id="make"
+        appendTo="body"
+        optionLabel="make"
+        filterBy="make"
+        formControlName="make"
+        emptyFilterMessage="{{ 'No results found' | translate }}"
+        [ngClass]="{
+          'ng-dirty ng-invalid':
+            form.controls.make.invalid && !form.controls.make.untouched,
+        }"
+      >
+      </p-select>
+      <label for="make">{{ "Car make" | translate }}</label>
+
+      @if (form.controls.make.invalid && !form.controls.make.untouched) {
+        @if (form.controls.make.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+      }
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select
+        [options]="carsModelsList"
+        [filter]="true"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="40"
+        [lazy]="true"
+        id="model"
+        appendTo="body"
+        optionLabel="name"
+        filterBy="name"
+        formControlName="model"
+        emptyFilterMessage="{{ 'No results found' | translate }}"
+        [ngClass]="{
+          'ng-dirty ng-invalid':
+            form.controls.model.invalid && !form.controls.model.untouched,
+        }"
+      >
+      </p-select>
+      <label for="make">{{ "Car model" | translate }}</label>
+
+      @if (form.controls.model.invalid && !form.controls.model.untouched) {
+        @if (form.controls.model.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+      }
+    </p-iftalabel>
+
+    <div class="custom-form-controls">
+      <p-iftalabel>
+        <p-inputNumber
+          id="length"
+          suffix=" {{ 'meter' | translate }}"
+          formControlName="length"
+          inputId="minmaxfraction"
+          mode="decimal"
+          [min]="0"
+          [minFractionDigits]="1"
+          [maxFractionDigits]="1"
+          [ngClass]="{
+            'ng-dirty ng-invalid':
+              form.controls.length.invalid && !form.controls.length.untouched,
+          }"
+        />
+        <label for="length">{{ "Length" | translate }}</label>
+
+        @if (form.controls.length.invalid && !form.controls.length.untouched) {
+          @if (form.controls.length.errors?.["required"]) {
+            <small class="validation-error">{{
+              "This field is required" | translate
+            }}</small>
+          }
+        }
+      </p-iftalabel>
+
+      <p-iftalabel>
+        <p-inputNumber
+          id="width"
+          suffix=" {{ 'meter' | translate }}"
+          formControlName="width"
+          inputId="minmaxfraction"
+          mode="decimal"
+          [min]="0"
+          [minFractionDigits]="1"
+          [maxFractionDigits]="1"
+          [ngClass]="{
+            'ng-dirty ng-invalid':
+              form.controls.width.invalid && !form.controls.width.untouched,
+          }"
+        />
+        <label for="width">{{ "Width" | translate }}</label>
+
+        @if (form.controls.width.invalid && !form.controls.width.untouched) {
+          @if (form.controls.width.errors?.["required"]) {
+            <small class="validation-error">{{
+              "This field is required" | translate
+            }}</small>
+          }
+        }
+      </p-iftalabel>
+    </div>
+
+    <div class="custom-form-controls">
+      <p-iftalabel>
+        <p-inputNumber
+          id="height"
+          suffix=" {{ 'meter' | translate }}"
+          formControlName="height"
+          inputId="minmaxfraction"
+          mode="decimal"
+          [min]="0"
+          [minFractionDigits]="1"
+          [maxFractionDigits]="1"
+          [ngClass]="{
+            'ng-dirty ng-invalid':
+              form.controls.height.invalid && !form.controls.height.untouched,
+          }"
+        />
+        <label for="height">{{ "Height" | translate }}</label>
+
+        @if (form.controls.height.invalid && !form.controls.height.untouched) {
+          @if (form.controls.length.errors?.["required"]) {
+            <small class="validation-error">{{
+              "This field is required" | translate
+            }}</small>
+          }
+        }
+      </p-iftalabel>
+
+      <p-iftalabel>
+        <p-inputNumber
+          id="carryCapacity"
+          suffix=" {{ 'ton' | translate }}"
+          formControlName="carryCapacity"
+          inputId="minmaxfraction"
+          mode="decimal"
+          [min]="0"
+          [minFractionDigits]="1"
+          [maxFractionDigits]="1"
+          [ngClass]="{
+            'ng-dirty ng-invalid':
+              form.controls.carryCapacity.invalid &&
+              !form.controls.carryCapacity.untouched,
+          }"
+        />
+        <label for="carryCapacity">{{ "Carry capacity" | translate }}</label>
+
+        @if (
+          form.controls.carryCapacity.invalid &&
+          !form.controls.carryCapacity.untouched
+        ) {
+          @if (form.controls.carryCapacity.errors?.["required"]) {
+            <small class="validation-error">{{
+              "This field is required" | translate
+            }}</small>
+          }
+        }
+      </p-iftalabel>
+    </div>
+
+    <div class="button-group">
+      <p-button
+        severity="secondary"
+        label="{{ 'Cancel' | translate }}"
+        (onClick)="cancel()"
+      />
+      <p-button
+        type="submit"
+        [label]="
+          isBusy ? ('In progress' | translate) : ('Add vehicle' | translate)
+        "
+        [loading]="isBusy"
+        [disabled]="
+          form.invalid || !form.value.model?.name || !(hasDifference$ | async)
+        "
+      />
+    </div>
+  </form>
+</p-drawer>

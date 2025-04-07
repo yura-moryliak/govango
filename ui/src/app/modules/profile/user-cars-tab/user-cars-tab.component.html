@@ -5,8 +5,20 @@
         | translate
     }}</small>
 
-    <p-button icon="pi pi-plus" size="small" rounded />
+    <p-button
+      icon="pi pi-plus"
+      size="small"
+      rounded
+      (onClick)="isManageCarsSidebarVisible = true"
+    />
   </div>
+
+  <gvg-manage-cars-sidebar
+    [user]="user"
+    [visible]="isManageCarsSidebarVisible"
+    (closed)="isManageCarsSidebarVisible = false"
+  >
+  </gvg-manage-cars-sidebar>
 } @else {
   Under construction
 }

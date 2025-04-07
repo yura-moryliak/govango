@@ -128,7 +128,17 @@ export class UpdateProfileSidebarComponent implements OnInit {
   }
 
   cancel(): void {
-    this.checkChangesOnHide();
+    const { hasDifference } = getObjectDifference(
+      this.initialFormValue as UpdateUserDataInterface,
+      this.form.getRawValue(),
+    );
+
+    if (hasDifference) {
+      this.showConfirmationDialog();
+    } else {
+      this.visible = false;
+      this.closed.emit();
+    }
   }
 
   update(): void {
@@ -157,20 +167,6 @@ export class UpdateProfileSidebarComponent implements OnInit {
           this.showErrorToast(error);
         },
       });
-  }
-
-  checkChangesOnHide(): void {
-    const { hasDifference } = getObjectDifference(
-      this.initialFormValue as UpdateUserDataInterface,
-      this.form.getRawValue(),
-    );
-
-    if (hasDifference) {
-      this.showConfirmationDialog();
-    } else {
-      this.visible = false;
-      this.closed.emit();
-    }
   }
 
   private populateForm(user: User): void {

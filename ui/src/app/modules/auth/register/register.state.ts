@@ -191,7 +191,7 @@ export class RegisterState {
       ...(getState().step1.userInfoData.isCarOwner && {
         userCarInfo: {
           ...getState().step3.userCarInfo,
-          make: getState().step3.userCarInfo.make.make,
+          make: getState().step3.userCarInfo.make?.make ?? '',
           model: getState().step3.userCarInfo.model.name,
         },
       }),

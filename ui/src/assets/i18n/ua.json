@@ -525,7 +525,7 @@
   "Likes": "Файники",
   "User information": "Інформація",
   "User cars": "Автівки",
-  "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.": "На даний момент ви не являєтеь перевізником, але це завжди можна змінити. Тицяй кнопку знизу додати своє авто та починай заробляти на перевезеннях будучи завжди достпуним в реальному часі.",
+  "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.": "На даний момент ви не є перевізником, але це завжди можна змінити. Тицяй кнопку знизу додати своє авто та починай заробляти на перевезеннях будучи завжди достпуним в реальному часі.",
   "Update profile": "Оновлення профілю",
   "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy.": "З міркувань безпеки та захисту облікового запису ми не дозволяємо змінювати електронну адресу, але ми відображаємо її для достовірності.",
   "Cancel": "Скасувати",
@@ -541,5 +541,6 @@
   "Invalid file. Modification date is not available.": "Недійсний файл. Дата зміни недоступна.",
   "Your avatar has been uploaded successfully": "Ваш аватар успішно завантажено",
   "Maximum length is 22 symbols": "Максимальна довжина 22 символи",
-  "actual": "фактично"
+  "actual": "фактично",
+  "Add vehicle": "Додати авто"
 }
