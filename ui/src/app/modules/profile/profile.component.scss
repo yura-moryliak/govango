@@ -1,20 +1,15 @@
 :host {
-  .structure {
+  .container {
     display: grid;
-    grid-template-rows: 20em auto;
+    grid-template-columns: 1fr 50em 1fr;
 
-    .structure-content {
-      justify-self: center;
-      width: 100%;
-      max-width: 50em;
+    @media screen and (max-width: 53.125em) {
+      grid-template-columns: 1fr;
     }
-  }
 
-  .profile-container {
-    align-items: center;
-    height: 100%;
-
-    .user-section {
+    .profile-card {
+      display: flex;
+      justify-content: flex-end;
       background-color: var(--p-drawer-background);
       background-image: url("/assets/images/cover.jpg");
       background-repeat: no-repeat;
@@ -23,94 +18,96 @@
       padding: 1em;
       border-radius: 0.5em;
       height: 10em;
-      position: relative;
-      display: flex;
-      justify-content: flex-end;
+      grid-column: 2;
+
+      @media screen and (max-width: 53.125em) {
+        grid-column: auto;
+      }
 
       @media screen and (max-width: 37.5em) {
         height: 6em;
+        align-self: center;
+      }
+    }
+
+    .profile-avatar-and-info {
+      display: flex;
+      grid-column: 2;
+
+      @media screen and (max-width: 53.125em) {
+        grid-column: auto;
       }
 
-      .avatar-and-user-info {
-        position: absolute;
+      @media screen and (max-width: 37.5em) {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .avatar-and-upload {
         display: flex;
-        align-items: flex-end;
-        bottom: -5em;
-        left: 0;
-        padding-left: 1em;
-        justify-content: flex-end;
+        flex-direction: row-reverse;
+        position: relative;
+        margin-left: 1em;
+        margin-top: -5em;
 
-        @media screen and (max-width: 37.5em) {
-          flex-direction: column;
-          align-items: center;
-          left: 50%;
-          transform: translateX(-50%);
-          bottom: -8em;
-        }
+        p-avatar {
+          width: 10em;
+          height: 10em;
+          border: 0.188em solid var(--p-button-secondary-background);
+          font-size: initial;
 
-        .avatar-with-camera-icon {
-          position: relative;
-
-          p-avatar {
-            width: 10em;
-            height: 10em;
-            border: 0.188em solid var(--p-button-secondary-background);
-            font-size: initial;
-
-            ::ng-deep {
-              img {
-                object-fit: cover;
-                object-position: top center;
-              }
+          ::ng-deep {
+            img {
+              object-fit: cover;
+              object-position: top center;
             }
           }
+        }
 
-          gvg-profile-avatar-upload {
-            position: absolute;
-            left: 0;
+        gvg-profile-avatar-upload {
+          position: absolute;
+          left: 0;
+        }
+      }
+
+      h2 {
+        margin: 0;
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        flex-wrap: wrap;
+        padding-top: 1em;
+        text-align: center;
+
+        @media screen and (max-width: 37.5em) {
+          justify-content: center;
+        }
+      }
+    }
+
+    p-tabs {
+      padding: 1em;
+      grid-column: 2;
+      margin-top: 2em;
+
+      @media screen and (max-width: 53.125em) {
+        grid-column: auto;
+      }
+
+      ::ng-deep {
+        .p-tablist-tab-list,
+        .p-tabpanels {
+          background: transparent;
+        }
+
+        p-tabpanels {
+          padding: 1em 0;
+
+          p-tabpanel {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
           }
-        }
-
-        h2 {
-          margin: 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
-    }
-  }
-
-  p-tabs {
-    padding: 1em;
-
-    ::ng-deep {
-      .p-tablist-tab-list,
-      .p-tabpanels {
-        background: transparent;
-      }
-
-      p-tabpanels {
-        padding: 1em 0;
-
-        p-tabpanel {
-          display: flex;
-          flex-direction: column;
-          gap: 1em;
-        }
-      }
-    }
-  }
-
-  p-card {
-    ::ng-deep {
-      .p-card-body {
-        padding: 0.5em 1em;
-
-        p {
-          display: inline-flex;
-          flex-direction: column;
-          gap: 0.5em;
         }
       }
     }

@@ -1,83 +1,73 @@
-<div class="structure">
-  <div class="structure-content">
-    <div class="profile-container">
-      <div class="user-section">
-        <p-button
-          icon="pi pi-pencil"
-          size="small"
-          rounded
-          (onClick)="isDrawerOpened = true"
-        />
-
-        <div class="avatar-and-user-info">
-          <div class="avatar-with-camera-icon">
-            <p-avatar
-              #avatar
-              size="xlarge"
-              shape="circle"
-              [image]="
-                (currentUser$ | async)?.avatar
-                  ? (currentUser$ | async)?.avatar
-                  : fallbackAvatar
-              "
-              (onImageError)="handleAvatarImageError()"
-            >
-            </p-avatar>
-            <gvg-profile-avatar-upload
-              [user]="currentUser$ | async"
-            ></gvg-profile-avatar-upload>
-          </div>
-
-          <h2>
-            {{ (currentUser$ | async)?.firstName }}
-            {{ (currentUser$ | async)?.lastName }}
-          </h2>
-        </div>
-      </div>
+<div class="container">
+  <div class="profile-card">
+    <p-button icon="pi pi-pencil" rounded (onClick)="isDrawerOpened = true" />
+  </div>
+  <div class="profile-avatar-and-info">
+    <div class="avatar-and-upload">
+      <p-avatar
+        #avatar
+        size="xlarge"
+        shape="circle"
+        [image]="
+          (currentUser$ | async)?.avatar
+            ? (currentUser$ | async)?.avatar
+            : fallbackAvatar
+        "
+        (onImageError)="handleAvatarImageError()"
+      >
+      </p-avatar>
+      <gvg-profile-avatar-upload
+        [user]="currentUser$ | async"
+      ></gvg-profile-avatar-upload>
     </div>
 
-    @if (currentUser$ | async; as user) {
-      @if (user.isCarOwner) {
-        <p-tabs value="0">
-          <p-tablist>
-            <p-tab value="0">{{ "User cars" | translate }}</p-tab>
-            <p-tab value="1">{{ "User information" | translate }}</p-tab>
-          </p-tablist>
-          <p-tabpanels>
-            <p-tabpanel value="0">
-              <gvg-user-cars-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-cars-tab>
-            </p-tabpanel>
-            <p-tabpanel value="1">
-              <gvg-user-info-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-info-tab>
-            </p-tabpanel>
-          </p-tabpanels>
-        </p-tabs>
-      } @else {
-        <p-tabs value="0">
-          <p-tablist>
-            <p-tab value="0">{{ "User information" | translate }}</p-tab>
-            <p-tab value="1">{{ "User cars" | translate }}</p-tab>
-          </p-tablist>
-          <p-tabpanels>
-            <p-tabpanel value="0">
-              <gvg-user-info-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-info-tab>
-            </p-tabpanel>
-            <p-tabpanel value="1">
-              <gvg-user-cars-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-cars-tab>
-            </p-tabpanel>
-          </p-tabpanels>
-        </p-tabs>
-      }
-    }
+    <h2>
+      {{ (currentUser$ | async)?.firstName }}
+      {{ (currentUser$ | async)?.lastName }}
+    </h2>
   </div>
+
+  @if (currentUser$ | async; as user) {
+    @if (user.isCarOwner) {
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0">{{ "User cars" | translate }}</p-tab>
+          <p-tab value="1">{{ "User information" | translate }}</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <gvg-user-cars-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-cars-tab>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <gvg-user-info-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-info-tab>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    } @else {
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0">{{ "User information" | translate }}</p-tab>
+          <p-tab value="1">{{ "User cars" | translate }}</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <gvg-user-info-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-info-tab>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <gvg-user-cars-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-cars-tab>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    }
+  }
 </div>
 
 @if (currentUser$ | async; as user) {
@@ -261,4 +251,3 @@
 }
 
 <p-confirmDialog styleClass="unsaved-profile-changes-dialog" />
-<!--p-dialog-mask-->
