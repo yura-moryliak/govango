@@ -100,8 +100,14 @@ export class UpdateProfileSidebarComponent implements OnInit {
   @Output() closed: EventEmitter<void> = new EventEmitter();
 
   readonly form: FormGroup<UpdateUserFormGroupInterface> = new FormGroup({
-    firstName: new FormControl<string | null>(null, Validators.required),
-    lastName: new FormControl<string | null>(null, Validators.required),
+    firstName: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.maxLength(22),
+    ]),
+    lastName: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.maxLength(22),
+    ]),
     city: new FormControl<string | null>(null, Validators.required),
     phoneNumber: new FormControl<string | null>(null, [Validators.required]),
     email: new FormControl<string | null>({ value: null, disabled: true }),

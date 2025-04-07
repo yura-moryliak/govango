@@ -28,25 +28,8 @@
         type="email"
         autocomplete="off"
         formControlName="email"
-        [ngClass]="{
-          'ng-dirty ng-invalid':
-            form.controls.email.invalid && !form.controls.email.untouched,
-        }"
       />
       <label for="email">{{ "Email" | translate }}</label>
-
-      @if (form.controls.email.invalid && !form.controls.email.untouched) {
-        @if (form.controls.email.errors?.["required"]) {
-          <small class="validation-error">{{
-            "This field is required" | translate
-          }}</small>
-        }
-        @if (form.controls.email.errors?.["email"]) {
-          <small class="validation-error">{{
-            "Invalid email" | translate
-          }}</small>
-        }
-      }
     </p-iftalabel>
 
     <p-divider />
@@ -73,6 +56,17 @@
             "This field is required" | translate
           }}</small>
         }
+        @if (form.controls.firstName.errors?.["maxlength"]) {
+          <small class="validation-error"
+            >{{ "Maximum length is 22 symbols" | translate }} -
+            <i
+              >{{ "actual" | translate }}:
+              {{
+                form.controls.firstName.errors?.["maxlength"].actualLength
+              }}</i
+            ></small
+          >
+        }
       }
     </p-iftalabel>
 
@@ -96,6 +90,15 @@
           <small class="validation-error">{{
             "This field is required" | translate
           }}</small>
+        }
+        @if (form.controls.lastName.errors?.["maxlength"]) {
+          <small class="validation-error"
+            >{{ "Maximum length is 22 symbols" | translate }} -
+            <i
+              >{{ "actual" | translate }}:
+              {{ form.controls.lastName.errors?.["maxlength"].actualLength }}</i
+            ></small
+          >
         }
       }
     </p-iftalabel>

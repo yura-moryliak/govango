@@ -539,5 +539,7 @@
   "File is empty. Please select a valid file.": "File is empty. Please select a valid file.",
   "Invalid file. File name is missing.": "Invalid file. File name is missing.",
   "Invalid file. Modification date is not available.": "Invalid file. Modification date is not available.",
-  "Your avatar has been uploaded successfully": "Your avatar has been uploaded successfully"
+  "Your avatar has been uploaded successfully": "Your avatar has been uploaded successfully",
+  "Maximum length is 22 symbols": "Maximum length is 22 symbols",
+  "actual": "actual"
 }

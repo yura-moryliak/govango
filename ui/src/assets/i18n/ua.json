@@ -539,5 +539,7 @@
   "File is empty. Please select a valid file.": "Файл порожній. Будь ласка, виберіть дійсний файл.",
   "Invalid file. File name is missing.": "Недійсний файл. Відсутня назва файлу.",
   "Invalid file. Modification date is not available.": "Недійсний файл. Дата зміни недоступна.",
-  "Your avatar has been uploaded successfully": "Ваш аватар успішно завантажено"
+  "Your avatar has been uploaded successfully": "Ваш аватар успішно завантажено",
+  "Maximum length is 22 symbols": "Максимальна довжина 22 символи",
+  "actual": "фактично"
 }
