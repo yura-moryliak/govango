@@ -20,5 +20,7 @@
   >
   </gvg-manage-cars-sidebar>
 } @else {
-  Under construction
+  @if (cars$ | async; as cars) {
+    <pre>{{ cars | json }}</pre>
+  }
 }

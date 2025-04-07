@@ -2,6 +2,17 @@
   <li>
     <p>
       <span>
+        <i class="pi pi-user"></i>
+        <span>{{ "User type" | translate }}</span>
+      </span>
+      <span>{{
+        user?.isCarOwner ? ("Carrier" | translate) : ("Customer" | translate)
+      }}</span>
+    </p>
+  </li>
+  <li>
+    <p>
+      <span>
         <i class="pi pi-phone"></i>
         <span>{{ "Phone number" | translate }}</span>
       </span>

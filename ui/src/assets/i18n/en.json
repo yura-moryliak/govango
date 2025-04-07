@@ -543,5 +543,8 @@
   "Maximum length is 22 symbols": "Maximum length is 22 symbols",
   "actual": "actual",
   "Add vehicle": "Add vehicle",
-  "Your vehicle has been added successfully": "Your vehicle has been added successfully"
+  "Your vehicle has been added successfully": "Your vehicle has been added successfully",
+  "Carrier": "Carrier",
+  "Customer": "Customer",
+  "User type": "User type"
 }

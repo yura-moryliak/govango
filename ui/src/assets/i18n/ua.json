@@ -543,5 +543,8 @@
   "Maximum length is 22 symbols": "Максимальна довжина 22 символи",
   "actual": "фактично",
   "Add vehicle": "Додати авто",
-  "Your vehicle has been added successfully": "Your vehicle has been added successfully"
+  "Your vehicle has been added successfully": "Ваше авто успішно додано",
+  "Carrier": "Перевізник",
+  "Customer": "Замовник",
+  "User type": "Тип користувача"
 }

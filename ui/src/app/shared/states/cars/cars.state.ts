@@ -2,6 +2,7 @@ import { Car } from './cars.interface';
 import {
   Action,
   createSelector,
+  Selector,
   State,
   StateContext,
   StateToken,
@@ -31,11 +32,13 @@ export const CARS_STATE_TOKEN = new StateToken<CarsStateModel>('cars');
 export class CarsState {
   private readonly carsService: CarService = inject(CarService);
 
+  @Selector()
+  static byId(state: CarsStateModel): CarsStateModel['byId'] {
+    return state.byId;
+  }
+
   static carsByUserId(userId: string) {
-    return createSelector(
-      [CarsState],
-      () => (state: CarsStateModel) => state.byId[userId].cars,
-    );
+    return createSelector([CarsState.byId], (byId) => byId[userId]?.cars);
   }
 
   @Action(CarsActions.AddCar, { cancelUncompleted: true })

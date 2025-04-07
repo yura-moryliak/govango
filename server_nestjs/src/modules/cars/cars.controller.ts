@@ -22,7 +22,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ALL_CARS_OK_RESPONSE_EXAMPLE } from './cars.swagger';
+import {
+  ADDED_CAR_OK_RESPONSE_EXAMPLE,
+  ALL_CARS_OK_RESPONSE_EXAMPLE,
+} from './cars.swagger';
 
 @ApiBearerAuth()
 @Controller()
@@ -33,7 +36,7 @@ export class CarsController {
   @Post(':userId')
   @ApiOkResponse({
     description: 'Car was successfully created for userId',
-    example: true, // TODO Need to return SCHEMA as in user-details.controller.ts
+    example: ADDED_CAR_OK_RESPONSE_EXAMPLE,
   })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Car was not created' })

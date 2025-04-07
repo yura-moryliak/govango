@@ -4,7 +4,7 @@ const ACTION_SCOPE = ['Cars'];
 
 export namespace CarsActions {
   export class AddCar {
-    static readonly type = `${ACTION_SCOPE} AddCar`;
+    static readonly type = `${ACTION_SCOPE} Add car`;
     constructor(
       public userId: string,
       public car: Car,
