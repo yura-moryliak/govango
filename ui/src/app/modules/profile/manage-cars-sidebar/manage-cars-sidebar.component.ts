@@ -34,6 +34,14 @@ import { getObjectDifference } from '../../../shared/utils/object-difference';
 import { ConfirmationService } from 'primeng/api';
 import { Store } from '@ngxs/store';
 import { UserCarInfoDataInterface } from '../../auth/register/interfaces/user-car-info-data.interface';
+import { Car } from '../../../shared/states/cars/cars.interface';
+import { CarsActions } from '../../../shared/states/cars/cars.actions';
+import {
+  INITIAL_TOAST_OPTIONS,
+  ToastActions,
+} from '../../../shared/states/toast/toast.actions';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UsersActions } from '../../../shared/states/users/users.actions';
 
 interface UserCarFormGroupInterface {
   registrationPlate: FormControl<string | null>;
@@ -149,11 +157,47 @@ export class ManageCarsSidebarComponent implements OnInit {
   }
 
   submit(): void {
-    // const { make, model } = this.form.getRawValue();
-    // const carMake = make?.make;
-    // console.log(carMake, model?.name);
+    const { make, model } = this.form.getRawValue();
+    const carMake = make?.make;
 
-    console.log(this.form.getRawValue());
+    const carModel = {
+      ...this.form.getRawValue(),
+      make: carMake as string,
+      model: model?.name as string,
+    } as Car;
+
+    const newCarrierActions = [
+      new UsersActions.UpdateCurrentUser({
+        ...this.currentUser,
+        isCarOwner: !this.currentUser?.isCarOwner
+          ? true
+          : this.currentUser?.isCarOwner,
+      }),
+      new CarsActions.AddCar(this.currentUser?.id as string, carModel),
+    ];
+
+    this.store
+      .dispatch(
+        !this.currentUser?.isCarOwner
+          ? newCarrierActions
+          : new CarsActions.AddCar(this.currentUser?.id as string, carModel),
+      )
+      .subscribe({
+        next: () => {
+          this.isBusy = false;
+          this.cdr.markForCheck();
+
+          this.initialFormValue =
+            this.form.getRawValue() as UserCarInfoDataInterface;
+          this.setHasDifference();
+          this.showSuccessToast();
+        },
+        error: (error) => {
+          this.isBusy = false;
+          this.cdr.markForCheck();
+          this.showErrorToast(error);
+        },
+      });
   }
 
   private showConfirmationDialog(): void {
@@ -191,6 +235,32 @@ export class ManageCarsSidebarComponent implements OnInit {
             this.form.getRawValue(),
           ).hasDifference,
       ),
+    );
+  }
+
+  private showSuccessToast(): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'success',
+        key: 'success',
+        summary: this.translateService.instant('Success'),
+        detail: this.translateService.instant(
+          'Your vehicle has been added successfully',
+        ),
+      }),
+    );
+  }
+
+  private showErrorToast(error: HttpErrorResponse): void {
+    this.store.dispatch(
+      new ToastActions.ShowToast({
+        ...INITIAL_TOAST_OPTIONS,
+        severity: 'error',
+        key: 'error',
+        summary: this.translateService.instant('Error'),
+        detail: this.translateService.instant(error.error.message),
+      }),
     );
   }
 }

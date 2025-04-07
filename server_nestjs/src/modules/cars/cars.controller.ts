@@ -33,7 +33,7 @@ export class CarsController {
   @Post(':userId')
   @ApiOkResponse({
     description: 'Car was successfully created for userId',
-    example: true,
+    example: true, // TODO Need to return SCHEMA as in user-details.controller.ts
   })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Car was not created' })
@@ -43,9 +43,12 @@ export class CarsController {
   async createCar(
     @Param('userId') userId: string,
     @Body() createCarDto: CarDto,
-  ): Promise<boolean> {
-    await this.carsService.createCar(userId, createCarDto);
-    return true;
+  ): Promise<CarEntity> {
+    const { user, ...car } = await this.carsService.createCar(
+      userId,
+      createCarDto,
+    );
+    return car as CarEntity;
   }
 
   @UseGuards(JwtAuthGuard)
