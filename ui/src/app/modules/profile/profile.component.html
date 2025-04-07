@@ -1,264 +1,83 @@
-<div class="structure">
-  <div class="structure-content">
-    <div class="profile-container">
-      <div class="user-section">
-        <p-button
-          icon="pi pi-pencil"
-          size="small"
-          rounded
-          (onClick)="isDrawerOpened = true"
-        />
-
-        <div class="avatar-and-user-info">
-          <div class="avatar-with-camera-icon">
-            <p-avatar
-              #avatar
-              size="xlarge"
-              shape="circle"
-              [image]="
-                (currentUser$ | async)?.avatar
-                  ? (currentUser$ | async)?.avatar
-                  : fallbackAvatar
-              "
-              (onImageError)="handleAvatarImageError()"
-            >
-            </p-avatar>
-            <gvg-profile-avatar-upload
-              [user]="currentUser$ | async"
-            ></gvg-profile-avatar-upload>
-          </div>
-
-          <h2>
-            {{ (currentUser$ | async)?.firstName }}
-            {{ (currentUser$ | async)?.lastName }}
-          </h2>
-        </div>
-      </div>
-    </div>
-
-    @if (currentUser$ | async; as user) {
-      @if (user.isCarOwner) {
-        <p-tabs value="0">
-          <p-tablist>
-            <p-tab value="0">{{ "User cars" | translate }}</p-tab>
-            <p-tab value="1">{{ "User information" | translate }}</p-tab>
-          </p-tablist>
-          <p-tabpanels>
-            <p-tabpanel value="0">
-              <gvg-user-cars-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-cars-tab>
-            </p-tabpanel>
-            <p-tabpanel value="1">
-              <gvg-user-info-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-info-tab>
-            </p-tabpanel>
-          </p-tabpanels>
-        </p-tabs>
-      } @else {
-        <p-tabs value="0">
-          <p-tablist>
-            <p-tab value="0">{{ "User information" | translate }}</p-tab>
-            <p-tab value="1">{{ "User cars" | translate }}</p-tab>
-          </p-tablist>
-          <p-tabpanels>
-            <p-tabpanel value="0">
-              <gvg-user-info-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-info-tab>
-            </p-tabpanel>
-            <p-tabpanel value="1">
-              <gvg-user-cars-tab
-                [user]="currentUser$ | async"
-              ></gvg-user-cars-tab>
-            </p-tabpanel>
-          </p-tabpanels>
-        </p-tabs>
-      }
-    }
+<div class="container">
+  <div class="profile-card">
+    <p-button
+      icon="pi pi-pencil"
+      rounded
+      (onClick)="isUpdateProfileSidebarVisible = true"
+    />
   </div>
+  <div class="profile-avatar-and-info">
+    <div class="avatar-and-upload">
+      <p-avatar
+        #avatar
+        size="xlarge"
+        shape="circle"
+        [image]="
+          (currentUser$ | async)?.avatar
+            ? (currentUser$ | async)?.avatar
+            : fallbackAvatar
+        "
+        (onImageError)="handleAvatarImageError()"
+      >
+      </p-avatar>
+      <gvg-profile-avatar-upload
+        [user]="currentUser$ | async"
+      ></gvg-profile-avatar-upload>
+    </div>
+    <h2>
+      {{ (currentUser$ | async)?.firstName }}
+      {{ (currentUser$ | async)?.lastName }}
+    </h2>
+  </div>
+
+  @if (currentUser$ | async; as user) {
+    @if (user.isCarOwner) {
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0">{{ "User cars" | translate }}</p-tab>
+          <p-tab value="1">{{ "User information" | translate }}</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <gvg-user-cars-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-cars-tab>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <gvg-user-info-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-info-tab>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    } @else {
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0">{{ "User information" | translate }}</p-tab>
+          <p-tab value="1">{{ "User cars" | translate }}</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <gvg-user-info-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-info-tab>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <gvg-user-cars-tab
+              [user]="currentUser$ | async"
+            ></gvg-user-cars-tab>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    }
+  }
 </div>
 
 @if (currentUser$ | async; as user) {
-  <p-drawer
-    [(visible)]="isDrawerOpened"
-    [closable]="true"
-    [closeOnEscape]="false"
-    [blockScroll]="true"
-    [dismissible]="false"
-    (onHide)="checkChangesOnHide()"
-    position="right"
-    styleClass="update-profile-drawer"
+  <gvg-update-profile-sidebar
+    [user]="user"
+    [visible]="isUpdateProfileSidebarVisible"
+    (closed)="isUpdateProfileSidebarVisible = false"
   >
-    <ng-template #header>
-      <h4>{{ "Update profile" | translate }}</h4>
-    </ng-template>
-
-    <form novalidate [formGroup]="form" (ngSubmit)="update(user.id)">
-      <small class="warning-panel">
-        <i class="pi pi-exclamation-triangle"></i>
-        {{
-          "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy."
-            | translate
-        }}
-      </small>
-
-      <p-iftalabel>
-        <input
-          pInputText
-          id="email"
-          type="email"
-          autocomplete="off"
-          formControlName="email"
-          [ngClass]="{
-            'ng-dirty ng-invalid':
-              form.controls.email.invalid && !form.controls.email.untouched,
-          }"
-        />
-        <label for="email">{{ "Email" | translate }}</label>
-
-        @if (form.controls.email.invalid && !form.controls.email.untouched) {
-          @if (form.controls.email.errors?.["required"]) {
-            <small class="validation-error">{{
-              "This field is required" | translate
-            }}</small>
-          }
-          @if (form.controls.email.errors?.["email"]) {
-            <small class="validation-error">{{
-              "Invalid email" | translate
-            }}</small>
-          }
-        }
-      </p-iftalabel>
-
-      <p-divider />
-
-      <p-iftalabel>
-        <input
-          pInputText
-          id="firstName"
-          formControlName="firstName"
-          autocomplete="off"
-          [ngClass]="{
-            'p-invalid':
-              form.controls.firstName.invalid &&
-              !form.controls.firstName.untouched,
-          }"
-        />
-        <label for="firstName">{{ "First name" | translate }}</label>
-
-        @if (
-          form.controls.firstName.invalid && !form.controls.firstName.untouched
-        ) {
-          @if (form.controls.firstName.errors?.["required"]) {
-            <small class="validation-error">{{
-              "This field is required" | translate
-            }}</small>
-          }
-        }
-      </p-iftalabel>
-
-      <p-iftalabel>
-        <input
-          pInputText
-          id="lastName"
-          formControlName="lastName"
-          autocomplete="off"
-          [ngClass]="{
-            'p-invalid':
-              form.controls.lastName.invalid &&
-              !form.controls.lastName.untouched,
-          }"
-        />
-        <label for="lastName">{{ "Last name" | translate }}</label>
-
-        @if (
-          form.controls.lastName.invalid && !form.controls.lastName.untouched
-        ) {
-          @if (form.controls.lastName.errors?.["required"]) {
-            <small class="validation-error">{{
-              "This field is required" | translate
-            }}</small>
-          }
-        }
-      </p-iftalabel>
-
-      <p-iftalabel>
-        <p-inputmask
-          id="phoneNumber"
-          mask="+380 99 9999999"
-          autocomplete="off"
-          formControlName="phoneNumber"
-          [ngClass]="{
-            'ng-dirty ng-invalid':
-              form.controls.phoneNumber.invalid &&
-              !form.controls.phoneNumber.untouched,
-          }"
-        />
-        <label for="phoneNumber">{{ "Phone number" | translate }}</label>
-
-        @if (
-          form.controls.phoneNumber.invalid &&
-          !form.controls.phoneNumber.untouched
-        ) {
-          @if (form.controls.phoneNumber.errors?.["required"]) {
-            <small class="validation-error">{{
-              "This field is required" | translate
-            }}</small>
-          }
-        }
-      </p-iftalabel>
-
-      <p-iftalabel>
-        <p-select
-          [filter]="true"
-          [options]="citiesList"
-          filterBy="name"
-          inputId="city"
-          optionLabel="name"
-          optionValue="value"
-          formControlName="city"
-          appendTo="body"
-          emptyFilterMessage="{{ 'No results found' | translate }}"
-          [ngClass]="{
-            'ng-dirty ng-invalid':
-              form.controls.city.invalid && !form.controls.city.untouched,
-          }"
-        >
-          <ng-template let-city pTemplate="item">{{
-            city.name | translate
-          }}</ng-template>
-        </p-select>
-        <label for="city">{{ "City" | translate }}</label>
-
-        @if (form.controls.city.invalid && !form.controls.city.untouched) {
-          @if (form.controls.city.errors?.["required"]) {
-            <small class="validation-error">{{
-              "This field is required" | translate
-            }}</small>
-          }
-        }
-      </p-iftalabel>
-
-      <div class="button-group">
-        <p-button
-          severity="secondary"
-          label="{{ 'Cancel' | translate }}"
-          (onClick)="cancel()"
-        />
-        <p-button
-          type="submit"
-          [label]="
-            isBusy ? ('In progress' | translate) : ('Update' | translate)
-          "
-          [loading]="isBusy"
-          [disabled]="form.invalid || !(hasDifference$ | async)"
-        />
-      </div>
-    </form>
-  </p-drawer>
+  </gvg-update-profile-sidebar>
 }
-
-<p-confirmDialog styleClass="unsaved-profile-changes-dialog" />
-<!--p-dialog-mask-->

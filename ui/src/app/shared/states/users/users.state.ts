@@ -42,17 +42,15 @@ export class UsersState {
     { patchState, getState }: StateContext<UsersStateModel>,
     { user }: UsersActions.UpdateCurrentUser,
   ): Observable<boolean> {
-    return this.usersService
-      .updateUser(user)
-      .pipe(
-        tap(
-          (updated: boolean) =>
-            updated &&
-            patchState({
-              currentUser: { ...getState().currentUser, ...user } as User,
-            }),
-        ),
-      );
+    return this.usersService.updateUser(user).pipe(
+      tap(
+        (updated: boolean) =>
+          updated &&
+          patchState({
+            currentUser: { ...getState().currentUser, ...user } as User,
+          }),
+      ),
+    );
   }
 
   @Action(UsersActions.UploadCurrentUserAvatar, { cancelUncompleted: true })

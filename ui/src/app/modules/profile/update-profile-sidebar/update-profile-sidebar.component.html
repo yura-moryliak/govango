@@ -1,0 +1,178 @@
+<p-drawer
+  [(visible)]="visible"
+  [closable]="true"
+  [closeOnEscape]="false"
+  [blockScroll]="true"
+  [dismissible]="false"
+  (onHide)="checkChangesOnHide()"
+  position="right"
+  styleClass="update-profile-drawer"
+>
+  <ng-template #header>
+    <h4>{{ "Update profile" | translate }}</h4>
+  </ng-template>
+
+  <form novalidate [formGroup]="form" (ngSubmit)="update()">
+    <small class="warning-panel">
+      <i class="pi pi-exclamation-triangle"></i>
+      {{
+        "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy."
+          | translate
+      }}
+    </small>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        id="email"
+        type="email"
+        autocomplete="off"
+        formControlName="email"
+      />
+      <label for="email">{{ "Email" | translate }}</label>
+    </p-iftalabel>
+
+    <p-divider />
+
+    <p-iftalabel>
+      <input
+        pInputText
+        id="firstName"
+        formControlName="firstName"
+        autocomplete="off"
+        [ngClass]="{
+          'p-invalid':
+            form.controls.firstName.invalid &&
+            !form.controls.firstName.untouched,
+        }"
+      />
+      <label for="firstName">{{ "First name" | translate }}</label>
+
+      @if (
+        form.controls.firstName.invalid && !form.controls.firstName.untouched
+      ) {
+        @if (form.controls.firstName.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+        @if (form.controls.firstName.errors?.["maxlength"]) {
+          <small class="validation-error"
+            >{{ "Maximum length is 22 symbols" | translate }} -
+            <i
+              >{{ "actual" | translate }}:
+              {{
+                form.controls.firstName.errors?.["maxlength"].actualLength
+              }}</i
+            ></small
+          >
+        }
+      }
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        id="lastName"
+        formControlName="lastName"
+        autocomplete="off"
+        [ngClass]="{
+          'p-invalid':
+            form.controls.lastName.invalid && !form.controls.lastName.untouched,
+        }"
+      />
+      <label for="lastName">{{ "Last name" | translate }}</label>
+
+      @if (
+        form.controls.lastName.invalid && !form.controls.lastName.untouched
+      ) {
+        @if (form.controls.lastName.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+        @if (form.controls.lastName.errors?.["maxlength"]) {
+          <small class="validation-error"
+            >{{ "Maximum length is 22 symbols" | translate }} -
+            <i
+              >{{ "actual" | translate }}:
+              {{ form.controls.lastName.errors?.["maxlength"].actualLength }}</i
+            ></small
+          >
+        }
+      }
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-inputmask
+        id="phoneNumber"
+        mask="+380 99 9999999"
+        autocomplete="off"
+        formControlName="phoneNumber"
+        [ngClass]="{
+          'ng-dirty ng-invalid':
+            form.controls.phoneNumber.invalid &&
+            !form.controls.phoneNumber.untouched,
+        }"
+      />
+      <label for="phoneNumber">{{ "Phone number" | translate }}</label>
+
+      @if (
+        form.controls.phoneNumber.invalid &&
+        !form.controls.phoneNumber.untouched
+      ) {
+        @if (form.controls.phoneNumber.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+      }
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <p-select
+        [filter]="true"
+        [options]="citiesList"
+        filterBy="name"
+        inputId="city"
+        optionLabel="name"
+        optionValue="value"
+        formControlName="city"
+        appendTo="body"
+        emptyFilterMessage="{{ 'No results found' | translate }}"
+        [ngClass]="{
+          'ng-dirty ng-invalid':
+            form.controls.city.invalid && !form.controls.city.untouched,
+        }"
+      >
+        <ng-template let-city pTemplate="item">{{
+          city.name | translate
+        }}</ng-template>
+      </p-select>
+      <label for="city">{{ "City" | translate }}</label>
+
+      @if (form.controls.city.invalid && !form.controls.city.untouched) {
+        @if (form.controls.city.errors?.["required"]) {
+          <small class="validation-error">{{
+            "This field is required" | translate
+          }}</small>
+        }
+      }
+    </p-iftalabel>
+
+    <div class="button-group">
+      <p-button
+        severity="secondary"
+        label="{{ 'Cancel' | translate }}"
+        (onClick)="cancel()"
+      />
+      <p-button
+        type="submit"
+        [label]="isBusy ? ('In progress' | translate) : ('Update' | translate)"
+        [loading]="isBusy"
+        [disabled]="form.invalid || !(hasDifference$ | async)"
+      />
+    </div>
+  </form>
+</p-drawer>
+<p-confirmDialog styleClass="unsaved-profile-changes-dialog" />
