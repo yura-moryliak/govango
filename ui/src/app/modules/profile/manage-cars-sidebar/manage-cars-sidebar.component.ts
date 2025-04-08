@@ -98,7 +98,7 @@ export class ManageCarsSidebarComponent implements OnInit {
     this.currentUser = user;
   }
   @Input() visible: boolean = false;
-  @Output() closed: EventEmitter<void> = new EventEmitter();
+  @Output() closed: EventEmitter<'load-data' | void> = new EventEmitter();
 
   readonly form: FormGroup<UserCarFormGroupInterface> = new FormGroup({
     registrationPlate: new FormControl('', Validators.required),
@@ -188,6 +188,8 @@ export class ManageCarsSidebarComponent implements OnInit {
 
           this.initialFormValue =
             this.form.getRawValue() as UserCarInfoDataInterface;
+          this.closed.emit('load-data');
+
           this.setHasDifference();
           this.showSuccessToast();
         },

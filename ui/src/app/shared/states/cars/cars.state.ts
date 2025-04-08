@@ -53,13 +53,9 @@ export class CarsState {
 
   @Action(CarsActions.GetUserCars, { cancelUncompleted: true })
   getUserCars(
-    { getState, setState }: StateContext<CarsStateModel>,
+    { setState }: StateContext<CarsStateModel>,
     { userId }: CarsActions.GetUserCars,
   ): Observable<Car[]> | undefined {
-    if (getState().byId[userId]) {
-      return;
-    }
-
     return this.carsService.getUserCars(userId).pipe(
       tap((cars: Car[]) => {
         setState(patch({ byId: patch({ [userId]: patch({ cars: cars }) }) }));

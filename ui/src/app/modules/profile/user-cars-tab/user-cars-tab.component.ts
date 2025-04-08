@@ -52,4 +52,16 @@ export class UserCarsTabComponent implements OnInit {
       );
     }
   }
+
+  onManageCarsSidebarClosed(closeEvent: 'load-data' | void): void {
+    this.isManageCarsSidebarVisible = false;
+
+    if (closeEvent === 'load-data') {
+      this.store.dispatch(
+        new CarsActions.GetUserCars(
+          this.store.selectSnapshot(UsersState.currentUser)?.id as string,
+        ),
+      );
+    }
+  }
 }

@@ -12,15 +12,22 @@
       (onClick)="isManageCarsSidebarVisible = true"
     />
   </div>
-
-  <gvg-manage-cars-sidebar
-    [user]="user"
-    [visible]="isManageCarsSidebarVisible"
-    (closed)="isManageCarsSidebarVisible = false"
-  >
-  </gvg-manage-cars-sidebar>
 } @else {
   @if (cars$ | async; as cars) {
     <pre>{{ cars | json }}</pre>
+
+    <p-button
+      icon="pi pi-plus"
+      size="small"
+      rounded
+      (onClick)="isManageCarsSidebarVisible = true"
+    />
   }
 }
+
+<gvg-manage-cars-sidebar
+  [user]="user"
+  [visible]="isManageCarsSidebarVisible"
+  (closed)="onManageCarsSidebarClosed($event)"
+>
+</gvg-manage-cars-sidebar>
