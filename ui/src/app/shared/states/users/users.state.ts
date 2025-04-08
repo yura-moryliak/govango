@@ -29,9 +29,13 @@ export class UsersState {
 
   @Action(UsersActions.LoadCurrentUser, { cancelUncompleted: true })
   getCurrentUser(
-    { patchState }: StateContext<UsersStateModel>,
+    { getState, patchState }: StateContext<UsersStateModel>,
     { id }: UsersActions.LoadCurrentUser,
-  ): Observable<User> {
+  ): Observable<User> | undefined {
+    if (getState().currentUser) {
+      return;
+    }
+
     return this.usersService
       .getUser(id)
       .pipe(tap((user: User) => patchState({ currentUser: user })));
