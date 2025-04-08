@@ -158,14 +158,13 @@ export class ManageCarsSidebarComponent implements OnInit {
 
   submit(): void {
     const { make, model } = this.form.getRawValue();
-    const carMake = make?.make;
 
+    const carMake = make?.make;
     const carModel = {
       ...this.form.getRawValue(),
       make: carMake as string,
       model: model?.name as string,
     } as Car;
-
     const newCarrierActions = [
       new UsersActions.UpdateCurrentUser({
         ...this.currentUser,

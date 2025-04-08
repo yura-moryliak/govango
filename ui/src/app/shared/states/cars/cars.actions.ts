@@ -10,4 +10,9 @@ export namespace CarsActions {
       public car: Car,
     ) {}
   }
+
+  export class GetUserCars {
+    static readonly type = `${ACTION_SCOPE} Get user cars by user id`;
+    constructor(public userId: string) {}
+  }
 }

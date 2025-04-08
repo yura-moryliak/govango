@@ -169,7 +169,7 @@
         type="submit"
         [label]="isBusy ? ('In progress' | translate) : ('Update' | translate)"
         [loading]="isBusy"
-        [disabled]="form.invalid || !(hasDifference$ | async)"
+        [disabled]="form.invalid || (hasDifference$ | async) === false"
       />
     </div>
   </form>

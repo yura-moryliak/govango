@@ -228,7 +228,9 @@
         "
         [loading]="isBusy"
         [disabled]="
-          form.invalid || !form.value.model?.name || !(hasDifference$ | async)
+          form.invalid ||
+          !form.value.model?.name ||
+          (hasDifference$ | async) === false
         "
       />
     </div>
