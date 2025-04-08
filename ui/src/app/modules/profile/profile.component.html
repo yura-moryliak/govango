@@ -38,14 +38,10 @@
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel value="0">
-          <gvg-user-info-tab
-            [user]="currentUser$ | async"
-          ></gvg-user-info-tab>
+          <gvg-user-info-tab [user]="currentUser$ | async"></gvg-user-info-tab>
         </p-tabpanel>
         <p-tabpanel value="1">
-          <gvg-user-cars-tab
-            [user]="currentUser$ | async"
-          ></gvg-user-cars-tab>
+          <gvg-user-cars-tab [user]="currentUser$ | async"></gvg-user-cars-tab>
         </p-tabpanel>
       </p-tabpanels>
     </p-tabs>

@@ -542,8 +542,10 @@
   "Your avatar has been uploaded successfully": "Ваш аватар успішно завантажено",
   "Maximum length is 22 symbols": "Максимальна довжина 22 символи",
   "actual": "фактично",
+  "Add": "Додати",
   "Add vehicle": "Додати авто",
   "Your vehicle has been added successfully": "Ваше авто успішно додано",
+  "Your vehicle has been updated successfully": "Ваше авто успішно оновлено",
   "Carrier": "Перевізник",
   "Customer": "Замовник",
   "User type": "Тип користувача"

@@ -123,9 +123,8 @@ export class CarsController {
     @Param('userId') userId: string,
     @Param('carId') carId: string,
     @Body() updateCarDto: CarDto,
-  ): Promise<boolean> {
-    await this.carsService.updateCar(userId, carId, updateCarDto);
-    return true;
+  ): Promise<CarEntity> {
+    return await this.carsService.updateCar(userId, carId, updateCarDto);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -55,6 +55,7 @@ export class UserCarsTabComponent implements OnInit {
 
   onManageCarsSidebarClosed(closeEvent: 'load-data' | void): void {
     this.isManageCarsSidebarVisible = false;
+    this.store.dispatch(new CarsActions.ClearCarToUpdate());
 
     if (closeEvent === 'load-data') {
       this.store.dispatch(
@@ -63,5 +64,10 @@ export class UserCarsTabComponent implements OnInit {
         ),
       );
     }
+  }
+
+  updateCar(car: Car): void {
+    this.isManageCarsSidebarVisible = true;
+    this.store.dispatch(new CarsActions.UpdateCarInManageCarsSidebar(car));
   }
 }

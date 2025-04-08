@@ -29,7 +29,7 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import { Select, SelectChangeEvent } from 'primeng/select';
 import { InputNumber } from 'primeng/inputnumber';
 import { Button } from 'primeng/button';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { getObjectDifference } from '../../../shared/utils/object-difference';
 import { ConfirmationService } from 'primeng/api';
 import { Store } from '@ngxs/store';
@@ -42,6 +42,7 @@ import {
 } from '../../../shared/states/toast/toast.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsersActions } from '../../../shared/states/users/users.actions';
+import { CarsState } from '../../../shared/states/cars/cars.state';
 
 interface UserCarFormGroupInterface {
   registrationPlate: FormControl<string | null>;
@@ -80,6 +81,7 @@ export class ManageCarsSidebarComponent implements OnInit {
     inject(ConfirmationService);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
+  private readonly destroyed$: Subject<void> = new Subject<void>();
   private initialFormValue: UserCarInfoDataInterface = {
     registrationPlate: '',
     make: null,
@@ -121,6 +123,7 @@ export class ManageCarsSidebarComponent implements OnInit {
   carsModelsList: Array<{ makeId: string; name: string }> = [];
   isBusy: boolean = false;
   hasDifference$: Observable<boolean> | undefined;
+  carToUpdate: Car | null = null;
 
   ngOnInit(): void {
     if (!this.form.controls.make.value?.id) {
@@ -128,6 +131,7 @@ export class ManageCarsSidebarComponent implements OnInit {
       this.form.controls.model.disable();
     }
     this.setHasDifference();
+    this.populateFormOnEdit();
   }
 
   carMakeChanges(changeEvent: SelectChangeEvent): void {
@@ -179,7 +183,12 @@ export class ManageCarsSidebarComponent implements OnInit {
       .dispatch(
         !this.currentUser?.isCarOwner
           ? newCarrierActions
-          : new CarsActions.AddCar(this.currentUser?.id as string, carModel),
+          : this.carToUpdate
+            ? new CarsActions.UpdateCar(this.currentUser?.id as string, {
+                ...carModel,
+                id: this.carToUpdate.id,
+              })
+            : new CarsActions.AddCar(this.currentUser?.id as string, carModel),
       )
       .subscribe({
         next: () => {
@@ -247,7 +256,9 @@ export class ManageCarsSidebarComponent implements OnInit {
         key: 'success',
         summary: this.translateService.instant('Success'),
         detail: this.translateService.instant(
-          'Your vehicle has been added successfully',
+          !this.carToUpdate
+            ? 'Your vehicle has been added successfully'
+            : 'Your vehicle has been updated successfully',
         ),
       }),
     );
@@ -263,5 +274,31 @@ export class ManageCarsSidebarComponent implements OnInit {
         detail: this.translateService.instant(error.error.message),
       }),
     );
+  }
+
+  private populateFormOnEdit(): void {
+    this.store
+      .select(CarsState.carToUpdate)
+      .pipe(
+        filter((car: Car | null) => !!car),
+        takeUntil(this.destroyed$),
+      )
+      .subscribe((car: Car) => {
+        this.carToUpdate = car;
+
+        const make: CarsListInterface | undefined = this.carsList.find(
+          (make) => make.make === car.make,
+        );
+        const model = make?.models.find((model) => model.name === car.model);
+
+        this.form.patchValue({ ...car, make, model });
+
+        this.carsModelsList = make?.models ? make.models : [];
+        this.form.controls.model.enable();
+
+        this.initialFormValue =
+          this.form.getRawValue() as UserCarInfoDataInterface;
+        this.setHasDifference();
+      });
   }
 }

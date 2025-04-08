@@ -19,6 +19,7 @@ export interface CarsStateModel {
       cars: Car[];
     };
   };
+  carToUpdate: Car | null;
 }
 
 export const CARS_STATE_TOKEN = new StateToken<CarsStateModel>('cars');
@@ -27,6 +28,7 @@ export const CARS_STATE_TOKEN = new StateToken<CarsStateModel>('cars');
   name: CARS_STATE_TOKEN,
   defaults: {
     byId: {},
+    carToUpdate: null,
   },
 })
 @Injectable()
@@ -36,6 +38,11 @@ export class CarsState {
   @Selector()
   static byId(state: CarsStateModel): CarsStateModel['byId'] {
     return state.byId;
+  }
+
+  @Selector()
+  static carToUpdate(state: CarsStateModel): CarsStateModel['carToUpdate'] {
+    return state.carToUpdate;
   }
 
   static carsByUserId(userId: string) {
@@ -59,6 +66,40 @@ export class CarsState {
     return this.carsService.getUserCars(userId).pipe(
       tap((cars: Car[]) => {
         setState(patch({ byId: patch({ [userId]: patch({ cars: cars }) }) }));
+      }),
+    );
+  }
+
+  @Action(CarsActions.UpdateCarInManageCarsSidebar)
+  updateCarInManageCarsSidebar(
+    { setState }: StateContext<CarsStateModel>,
+    { car }: CarsActions.UpdateCarInManageCarsSidebar,
+  ): void {
+    setState(patch({ carToUpdate: car }));
+  }
+
+  @Action(CarsActions.ClearCarToUpdate)
+  clearCarToUpdate({ setState }: StateContext<CarsStateModel>): void {
+    setState(patch({ carToUpdate: null }));
+  }
+
+  @Action(CarsActions.UpdateCar, { cancelUncompleted: true })
+  updateCar(
+    { getState, setState }: StateContext<CarsStateModel>,
+    { userId, car }: CarsActions.UpdateCar,
+  ): Observable<Car> {
+    return this.carsService.updateCar(userId, car).pipe(
+      tap((car: Car) => {
+        const cars: Car[] = getState().byId[userId]?.cars || [];
+        const updatedCars: Car[] = cars.map((c) => (c.id === car.id ? car : c));
+
+        setState(
+          patch({
+            byId: patch({
+              [userId]: patch({ cars: updatedCars }),
+            }),
+          }),
+        );
       }),
     );
   }

@@ -7,9 +7,15 @@
   position="right"
   styleClass="common-profile-sidebar"
 >
-  <ng-template #header>
-    <h4>{{ "Add vehicle" | translate }}</h4>
-  </ng-template>
+  <ng-template #header> </ng-template>
+  <h4>
+    @if (!carToUpdate) {
+      {{ "Add vehicle" | translate }}
+    } @else {
+      {{ carToUpdate.make }} {{ carToUpdate.model }} -
+      {{ carToUpdate.registrationPlate }}
+    }
+  </h4>
 
   <form novalidate [formGroup]="form" (ngSubmit)="submit()">
     <p-iftalabel>
@@ -224,13 +230,15 @@
       <p-button
         type="submit"
         [label]="
-          isBusy ? ('In progress' | translate) : ('Add vehicle' | translate)
+          isBusy
+            ? ('In progress' | translate)
+            : carToUpdate
+              ? ('Update' | translate)
+              : ('Add' | translate)
         "
         [loading]="isBusy"
         [disabled]="
-          form.invalid ||
-          !form.value.model?.name ||
-          (hasDifference$ | async) === false
+          form.invalid || !form.value.model?.name || !(hasDifference$ | async)
         "
       />
     </div>

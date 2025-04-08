@@ -15,4 +15,21 @@ export namespace CarsActions {
     static readonly type = `${ACTION_SCOPE} Get user cars by user id`;
     constructor(public userId: string) {}
   }
+
+  export class UpdateCarInManageCarsSidebar {
+    static readonly type = `${ACTION_SCOPE} Update car in manage cars sidebar`;
+    constructor(public car: Car) {}
+  }
+
+  export class ClearCarToUpdate {
+    static readonly type = `${ACTION_SCOPE} Clear car to update`;
+  }
+
+  export class UpdateCar {
+    static readonly type = `${ACTION_SCOPE} Update car`;
+    constructor(
+      public userId: string,
+      public car: Car,
+    ) {}
+  }
 }
