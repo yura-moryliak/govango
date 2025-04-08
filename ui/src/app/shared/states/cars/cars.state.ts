@@ -8,9 +8,9 @@ import {
   StateToken,
 } from '@ngxs/store';
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CarsActions } from './cars.actions';
 import { CarService } from '../../services/cars.service';
-import { Observable, tap } from 'rxjs';
 
 export interface CarsStateModel {
   byId: {
@@ -43,24 +43,10 @@ export class CarsState {
 
   @Action(CarsActions.AddCar, { cancelUncompleted: true })
   addCar(
-    { getState, patchState }: StateContext<CarsStateModel>,
+    // eslint-disable-next-line no-empty-pattern
+    {}: StateContext<CarsStateModel>,
     { userId, car }: CarsActions.AddCar,
   ): Observable<Car> {
-    return this.carsService.addCar(userId, car).pipe(
-      tap((addedCar: Car) => {
-        const userCars: Car[] = getState().byId[userId]?.cars || [];
-        const updatedUserCars: Car[] = [...userCars, addedCar];
-
-        patchState({
-          byId: {
-            ...getState().byId,
-            [userId]: {
-              ...getState().byId[userId],
-              cars: updatedUserCars,
-            },
-          },
-        });
-      }),
-    );
+    return this.carsService.addCar(userId, car);
   }
 }
