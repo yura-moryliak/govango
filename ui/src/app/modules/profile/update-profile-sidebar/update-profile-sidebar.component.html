@@ -162,7 +162,11 @@
     <div class="button-group">
       <p-button
         severity="secondary"
-        label="{{ 'Cancel' | translate }}"
+        label="{{
+          (hasDifference$ | async)
+            ? ('Cancel' | translate)
+            : ('Close' | translate)
+        }}"
         (onClick)="cancel()"
       />
       <p-button
