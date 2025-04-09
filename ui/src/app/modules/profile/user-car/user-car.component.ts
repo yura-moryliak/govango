@@ -124,7 +124,7 @@ export class UserCarComponent {
         key: 'success',
         summary: this.translateService.instant('Success'),
         detail: this.translateService.instant(
-          'Your account has been updated successfully',
+          'Your vehicle has been removed successfully',
         ),
       }),
     );
