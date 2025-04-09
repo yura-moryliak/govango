@@ -1,12 +1,11 @@
 <p-drawer
   [(visible)]="visible"
-  [closable]="true"
+  [closable]="false"
   [closeOnEscape]="false"
   [blockScroll]="true"
   [dismissible]="false"
-  (onHide)="checkChangesOnHide()"
   position="right"
-  styleClass="update-profile-drawer"
+  styleClass="common-profile-sidebar"
 >
   <ng-template #header>
     <h4>{{ "Update profile" | translate }}</h4>
@@ -163,7 +162,11 @@
     <div class="button-group">
       <p-button
         severity="secondary"
-        label="{{ 'Cancel' | translate }}"
+        label="{{
+          (hasDifference$ | async)
+            ? ('Cancel' | translate)
+            : ('Close' | translate)
+        }}"
         (onClick)="cancel()"
       />
       <p-button

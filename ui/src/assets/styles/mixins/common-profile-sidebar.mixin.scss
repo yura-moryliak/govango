@@ -1,5 +1,5 @@
-@mixin update-profile-drawer {
-  .update-profile-drawer {
+@mixin common-profile-sidebar {
+  .common-profile-sidebar {
     &.p-drawer-right {
       width: 37.5em;
 
@@ -27,6 +27,23 @@
         border: 1px solid var(--p-yellow-600);
         padding: 0.5em 1em;
         border-radius: 0.5em;
+      }
+
+      .custom-form-controls {
+        display: flex;
+        gap: 2em;
+
+        @media screen and (max-width: 37.5em) {
+          flex-direction: column;
+        }
+
+        p-iftalabel {
+          flex: 1;
+        }
+
+        p-inputnumber {
+          width: 100%;
+        }
       }
 
       .button-group {

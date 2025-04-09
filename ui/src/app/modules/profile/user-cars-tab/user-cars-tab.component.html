@@ -5,8 +5,34 @@
         | translate
     }}</small>
 
-    <p-button icon="pi pi-plus" size="small" rounded />
+    <p-button
+      icon="pi pi-plus"
+      size="small"
+      rounded
+      (onClick)="isManageCarsSidebarVisible = true"
+    />
   </div>
 } @else {
-  Under construction
+  @if (cars$ | async; as cars) {
+    @for (car of cars$ | async; track car.id) {
+      <gvg-user-car [car]="car" (updating)="isManageCarsSidebarVisible = true">
+      </gvg-user-car>
+    }
+
+    <p-button
+      icon="pi pi-plus"
+      size="small"
+      rounded
+      (onClick)="isManageCarsSidebarVisible = true"
+    />
+  }
+}
+
+@if (isManageCarsSidebarVisible) {
+  <gvg-manage-cars-sidebar
+    [user]="user"
+    [visible]="isManageCarsSidebarVisible"
+    (closed)="onManageCarsSidebarClosed($event)"
+  >
+  </gvg-manage-cars-sidebar>
 }

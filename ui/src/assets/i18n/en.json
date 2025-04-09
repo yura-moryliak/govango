@@ -529,6 +529,7 @@
   "Update profile": "Update profile",
   "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy.": "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy.",
   "Cancel": "Cancel",
+  "Close": "Close",
   "Update": "Update",
   "Unsaved changes": "Unsaved changes",
   "You have unsaved changes. Are you sure you want to leave?": "You have unsaved changes. Are you sure you want to leave?",
@@ -541,5 +542,17 @@
   "Invalid file. Modification date is not available.": "Invalid file. Modification date is not available.",
   "Your avatar has been uploaded successfully": "Your avatar has been uploaded successfully",
   "Maximum length is 22 symbols": "Maximum length is 22 symbols",
-  "actual": "actual"
+  "actual": "actual",
+  "Add": "Add",
+  "Add vehicle": "Add vehicle",
+  "Your vehicle has been added successfully": "Your vehicle has been added successfully",
+  "Your vehicle has been updated successfully": "Your vehicle has been updated successfully",
+  "Your vehicle has been removed successfully": "Your vehicle has been removed successfully",
+  "Carrier": "Carrier",
+  "Customer": "Customer",
+  "User type": "User type",
+  "Dimensions": "Dimensions",
+  "Car removal": "Car removal",
+  "Are you sure you want to remove this car?": "Are you sure you want to remove this car?",
+  "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "This is your last car. After removing it, you will no longer be a car owner. Are you sure you want to remove it?"
 }

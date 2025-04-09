@@ -1,4 +1,7 @@
 :host {
+  display: flex;
+  flex-direction: column;
+
   .warning-panel {
     display: flex;
     flex-direction: column;
@@ -9,5 +12,10 @@
       color: var(--p-yellow-600);
       text-align: center;
     }
+  }
+
+  p-button[icon="pi pi-plus"] {
+    display: flex;
+    align-self: center;
   }
 }

@@ -22,7 +22,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ALL_CARS_OK_RESPONSE_EXAMPLE } from './cars.swagger';
+import {
+  ADDED_CAR_OK_RESPONSE_EXAMPLE,
+  ALL_CARS_OK_RESPONSE_EXAMPLE,
+} from './cars.swagger';
 
 @ApiBearerAuth()
 @Controller()
@@ -33,7 +36,7 @@ export class CarsController {
   @Post(':userId')
   @ApiOkResponse({
     description: 'Car was successfully created for userId',
-    example: true,
+    example: ADDED_CAR_OK_RESPONSE_EXAMPLE,
   })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Car was not created' })
@@ -43,9 +46,12 @@ export class CarsController {
   async createCar(
     @Param('userId') userId: string,
     @Body() createCarDto: CarDto,
-  ): Promise<boolean> {
-    await this.carsService.createCar(userId, createCarDto);
-    return true;
+  ): Promise<CarEntity> {
+    const { user, ...car } = await this.carsService.createCar(
+      userId,
+      createCarDto,
+    );
+    return car as CarEntity;
   }
 
   @UseGuards(JwtAuthGuard)
@@ -117,16 +123,15 @@ export class CarsController {
     @Param('userId') userId: string,
     @Param('carId') carId: string,
     @Body() updateCarDto: CarDto,
-  ): Promise<boolean> {
-    await this.carsService.updateCar(userId, carId, updateCarDto);
-    return true;
+  ): Promise<CarEntity> {
+    return await this.carsService.updateCar(userId, carId, updateCarDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':userId/:carId')
   @ApiOkResponse({
     description: 'Car was successfully removed by given userId and carId',
-    example: true,
+    example: 'carrId',
   })
   @ApiNotFoundResponse({
     description: 'User or car can not be found by userID or carId',
@@ -138,8 +143,7 @@ export class CarsController {
   async removeCar(
     @Param('userId') userId: string,
     @Param('carId') carId: string,
-  ): Promise<boolean> {
-    await this.carsService.remove(userId, carId);
-    return true;
+  ): Promise<string> {
+    return await this.carsService.remove(userId, carId);
   }
 }

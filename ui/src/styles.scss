@@ -1,7 +1,7 @@
 @use "primeicons/primeicons.css";
 
 @use "./assets/styles/mixins/app-settings-panel-drawer.mixin" as app-settings;
-@use "./assets/styles/mixins/update-profile-drawer.mixin" as update-pforile;
+@use "assets/styles/mixins/common-profile-sidebar.mixin" as profile-sidebar;
 
 * {
   box-sizing: border-box;
@@ -25,7 +25,7 @@ body {
 }
 
 @include app-settings.app-settings-panel-drawer;
-@include update-pforile.update-profile-drawer;
+@include profile-sidebar.common-profile-sidebar;
 
 // Update profile unsaved changes dialog
 .unsaved-profile-changes-dialog {

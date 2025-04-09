@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CarDto } from './car.dto';
 import { CarEntity } from './car.entity';
 import { UserEntity } from '../users/user.entity';
@@ -121,7 +121,7 @@ export class CarsService {
     }
   }
 
-  async remove(userId: string, carId: string): Promise<DeleteResult> {
+  async remove(userId: string, carId: string): Promise<string> {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: userId },
     });
@@ -142,7 +142,8 @@ export class CarsService {
     }
 
     try {
-      return await this.carsRepository.delete(carId);
+      await this.carsRepository.delete(carId);
+      return car.id;
     } catch (_) {
       throw new HttpException(
         'Failed to delete car',

@@ -5,7 +5,7 @@ import {
 
 export interface UserCarInfoDataInterface {
   registrationPlate: string;
-  make: CarsListInterface;
+  make: CarsListInterface | null;
   model: CarMakeType;
   length: number;
   width: number;
