@@ -168,6 +168,9 @@ export class ManageCarsSidebarComponent implements OnInit {
       ...this.form.getRawValue(),
       make: carMake as string,
       model: model?.name as string,
+      registrationPlate: this.form
+        .getRawValue()
+        .registrationPlate?.toUpperCase(),
     } as Car;
     const newCarrierActions = [
       new UsersActions.UpdateCurrentUser({

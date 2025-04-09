@@ -14,17 +14,17 @@
   </div>
 } @else {
   @if (cars$ | async; as cars) {
+    @for (car of cars$ | async; track car.id) {
+      <gvg-user-car [car]="car" (updating)="isManageCarsSidebarVisible = true">
+      </gvg-user-car>
+    }
+
     <p-button
       icon="pi pi-plus"
       size="small"
       rounded
       (onClick)="isManageCarsSidebarVisible = true"
     />
-
-    @for (car of cars$ | async; track car.id) {
-      <gvg-user-car [car]="car" (updating)="isManageCarsSidebarVisible = true">
-      </gvg-user-car>
-    }
   }
 }
 
