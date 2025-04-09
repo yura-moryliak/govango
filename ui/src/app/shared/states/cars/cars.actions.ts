@@ -32,4 +32,12 @@ export namespace CarsActions {
       public car: Car,
     ) {}
   }
+
+  export class RemoveCar {
+    static readonly type = `${ACTION_SCOPE} Remove car`;
+    constructor(
+      public userId: string,
+      public carId: string,
+    ) {}
+  }
 }

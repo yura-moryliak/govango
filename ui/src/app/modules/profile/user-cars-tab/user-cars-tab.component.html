@@ -14,26 +14,17 @@
   </div>
 } @else {
   @if (cars$ | async; as cars) {
-    <!--TODO add here gvg-car [car]=car later-->
-
-    @for (car of cars$ | async; track car.id) {
-      <p>
-        {{ car.make }} {{ car.model }}
-        <p-button
-          icon="pi pi-plus"
-          size="small"
-          rounded
-          (onClick)="updateCar(car)"
-        />
-      </p>
-    }
-
     <p-button
       icon="pi pi-plus"
       size="small"
       rounded
       (onClick)="isManageCarsSidebarVisible = true"
     />
+
+    @for (car of cars$ | async; track car.id) {
+      <gvg-user-car [car]="car" (updating)="isManageCarsSidebarVisible = true">
+      </gvg-user-car>
+    }
   }
 }
 

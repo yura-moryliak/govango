@@ -1,4 +1,7 @@
 :host {
+  display: block;
+  margin: 1em 0;
+
   .info-items {
     margin: 0;
     padding: 0;
@@ -37,6 +40,22 @@
           > span {
             @media screen and (max-width: 37.5em) {
               display: none;
+            }
+          }
+          &.extended {
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+            flex: 1;
+            justify-content: flex-end;
+
+            i {
+              display: flex;
+              font-size: 0.813em;
+            }
+
+            @media screen and (max-width: 37.5em) {
+              justify-content: normal;
             }
           }
         }

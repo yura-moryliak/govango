@@ -11,11 +11,12 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ManageCarsSidebarComponent } from '../manage-cars-sidebar/manage-cars-sidebar.component';
 import { Store } from '@ngxs/store';
 import { CarsState } from '../../../shared/states/cars/cars.state';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Car } from '../../../shared/states/cars/cars.interface';
 import { UsersState } from '../../../shared/states/users/users.state';
 import { CarsActions } from '../../../shared/states/cars/cars.actions';
+import { UserCarComponent } from '../user-car/user-car.component';
 
 @Component({
   selector: 'gvg-user-cars-tab',
@@ -24,7 +25,7 @@ import { CarsActions } from '../../../shared/states/cars/cars.actions';
     TranslatePipe,
     ManageCarsSidebarComponent,
     AsyncPipe,
-    JsonPipe,
+    UserCarComponent,
   ],
   templateUrl: './user-cars-tab.component.html',
   styleUrl: './user-cars-tab.component.scss',
@@ -64,10 +65,5 @@ export class UserCarsTabComponent implements OnInit {
         ),
       );
     }
-  }
-
-  updateCar(car: Car): void {
-    this.isManageCarsSidebarVisible = true;
-    this.store.dispatch(new CarsActions.UpdateCarInManageCarsSidebar(car));
   }
 }

@@ -131,7 +131,7 @@ export class CarsController {
   @Delete(':userId/:carId')
   @ApiOkResponse({
     description: 'Car was successfully removed by given userId and carId',
-    example: true,
+    example: 'carrId',
   })
   @ApiNotFoundResponse({
     description: 'User or car can not be found by userID or carId',
@@ -143,8 +143,7 @@ export class CarsController {
   async removeCar(
     @Param('userId') userId: string,
     @Param('carId') carId: string,
-  ): Promise<boolean> {
-    await this.carsService.remove(userId, carId);
-    return true;
+  ): Promise<string> {
+    return await this.carsService.remove(userId, carId);
   }
 }

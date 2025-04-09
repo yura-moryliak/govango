@@ -549,5 +549,9 @@
   "Your vehicle has been updated successfully": "Your vehicle has been updated successfully",
   "Carrier": "Carrier",
   "Customer": "Customer",
-  "User type": "User type"
+  "User type": "User type",
+  "Dimensions": "Dimensions",
+  "Car removal": "Car removal",
+  "Are you sure you want to remove this car?": "Are you sure you want to remove this car?",
+  "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "This is your last car. After removing it, you will no longer be a car owner. Are you sure you want to remove it?"
 }

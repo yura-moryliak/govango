@@ -103,4 +103,25 @@ export class CarsState {
       }),
     );
   }
+
+  @Action(CarsActions.RemoveCar, { cancelUncompleted: true })
+  removeCar(
+    { getState, setState }: StateContext<CarsStateModel>,
+    { userId, carId }: CarsActions.RemoveCar,
+  ): Observable<string> {
+    return this.carsService.removeCar(userId, carId).pipe(
+      tap(() => {
+        const cars: Car[] = getState().byId[userId]?.cars || [];
+        const updatedCars: Car[] = cars.filter((car: Car) => car.id !== carId);
+
+        setState(
+          patch({
+            byId: patch({
+              [userId]: patch({ cars: updatedCars }),
+            }),
+          }),
+        );
+      }),
+    );
+  }
 }

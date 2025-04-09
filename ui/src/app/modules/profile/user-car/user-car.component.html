@@ -1,0 +1,75 @@
+@if (car) {
+  <p-panel header="{{ car?.make }} {{ car?.model }}">
+    <ng-template #header>
+      <ng-template #icons>
+        <p-button
+          size="small"
+          severity="secondary"
+          icon="pi pi-pencil"
+          rounded
+          outlined
+          (onClick)="updateCar(car)"
+        />
+        <p-button
+          size="small"
+          severity="danger"
+          icon="pi pi-trash"
+          rounded
+          outlined
+          [style.margin-left]="'0.5em'"
+          (onClick)="removeCar(car.id)"
+        />
+      </ng-template>
+    </ng-template>
+
+    <ul class="info-items">
+      <li>
+        <p>
+          <span>
+            <i class="pi pi-car"></i>
+            <span>{{ "Registration plate" | translate }}</span>
+          </span>
+          <span>{{ car?.registrationPlate }}</span>
+        </p>
+      </li>
+
+      <li>
+        <p>
+          <span>
+            <i class="pi pi-arrows-alt"></i>
+            <span>{{ "Dimensions" | translate }}</span>
+          </span>
+          <span class="extended">
+            <i
+              >{{ "Width" | translate }}: {{ car?.width
+              }}{{ "meter" | translate }}</i
+            >
+            <i
+              >{{ "Length" | translate }}: {{ car?.length
+              }}{{ "meter" | translate }}</i
+            >
+            <i
+              >{{ "Height" | translate }}: {{ car?.height
+              }}{{ "meter" | translate }}</i
+            >
+            <i
+              >{{ "Carry capacity" | translate }}: {{ car?.carryCapacity
+              }}{{ "ton" | translate }}</i
+            >
+          </span>
+        </p>
+      </li>
+
+      <!--TODO Add later on-->
+      <!--    <li>-->
+      <!--      <p>-->
+      <!--        <span>-->
+      <!--          <i class="pi pi-circle"></i>-->
+      <!--          <span>Availability</span>-->
+      <!--        </span>-->
+      <!--        <span>Available</span>-->
+      <!--      </p>-->
+      <!--    </li>-->
+    </ul>
+  </p-panel>
+}
