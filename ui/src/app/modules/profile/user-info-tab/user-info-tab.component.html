@@ -1,62 +1,64 @@
-<ul class="info-items">
-  <li>
-    <p>
-      <span>
-        <i class="pi pi-user"></i>
-        <span>{{ "User type" | translate }}</span>
-      </span>
-      <span>{{
-        user?.isCarOwner ? ("Carrier" | translate) : ("Customer" | translate)
-      }}</span>
-    </p>
-  </li>
-  <li>
-    <p>
-      <span>
-        <i class="pi pi-phone"></i>
-        <span>{{ "Phone number" | translate }}</span>
-      </span>
-      <a href="tel:{{ user?.phoneNumber }}">{{ user?.phoneNumber }}</a>
-    </p>
-  </li>
-  <li>
-    <p>
-      <span>
-        <i class="pi pi-envelope"></i>
-        <span>{{ "Email.shorten" | translate }}</span>
-      </span>
-      <a href="mailto:{{ user?.email }}">{{ user?.email }}</a>
-    </p>
-  </li>
-  <li>
-    <p>
-      <span>
-        <i class="pi pi-map-marker"></i>
-        <span>{{ "City" | translate }}</span>
-      </span>
-      @if (user) {
-        <span>{{ user.city | translate }}</span>
-      }
-    </p>
-  </li>
-  <li>
-    <p>
-      <span>
-        <i class="pi pi-thumbs-up"></i>
-        <span>{{ "Likes" | translate }}</span>
-      </span>
-      <span>{{ user?.likes }}</span>
-    </p>
-  </li>
+@if (currentUser$ | async; as user) {
+  <ul class="info-items">
+    <li>
+      <p>
+        <span>
+          <i class="pi pi-user"></i>
+          <span>{{ "User type" | translate }}</span>
+        </span>
+        <span>{{
+          user.isCarOwner ? ("Carrier" | translate) : ("Customer" | translate)
+        }}</span>
+      </p>
+    </li>
+    <li>
+      <p>
+        <span>
+          <i class="pi pi-phone"></i>
+          <span>{{ "Phone number" | translate }}</span>
+        </span>
+        <a href="tel:{{ user.phoneNumber }}">{{ user.phoneNumber }}</a>
+      </p>
+    </li>
+    <li>
+      <p>
+        <span>
+          <i class="pi pi-envelope"></i>
+          <span>{{ "Email.shorten" | translate }}</span>
+        </span>
+        <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+      </p>
+    </li>
+    <li>
+      <p>
+        <span>
+          <i class="pi pi-map-marker"></i>
+          <span>{{ "City" | translate }}</span>
+        </span>
+        @if (user) {
+          <span>{{ user.city | translate }}</span>
+        }
+      </p>
+    </li>
+    <li>
+      <p>
+        <span>
+          <i class="pi pi-thumbs-up"></i>
+          <span>{{ "Likes" | translate }}</span>
+        </span>
+        <span>{{ user?.likes }}</span>
+      </p>
+    </li>
 
-  <!--TODO This has to be added later-->
-  <!--            <li>-->
-  <!--              <p>-->
-  <!--                <span>-->
-  <!--                  <i class="pi pi-users"></i>-->
-  <!--                  Reviews-->
-  <!--                </span>-->
-  <!--                <span>0</span>-->
-  <!--              </p>-->
-  <!--            </li>-->
-</ul>
+    <!--TODO This has to be added later-->
+    <!--            <li>-->
+    <!--              <p>-->
+    <!--                <span>-->
+    <!--                  <i class="pi pi-users"></i>-->
+    <!--                  Reviews-->
+    <!--                </span>-->
+    <!--                <span>0</span>-->
+    <!--              </p>-->
+    <!--            </li>-->
+  </ul>
+}
