@@ -15,7 +15,12 @@
 } @else {
   @if (cars$ | async; as cars) {
     <p-accordion [value]="0">
-      @for (car of cars$ | async; track car.id; let index = $index; let last = $last) {
+      @for (
+        car of cars$ | async;
+        track car.id;
+        let index = $index;
+        let last = $last
+      ) {
         <gvg-user-car
           [panelIndex]="cars.length - 1 - index"
           [car]="car"

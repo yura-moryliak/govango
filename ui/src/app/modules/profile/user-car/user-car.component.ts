@@ -1,11 +1,13 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   EventEmitter,
   inject,
   Input,
-  Output, ViewChild,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { Car } from '../../../shared/states/cars/cars.interface';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
