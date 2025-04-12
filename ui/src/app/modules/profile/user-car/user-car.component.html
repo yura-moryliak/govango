@@ -1,5 +1,5 @@
 @if (car) {
-  <p-panel header="{{ car?.make }} {{ car?.model }}">
+  <p-panel header="{{ car.make }} {{ car.model }}">
     <ng-template #header>
       <ng-template #icons>
         <p-button
@@ -29,7 +29,7 @@
             <i class="pi pi-car"></i>
             <span>{{ "Registration plate" | translate }}</span>
           </span>
-          <span>{{ car?.registrationPlate }}</span>
+          <span>{{ car.registrationPlate }}</span>
         </p>
       </li>
 
@@ -41,19 +41,19 @@
           </span>
           <span class="extended">
             <i
-              >{{ "Width" | translate }}: {{ car?.width
+              >{{ "Width" | translate }}: {{ car.width
               }}{{ "meter" | translate }}</i
             >
             <i
-              >{{ "Length" | translate }}: {{ car?.length
+              >{{ "Length" | translate }}: {{ car.length
               }}{{ "meter" | translate }}</i
             >
             <i
-              >{{ "Height" | translate }}: {{ car?.height
+              >{{ "Height" | translate }}: {{ car.height
               }}{{ "meter" | translate }}</i
             >
             <i
-              >{{ "Carry capacity" | translate }}: {{ car?.carryCapacity
+              >{{ "Carry capacity" | translate }}: {{ car.carryCapacity
               }}{{ "ton" | translate }}</i
             >
           </span>
