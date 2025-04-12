@@ -1,64 +1,64 @@
 :host {
   display: block;
-  margin-bottom: 1em;
 
-  .info-items {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  p-accordion-panel {
+    margin-bottom: 0.5em;
+  }
 
-    li {
-      padding: 1em 0;
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 0.5em;
 
-      &:not(:last-child) {
-        border-bottom: 0.063em solid var(--p-divider-border-color);
+    .grid-item {
+      &:last-of-type {
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1em;
       }
 
-      p {
-        margin: 0;
+      .image-container {
+        position: relative;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 1em;
 
-        @media screen and (max-width: 37.5em) {
-          justify-content: flex-start;
-          gap: 2em;
+        i {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          font-size: 14px;
         }
 
-        span:first-of-type {
-          color: initial;
-          display: inline-flex;
-          gap: 0.5em;
-          align-items: center;
+        gvg-minivan-icon {
+          ::ng-deep {
+            svg {
+              width: 4em;
+              height: 4em;
+
+              path {
+                fill: var(--p-primary-color) !important;
+              }
+            }
+          }
         }
 
-        a,
         span {
-          color: var(--p-primary-color);
-          font-weight: bold;
-
-          > span {
-            @media screen and (max-width: 37.5em) {
-              display: none;
-            }
-          }
-          &.extended {
-            display: flex;
-            gap: 1em;
-            flex-wrap: wrap;
-            flex: 1;
-            justify-content: flex-end;
-
-            i {
-              display: flex;
-              font-size: 0.813em;
-            }
-
-            @media screen and (max-width: 37.5em) {
-              justify-content: normal;
-            }
-          }
+          font-weight: normal;
         }
+      }
+    }
+
+    &.with-icons {
+      grid-template-columns: 1fr;
+    }
+
+    &.with-buttons {
+      .grid-item {
+        display: flex;
+        gap: 0.5em;
       }
     }
   }

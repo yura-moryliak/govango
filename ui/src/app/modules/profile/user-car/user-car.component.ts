@@ -7,25 +7,39 @@ import {
   Output,
 } from '@angular/core';
 import { Car } from '../../../shared/states/cars/cars.interface';
-import { Panel } from 'primeng/panel';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { CarsActions } from '../../../shared/states/cars/cars.actions';
 import { Store } from '@ngxs/store';
 import { ConfirmationService } from 'primeng/api';
 import { UsersState } from '../../../shared/states/users/users.state';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Divider } from 'primeng/divider';
 import {
   INITIAL_TOAST_OPTIONS,
   ToastActions,
 } from '../../../shared/states/toast/toast.actions';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UsersActions } from '../../../shared/states/users/users.actions';
 import { User } from '../../../shared/states/users/user.interface';
 import { CarsState } from '../../../shared/states/cars/cars.state';
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionPanel,
+} from 'primeng/accordion';
+import { MinivanIconComponent } from '../../../../assets/icons/minivan-icon/minivan-icon.component';
 
 @Component({
   selector: 'gvg-user-car',
-  imports: [Panel, TranslatePipe, Button],
+  imports: [
+    TranslatePipe,
+    Button,
+    AccordionPanel,
+    Divider,
+    AccordionContent,
+    AccordionHeader,
+    MinivanIconComponent,
+  ],
   templateUrl: './user-car.component.html',
   styleUrl: './user-car.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +52,7 @@ export class UserCarComponent {
     inject(TranslateService);
 
   @Input({ required: true }) car: Car | undefined;
+  @Input() panelIndex: number = 0;
   @Output() updating: EventEmitter<void> = new EventEmitter<void>();
 
   updateCar(car: Car): void {

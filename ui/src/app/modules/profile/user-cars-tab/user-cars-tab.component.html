@@ -14,10 +14,16 @@
   </div>
 } @else {
   @if (cars$ | async; as cars) {
-    @for (car of cars$ | async; track car.id) {
-      <gvg-user-car [car]="car" (updating)="isManageCarsSidebarVisible = true">
-      </gvg-user-car>
-    }
+    <p-accordion [value]="0">
+      @for (car of cars$ | async; track car.id; let index = $index) {
+        <gvg-user-car
+          [panelIndex]="cars.length - 1 - index"
+          [car]="car"
+          (updating)="isManageCarsSidebarVisible = true"
+        >
+        </gvg-user-car>
+      }
+    </p-accordion>
 
     <p-button
       icon="pi pi-plus"

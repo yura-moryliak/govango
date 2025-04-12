@@ -55,6 +55,7 @@ export class ProfileComponent {
 
   readonly fallbackAvatar = fallbackAvatar;
 
+  tabIndex: number = 1;
   isUpdateProfileSidebarVisible: boolean = false;
 
   handleAvatarImageError(): void {

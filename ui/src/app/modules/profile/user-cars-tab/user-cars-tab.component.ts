@@ -17,6 +17,7 @@ import { Car } from '../../../shared/states/cars/cars.interface';
 import { UsersState } from '../../../shared/states/users/users.state';
 import { CarsActions } from '../../../shared/states/cars/cars.actions';
 import { UserCarComponent } from '../user-car/user-car.component';
+import { Accordion } from 'primeng/accordion';
 
 @Component({
   selector: 'gvg-user-cars-tab',
@@ -26,6 +27,7 @@ import { UserCarComponent } from '../user-car/user-car.component';
     ManageCarsSidebarComponent,
     AsyncPipe,
     UserCarComponent,
+    Accordion,
   ],
   templateUrl: './user-cars-tab.component.html',
   styleUrl: './user-cars-tab.component.scss',
