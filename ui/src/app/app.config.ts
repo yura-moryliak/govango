@@ -29,6 +29,7 @@ import { authInterceptor } from './shared/interceptors/auth.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
 import { UsersState } from './shared/states/users/users.state';
 import { CarsState } from './shared/states/cars/cars.state';
+import { TabsState } from './shared/states/tabs/tabs.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -66,6 +67,7 @@ export const appConfig: ApplicationConfig = {
         AuthState,
         UsersState,
         CarsState,
+        TabsState,
       ],
       ngxsConfig,
       withNgxsStoragePlugin({
@@ -75,6 +77,7 @@ export const appConfig: ApplicationConfig = {
           AuthState,
           UsersState,
           CarsState,
+          TabsState,
         ],
         namespace: 'govango',
       }),

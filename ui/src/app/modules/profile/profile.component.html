@@ -31,18 +31,17 @@
   </div>
 
   @if (currentUser$ | async; as user) {
-    <p-tabs value="0">
+    <p-tabs [value]="tabIndex">
       <p-tablist>
-        <p-tab value="0">{{ "User information" | translate }}</p-tab>
-        <p-tab value="1">{{ "User cars" | translate }}</p-tab>
+        <p-tab [value]="0" (click)="openTab('user-info', 0)">{{
+          "User information" | translate
+        }}</p-tab>
+        <p-tab [value]="1" (click)="openTab('user-cars', 1)">{{
+          "User cars" | translate
+        }}</p-tab>
       </p-tablist>
       <p-tabpanels>
-        <p-tabpanel value="0">
-          <gvg-user-info-tab [user]="currentUser$ | async"></gvg-user-info-tab>
-        </p-tabpanel>
-        <p-tabpanel value="1">
-          <gvg-user-cars-tab [user]="currentUser$ | async"></gvg-user-cars-tab>
-        </p-tabpanel>
+        <router-outlet></router-outlet>
       </p-tabpanels>
     </p-tabs>
   }

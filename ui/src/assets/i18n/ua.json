@@ -524,7 +524,7 @@
   "User already exist": "Користувач вже існує з таким обліковими записом. Переконайтесь у правильності введених облікових даних",
   "Likes": "Файники",
   "User information": "Інформація",
-  "User cars": "Автівки",
+  "User cars": "Автопарк",
   "You are not a carrier at the moment, but you can always change that. Click the button below to add your vehicle and start earning by being available for transportation in real time.": "На даний момент ви не є перевізником, але це завжди можна змінити. Тицяй кнопку знизу додати своє авто та починай заробляти на перевезеннях будучи завжди достпуним в реальному часі.",
   "Update profile": "Оновлення профілю",
   "For security and account protection reasons, we do not allow changing email address, but we display it for information accuracy.": "З міркувань безпеки та захисту облікового запису ми не дозволяємо змінювати електронну адресу, але ми відображаємо її для достовірності.",
@@ -551,7 +551,7 @@
   "Carrier": "Перевізник",
   "Customer": "Замовник",
   "User type": "Тип користувача",
-  "Dimensions": "Розміри",
+  "Dimensions": "Габарити",
   "Car removal": "Видалення авто",
   "Are you sure you want to remove this car?": "Ви впевнені, що хочете видалити це авто?",
   "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "Це ваше останнє авто. Після його видалення ви більше не будете перевізником. Ви впевнені, що хочете видалити його?"

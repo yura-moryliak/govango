@@ -30,6 +30,27 @@ export const GVG_APP_CONTAINER_ROUTES: Routes = [
           import('../../../modules/profile/profile.component').then(
             (cmp) => cmp.ProfileComponent,
           ),
+        children: [
+          {
+            path: '',
+            redirectTo: 'user-info',
+            pathMatch: 'full',
+          },
+          {
+            path: 'user-info',
+            loadComponent: () =>
+              import(
+                '../../../modules/profile/user-info-tab/user-info-tab.component'
+              ).then((cmp) => cmp.UserInfoTabComponent),
+          },
+          {
+            path: 'user-cars',
+            loadComponent: () =>
+              import(
+                '../../../modules/profile/user-cars-tab/user-cars-tab.component'
+              ).then((cmp) => cmp.UserCarsTabComponent),
+          },
+        ],
         canActivate: [authGuard],
       },
     ],
