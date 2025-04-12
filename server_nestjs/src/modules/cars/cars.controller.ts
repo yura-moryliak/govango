@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -6,7 +7,9 @@ import {
   Param,
   Post,
   Put,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CarDto } from './car.dto';
 import { CarEntity } from './car.entity';
@@ -26,6 +29,8 @@ import {
   ADDED_CAR_OK_RESPONSE_EXAMPLE,
   ALL_CARS_OK_RESPONSE_EXAMPLE,
 } from './cars.swagger';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { carImagesStorage } from '../../storage';
 
 @ApiBearerAuth()
 @Controller()
@@ -125,6 +130,29 @@ export class CarsController {
     @Body() updateCarDto: CarDto,
   ): Promise<CarEntity> {
     return await this.carsService.updateCar(userId, carId, updateCarDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post(':carId/images')
+  @ApiOkResponse({
+    description: 'Car images were successfully uploaded',
+    example: void 0,
+  })
+  @ApiBadRequestResponse({ description: 'No files uploaded' })
+  @ApiNotFoundResponse({ description: 'Car not found by given id' })
+  @ApiUnauthorizedResponse({ description: 'Access denied' })
+  @ApiParam({ name: 'carId', description: 'carId', required: true })
+  @ApiBody({
+    description: 'Car images',
+    type: 'multipart/form-data',
+    required: true,
+  })
+  @UseInterceptors(FilesInterceptor('images', 5, { storage: carImagesStorage }))
+  uploadCarImages(
+    @Param('carId') carId: string,
+    @UploadedFiles() files: Express.Multer.File[],
+  ): Promise<void> {
+    return this.carsService.uploadCarImages(carId, files);
   }
 
   @UseGuards(JwtAuthGuard)

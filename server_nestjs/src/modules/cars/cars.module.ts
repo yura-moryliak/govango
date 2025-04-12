@@ -4,9 +4,10 @@ import { CarsController } from './cars.controller';
 import { CarsService } from './cars.service';
 import { CarEntity } from './car.entity';
 import { UserEntity } from '../users/user.entity';
+import { CarImagesEntity } from './car-images.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CarEntity, UserEntity])],
+  imports: [TypeOrmModule.forFeature([CarEntity, UserEntity, CarImagesEntity])],
   exports: [CarsService],
   controllers: [CarsController],
   providers: [CarsService],

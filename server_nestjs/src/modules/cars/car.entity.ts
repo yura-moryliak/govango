@@ -3,17 +3,16 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../users/user.entity';
+import { CarImagesEntity } from './car-images.entity';
 
 @Entity()
 export class CarEntity extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: string;
-
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.cars)
-  user: UserEntity;
 
   @Column({ default: '', nullable: false })
   registrationPlate: string;
@@ -59,4 +58,10 @@ export class CarEntity extends BaseEntity {
     scale: 1,
   })
   carryCapacity: number;
+
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.cars)
+  user: UserEntity;
+
+  @OneToMany(() => CarImagesEntity, (image: CarImagesEntity) => image.car)
+  images: CarImagesEntity[];
 }
