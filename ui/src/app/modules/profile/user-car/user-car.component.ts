@@ -1,10 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
-  Component,
+  Component, ElementRef,
   EventEmitter,
   inject,
   Input,
-  Output,
+  Output, ViewChild,
 } from '@angular/core';
 import { Car } from '../../../shared/states/cars/cars.interface';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -44,7 +45,7 @@ import { MinivanIconComponent } from '../../../../assets/icons/minivan-icon/mini
   styleUrl: './user-car.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserCarComponent {
+export class UserCarComponent implements AfterViewInit {
   private readonly store: Store = inject(Store);
   private readonly confirmationService: ConfirmationService =
     inject(ConfirmationService);
@@ -53,7 +54,17 @@ export class UserCarComponent {
 
   @Input({ required: true }) car: Car | undefined;
   @Input() panelIndex: number = 0;
+  @Input() lastToScrollTo: boolean = false;
+
   @Output() updating: EventEmitter<void> = new EventEmitter<void>();
+
+  @ViewChild('scrollToViewAnchor') scrollToViewAnchor:
+    | ElementRef<HTMLSpanElement>
+    | undefined;
+
+  ngAfterViewInit(): void {
+    this.handleScrollToView();
+  }
 
   updateCar(car: Car): void {
     this.store.dispatch(new CarsActions.UpdateCarInManageCarsSidebar(car));
@@ -155,5 +166,16 @@ export class UserCarComponent {
         detail: this.translateService.instant(error.error.message),
       }),
     );
+  }
+
+  private handleScrollToView() {
+    if (this.lastToScrollTo) {
+      setTimeout(() => {
+        this.scrollToViewAnchor?.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 100);
+    }
   }
 }
