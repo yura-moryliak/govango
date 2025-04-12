@@ -6,7 +6,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { delay, of, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Button } from 'primeng/button';
 import { FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { Store } from '@ngxs/store';
