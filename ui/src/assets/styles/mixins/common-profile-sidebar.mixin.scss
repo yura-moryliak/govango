@@ -1,3 +1,5 @@
+@use "./car-images-upload.mixin" as car-images-upload;
+
 @mixin common-profile-sidebar {
   .common-profile-sidebar {
     &.p-drawer-right {
@@ -51,5 +53,7 @@
         justify-content: space-between;
       }
     }
+
+    @include car-images-upload.car-images-upload;
   }
 }

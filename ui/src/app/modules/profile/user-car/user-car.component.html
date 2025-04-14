@@ -58,6 +58,25 @@
       <p-divider />
       <div class="content-grid with-buttons">
         <div class="grid-item">
+          @if (!car.images?.length) {
+            <p-button
+              size="small"
+              severity="secondary"
+              icon="pi pi-upload"
+              rounded
+              outlined
+              (onClick)="openUploadCarImagesSidebar(car.id)"
+            />
+          } @else {
+            <p-button
+              size="small"
+              severity="secondary"
+              icon="pi pi-images"
+              rounded
+              outlined
+              (onClick)="isGalleriaOpened = true"
+            />
+          }
           <p-button
             size="small"
             severity="secondary"
@@ -80,4 +99,29 @@
     </p-accordion-content>
   </p-accordion-panel>
   <span #scrollToViewAnchor class="scroll-to-view-anchor"></span>
+
+  <p-galleria
+    [value]="car.images"
+    [(visible)]="isGalleriaOpened"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template #item let-image>
+      <img
+        [src]="image.imageUrl"
+        style="width: 100%; display: block"
+        alt="car-image"
+      />
+    </ng-template>
+  </p-galleria>
+}
+
+@if (isUploadCarImagesSidebarOpened) {
+  <gvg-car-images-upload
+    [visible]="isUploadCarImagesSidebarOpened"
+    (closed)="isUploadCarImagesSidebarOpened = false"
+  >
+  </gvg-car-images-upload>
 }

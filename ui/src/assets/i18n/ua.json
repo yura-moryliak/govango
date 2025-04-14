@@ -537,6 +537,7 @@
   "Your account has been updated successfully": "Ваш обліковий запис успішно оновлено",
   "FILE_UNSUPPORTED_TYPE": "Непідтримуваний тип файлу: {{ fileType }}. Дозволені лише {{ allowedTypes }}.",
   "FILE_SIZE_EXCEEDS": "Розмір файлу перевищує ліміт {{ fileSizeLimit }}Мб. Розмір вашого файлу {{ actualFileSize }}Мб",
+  "FILE_MAX_FILES_TO_UPLOAD": "Максимальна кількість файлів для завантаження - {{ maxFiles }}. Ви намагаєтеся завантажити {{ actualFiles }} файлів.",
   "File is empty. Please select a valid file.": "Файл порожній. Будь ласка, виберіть дійсний файл.",
   "Invalid file. File name is missing.": "Недійсний файл. Відсутня назва файлу.",
   "Invalid file. Modification date is not available.": "Недійсний файл. Дата зміни недоступна.",
@@ -554,5 +555,14 @@
   "Dimensions": "Габарити",
   "Car removal": "Видалення авто",
   "Are you sure you want to remove this car?": "Ви впевнені, що хочете видалити це авто?",
-  "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "Це ваше останнє авто. Після його видалення ви більше не будете перевізником. Ви впевнені, що хочете видалити його?"
+  "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "Це ваше останнє авто. Після його видалення ви більше не будете перевізником. Ви впевнені, що хочете видалити його?",
+  "Upload car images": "Завантажити зображення авто",
+  "Before upload": "Перед завантаженням",
+  "Max files amount to upload": "Максимальна кількість зображень",
+  "Max file size of 1 image": "Максимальний розмір одного зображення",
+  "Allowed file types": "Дозволені типи файлів",
+  "Upload": "Завантажити",
+  "Please wait while the preview of images is being processed": "Будь ласка, зачекайте, поки обробляється попередній перегляд зображень",
+  "Select images": "Вибрати зображення",
+  "Car images has been uploaded successfully": "Зображення авто успішно завантажено"
 }

@@ -24,6 +24,15 @@ export class CarService {
     return this.httpClient.put<Car>(`${this.baseUrl}/${userId}/${car.id}`, car);
   }
 
+  uploadCarImages(carId: string, files: File[]): Observable<Car> {
+    const formData = new FormData();
+    files.forEach((file: File) => formData.append('images', file));
+    return this.httpClient.post<Car>(
+      `${this.baseUrl}/${carId}/images`,
+      formData,
+    );
+  }
+
   removeCar(userId: string, carId: string): Observable<string> {
     return this.httpClient.delete<string>(`${this.baseUrl}/${userId}/${carId}`);
   }

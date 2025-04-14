@@ -14,6 +14,7 @@ import { join } from 'path';
 import { unlink } from 'node:fs';
 import path from 'node:path';
 import { ConfigService } from '@nestjs/config';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class CarsService {
@@ -74,6 +75,7 @@ export class CarsService {
 
     return await this.carsRepository.find({
       where: { user: { id: userId } },
+      relations: ['images'],
     });
   }
 
@@ -137,7 +139,7 @@ export class CarsService {
   async uploadCarImages(
     carId: string,
     files: Express.Multer.File[],
-  ): Promise<void> {
+  ): Promise<CarEntity> {
     if (!files || files.length === 0) {
       throw new BadRequestException('No files uploaded');
     }
@@ -182,6 +184,9 @@ export class CarsService {
     });
 
     await this.carImagesRepository.save(images);
+
+    car.images = images;
+    return instanceToPlain(car) as CarEntity;
   }
 
   async remove(userId: string, carId: string): Promise<string> {

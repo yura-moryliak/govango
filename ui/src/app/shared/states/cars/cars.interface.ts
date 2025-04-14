@@ -7,4 +7,5 @@ export interface Car {
   width: number;
   height: number;
   carryCapacity: number;
+  images?: { id: string; imageUrl: string }[];
 }

@@ -20,6 +20,7 @@ export interface CarsStateModel {
     };
   };
   carToUpdate: Car | null;
+  carId: string | null;
 }
 
 export const CARS_STATE_TOKEN = new StateToken<CarsStateModel>('cars');
@@ -29,6 +30,7 @@ export const CARS_STATE_TOKEN = new StateToken<CarsStateModel>('cars');
   defaults: {
     byId: {},
     carToUpdate: null,
+    carId: null,
   },
 })
 @Injectable()
@@ -43,6 +45,11 @@ export class CarsState {
   @Selector()
   static carToUpdate(state: CarsStateModel): CarsStateModel['carToUpdate'] {
     return state.carToUpdate;
+  }
+
+  @Selector()
+  static carId(state: CarsStateModel): CarsStateModel['carId'] {
+    return state.carId;
   }
 
   static carsByUserId(userId: string) {
@@ -78,6 +85,14 @@ export class CarsState {
     setState(patch({ carToUpdate: car }));
   }
 
+  @Action(CarsActions.UpdateUploadCarImagesSidebar)
+  updateUploadCarImagesSidebar(
+    { setState }: StateContext<CarsStateModel>,
+    { carId }: CarsActions.UpdateUploadCarImagesSidebar,
+  ): void {
+    setState(patch({ carId: carId }));
+  }
+
   @Action(CarsActions.ClearCarToUpdate)
   clearCarToUpdate({ setState }: StateContext<CarsStateModel>): void {
     setState(patch({ carToUpdate: null }));
@@ -89,6 +104,27 @@ export class CarsState {
     { userId, car }: CarsActions.UpdateCar,
   ): Observable<Car> {
     return this.carsService.updateCar(userId, car).pipe(
+      tap((car: Car) => {
+        const cars: Car[] = getState().byId[userId]?.cars || [];
+        const updatedCars: Car[] = cars.map((c) => (c.id === car.id ? car : c));
+
+        setState(
+          patch({
+            byId: patch({
+              [userId]: patch({ cars: updatedCars }),
+            }),
+          }),
+        );
+      }),
+    );
+  }
+
+  @Action(CarsActions.UploadCarImages, { cancelUncompleted: true })
+  uploadCarImages(
+    { getState, setState }: StateContext<CarsStateModel>,
+    { carId, userId, files }: CarsActions.UploadCarImages,
+  ): Observable<Car> {
+    return this.carsService.uploadCarImages(carId, files).pipe(
       tap((car: Car) => {
         const cars: Car[] = getState().byId[userId]?.cars || [];
         const updatedCars: Car[] = cars.map((c) => (c.id === car.id ? car : c));

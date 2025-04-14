@@ -1,0 +1,115 @@
+<p-drawer
+  [(visible)]="visible"
+  [closable]="!isUploading"
+  [closeOnEscape]="false"
+  [blockScroll]="true"
+  [dismissible]="false"
+  (onHide)="handleClose()"
+  position="right"
+  styleClass="common-profile-sidebar"
+>
+  <ng-template #header>
+    <h4>{{ "Upload car images" | translate }}</h4>
+  </ng-template>
+
+  <ng-template #content>
+    <p-divider />
+
+    @if (previewImages.length) {
+      @for (image of previewImages; track $index) {
+        @if (image.error) {
+          <p-message
+            severity="error"
+            text="{{ image.name + ' ' + image.error }}"
+            styleClass="image-upload-error"
+          />
+        } @else {
+          <div class="images-preview">
+            <img [src]="image.url" alt="car-preview-{{ image.name }}" />
+
+            <div class="image-info">
+              <span>{{ image.name }}</span>
+              <span>{{ (image.size / 1024).toFixed(1) }} KB</span>
+            </div>
+
+            <p-button
+              size="small"
+              severity="danger"
+              icon="pi pi-trash"
+              rounded
+              outlined
+              (onClick)="removeFile(image.name)"
+            />
+          </div>
+          <p-divider />
+        }
+      }
+
+      <p-button
+        type="submit"
+        [label]="'Upload' | translate"
+        [loading]="isUploading"
+        (onClick)="uploadImages()"
+      />
+    }
+
+    @if (isProcessing) {
+      <div class="spinner-container">
+        <p-progress-spinner
+          strokeWidth="2"
+          fill="transparent"
+          animationDuration=".5s"
+          [style]="{ width: '50px', height: '50px' }"
+        />
+        <small>{{
+          "Please wait while the preview of images is being processed"
+            | translate
+        }}</small>
+      </div>
+    }
+
+    @if (!isProcessing && !previewImages.length) {
+      <div class="images-requirements">
+        <h4>{{ "Before upload" | translate }}</h4>
+        <ul>
+          <li>
+            <small>{{ "Max files amount to upload" | translate }}</small> -
+            <b>{{ maxFilesToUpload }}</b>
+          </li>
+          <li>
+            <small>{{ "Max file size of 1 image" | translate }}</small> -
+            <b>{{ (maxFileSize / 1024 / 1024).toFixed(1) }} Mb</b>
+          </li>
+          <li>
+            <small>{{ "Allowed file types" | translate }}</small> -
+            <b>{{ displayAllowedTypes }}</b>
+          </li>
+        </ul>
+
+        <p-button
+          size="small"
+          icon="pi pi-images"
+          [label]="'Select images' | translate"
+          (onClick)="triggerFileUpload()"
+        />
+      </div>
+    }
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button
+      severity="secondary"
+      label="{{ 'Close' | translate }}"
+      (onClick)="handleClose()"
+      [disabled]="isUploading"
+    />
+  </ng-template>
+</p-drawer>
+
+<input
+  #fu
+  hidden
+  type="file"
+  [multiple]="true"
+  (change)="onFileSelect($event)"
+/>

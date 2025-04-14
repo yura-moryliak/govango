@@ -21,6 +21,11 @@ export namespace CarsActions {
     constructor(public car: Car) {}
   }
 
+  export class UpdateUploadCarImagesSidebar {
+    static readonly type = `${ACTION_SCOPE} Update upload car images sidebar`;
+    constructor(public carId: string) {}
+  }
+
   export class ClearCarToUpdate {
     static readonly type = `${ACTION_SCOPE} Clear car to update`;
   }
@@ -30,6 +35,15 @@ export namespace CarsActions {
     constructor(
       public userId: string,
       public car: Car,
+    ) {}
+  }
+
+  export class UploadCarImages {
+    static readonly type = `${ACTION_SCOPE} Upload car images`;
+    constructor(
+      public carId: string,
+      public userId: string,
+      public files: File[],
     ) {}
   }
 

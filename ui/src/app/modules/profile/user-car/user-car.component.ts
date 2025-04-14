@@ -31,6 +31,8 @@ import {
   AccordionPanel,
 } from 'primeng/accordion';
 import { MinivanIconComponent } from '../../../../assets/icons/minivan-icon/minivan-icon.component';
+import { CarImagesUploadComponent } from '../car-images-upload/car-images-upload.component';
+import { GalleriaModule } from 'primeng/galleria';
 
 @Component({
   selector: 'gvg-user-car',
@@ -42,6 +44,8 @@ import { MinivanIconComponent } from '../../../../assets/icons/minivan-icon/mini
     AccordionContent,
     AccordionHeader,
     MinivanIconComponent,
+    CarImagesUploadComponent,
+    GalleriaModule,
   ],
   templateUrl: './user-car.component.html',
   styleUrl: './user-car.component.scss',
@@ -64,8 +68,34 @@ export class UserCarComponent implements AfterViewInit {
     | ElementRef<HTMLSpanElement>
     | undefined;
 
+  isUploadCarImagesSidebarOpened: boolean = false;
+  isGalleriaOpened: boolean = false;
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1500px',
+      numVisible: 5,
+    },
+    {
+      breakpoint: '1024px',
+      numVisible: 3,
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 2,
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1,
+    },
+  ];
+
   ngAfterViewInit(): void {
     this.handleScrollToView();
+  }
+
+  openUploadCarImagesSidebar(carId: string): void {
+    this.isUploadCarImagesSidebarOpened = true;
+    this.store.dispatch(new CarsActions.UpdateUploadCarImagesSidebar(carId));
   }
 
   updateCar(car: Car): void {

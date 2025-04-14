@@ -537,6 +537,7 @@
   "Your account has been updated successfully": "Your account has been updated successfully",
   "FILE_UNSUPPORTED_TYPE": "Unsupported file type: {{ fileType }}. Only {{ allowedTypes }} are allowed.",
   "FILE_SIZE_EXCEEDS": "File size exceeds the limit of {{ fileSizeLimit }}Mи. Your file size is {{ actualFileSize }}Mb",
+  "FILE_MAX_FILES_TO_UPLOAD": "Maximum number of files to upload is {{ maxFiles }}. You have uploaded {{ actualFiles }} files.",
   "File is empty. Please select a valid file.": "File is empty. Please select a valid file.",
   "Invalid file. File name is missing.": "Invalid file. File name is missing.",
   "Invalid file. Modification date is not available.": "Invalid file. Modification date is not available.",
@@ -554,5 +555,14 @@
   "Dimensions": "Dimensions",
   "Car removal": "Car removal",
   "Are you sure you want to remove this car?": "Are you sure you want to remove this car?",
-  "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "This is your last car. After removing it, you will no longer be a car owner. Are you sure you want to remove it?"
+  "This is your last car. After removing it, you will no longer be a carrier. Are you sure you want to remove it?": "This is your last car. After removing it, you will no longer be a car owner. Are you sure you want to remove it?",
+  "Upload car images": "Upload car images",
+  "Before upload": "Before upload",
+  "Max files amount to upload": "Max files amount to upload",
+  "Max file size of 1 image": "Max file size of 1 image",
+  "Allowed file types": "Allowed file types",
+  "Upload": "Upload",
+  "Please wait while the preview of images is being processed": "Please wait while the preview of images is being processed",
+  "Select images": "Select images",
+  "Car images has been uploaded successfully": "Car images has been uploaded successfully"
 }

@@ -1,0 +1,76 @@
+@mixin car-images-upload {
+  .images-preview {
+    display: grid;
+    grid-template-columns: 5em 1fr 1fr;
+    margin-bottom: 1em;
+
+    &:first-of-type {
+      margin-top: 1em;
+    }
+
+    img {
+      width: 5em;
+      height: 5em;
+      object-fit: cover;
+      border-radius: 0.5em;
+      border: 0.188em solid var(--p-button-secondary-background);
+    }
+
+    .image-info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 1em;
+      gap: 0.5em;
+
+      span:last-child {
+        font-size: 0.8em;
+        color: var(--p-yellow-600);
+      }
+    }
+
+    p-button {
+      justify-self: end;
+      align-self: center;
+    }
+  }
+
+  .spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    gap: 0.5em;
+
+    small {
+      color: var(--p-yellow-600);
+      text-align: center;
+    }
+  }
+
+  .images-requirements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--p-surface-700);
+    padding: 1em 0;
+
+    h4 {
+      margin: 0 0 1em 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      b {
+        color: var(--p-yellow-600);
+      }
+    }
+
+    p-button {
+      margin-top: 2em;
+    }
+  }
+}

@@ -11,12 +11,26 @@ export const avatarFileUploadStorage = diskStorage({
   },
 });
 
-export const carImagesStorage = diskStorage({
-  destination: './uploads/cars',
-  filename: (req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const extension = extname(file.originalname);
-    const fileName = `car-${(req.user as any).userId}-${uniqueSuffix}${extension}`;
-    cb(null, `${fileName}${extension}`);
+export const carImagesStorage = {
+  storage: diskStorage({
+    destination: './uploads/cars',
+    filename: (req, file, callback) => {
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      const extension = extname(file.originalname);
+      const fileName = `car-${(req.user as any).userId}-${uniqueSuffix}${extension}`;
+      callback(null, fileName);
+    },
+  }),
+  limits: {
+    fileSize: 1024 * 1024, // 1MB
+    files: 5,
   },
-});
+  fileFilter: (_, file, callback) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (allowed.includes(file.mimetype)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Unsupported file type'), false);
+    }
+  },
+};

@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -136,7 +135,7 @@ export class CarsController {
   @Post(':carId/images')
   @ApiOkResponse({
     description: 'Car images were successfully uploaded',
-    example: void 0,
+    example: ALL_CARS_OK_RESPONSE_EXAMPLE,
   })
   @ApiBadRequestResponse({ description: 'No files uploaded' })
   @ApiNotFoundResponse({ description: 'Car not found by given id' })
@@ -147,11 +146,11 @@ export class CarsController {
     type: 'multipart/form-data',
     required: true,
   })
-  @UseInterceptors(FilesInterceptor('images', 5, { storage: carImagesStorage }))
+  @UseInterceptors(FilesInterceptor('images', 5, carImagesStorage))
   uploadCarImages(
     @Param('carId') carId: string,
     @UploadedFiles() files: Express.Multer.File[],
-  ): Promise<void> {
+  ): Promise<CarEntity> {
     return this.carsService.uploadCarImages(carId, files);
   }
 
