@@ -1,22 +1,12 @@
 <p-drawer
   [(visible)]="visible"
-  [closable]="false"
+  [closable]="!(hasDifference$ | async)"
   [closeOnEscape]="false"
   [blockScroll]="true"
   [dismissible]="false"
   position="right"
   styleClass="common-profile-sidebar"
 >
-  <ng-template #header> </ng-template>
-  <h4>
-    @if (!carToUpdate) {
-      {{ "Add vehicle" | translate }}
-    } @else {
-      {{ carToUpdate.make }} {{ carToUpdate.model }} -
-      {{ carToUpdate.registrationPlate }}
-    }
-  </h4>
-
   <form novalidate [formGroup]="form" (ngSubmit)="submit()">
     <p-iftalabel>
       <p-inputmask
@@ -220,31 +210,41 @@
         }
       </p-iftalabel>
     </div>
-
-    <div class="button-group">
-      <p-button
-        severity="secondary"
-        label="{{
-          (hasDifference$ | async)
-            ? ('Cancel' | translate)
-            : ('Close' | translate)
-        }}"
-        (onClick)="cancel()"
-      />
-      <p-button
-        type="submit"
-        [label]="
-          isBusy
-            ? ('In progress' | translate)
-            : carToUpdate
-              ? ('Update' | translate)
-              : ('Add' | translate)
-        "
-        [loading]="isBusy"
-        [disabled]="
-          form.invalid || !form.value.model?.name || !(hasDifference$ | async)
-        "
-      />
-    </div>
   </form>
+
+  <ng-template #header>
+    <h4>
+      @if (!carToUpdate) {
+        {{ "Add vehicle" | translate }}
+      } @else {
+        {{ carToUpdate.make }} {{ carToUpdate.model }} -
+        {{ carToUpdate.registrationPlate }}
+      }
+    </h4>
+  </ng-template>
+  <ng-template #footer>
+    <p-button
+      severity="secondary"
+      label="{{
+        (hasDifference$ | async)
+          ? ('Cancel' | translate)
+          : ('Close' | translate)
+      }}"
+      (onClick)="cancel()"
+    />
+    <p-button
+      type="submit"
+      [label]="
+        isBusy
+          ? ('In progress' | translate)
+          : carToUpdate
+            ? ('Update' | translate)
+            : ('Add' | translate)
+      "
+      [loading]="isBusy"
+      [disabled]="
+        form.invalid || !form.value.model?.name || !(hasDifference$ | async)
+      "
+    />
+  </ng-template>
 </p-drawer>

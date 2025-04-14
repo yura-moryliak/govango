@@ -1,17 +1,13 @@
 <p-drawer
   [(visible)]="visible"
-  [closable]="false"
+  [closable]="!(hasDifference$ | async)"
   [closeOnEscape]="false"
   [blockScroll]="true"
   [dismissible]="false"
   position="right"
   styleClass="common-profile-sidebar"
 >
-  <ng-template #header>
-    <h4>{{ "Update profile" | translate }}</h4>
-  </ng-template>
-
-  <form novalidate [formGroup]="form" (ngSubmit)="update()">
+  <form novalidate [formGroup]="form">
     <small class="warning-panel">
       <i class="pi pi-exclamation-triangle"></i>
       {{
@@ -158,24 +154,27 @@
         }
       }
     </p-iftalabel>
-
-    <div class="button-group">
-      <p-button
-        severity="secondary"
-        label="{{
-          (hasDifference$ | async)
-            ? ('Cancel' | translate)
-            : ('Close' | translate)
-        }}"
-        (onClick)="cancel()"
-      />
-      <p-button
-        type="submit"
-        [label]="isBusy ? ('In progress' | translate) : ('Update' | translate)"
-        [loading]="isBusy"
-        [disabled]="form.invalid || !(hasDifference$ | async)"
-      />
-    </div>
   </form>
+
+  <ng-template #header
+    ><h4>{{ "Update profile" | translate }}</h4></ng-template
+  >
+  <ng-template #footer>
+    <p-button
+      severity="secondary"
+      label="{{
+        (hasDifference$ | async)
+          ? ('Cancel' | translate)
+          : ('Close' | translate)
+      }}"
+      (onClick)="cancel()"
+    />
+    <p-button
+      [label]="isBusy ? ('In progress' | translate) : ('Update' | translate)"
+      [loading]="isBusy"
+      [disabled]="form.invalid || !(hasDifference$ | async)"
+      (onClick)="update()"
+    />
+  </ng-template>
 </p-drawer>
 <p-confirmDialog styleClass="unsaved-profile-changes-dialog" />

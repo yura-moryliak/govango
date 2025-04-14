@@ -48,10 +48,15 @@
         }
       }
 
-      .button-group {
-        display: flex;
-        justify-content: space-between;
-      }
+      //.button-group {
+      //  display: flex;
+      //  justify-content: space-between;
+      //}
+    }
+
+    .p-drawer-footer {
+      display: flex;
+      justify-content: space-between;
     }
 
     @include car-images-upload.car-images-upload;
