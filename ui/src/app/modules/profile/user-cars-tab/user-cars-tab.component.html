@@ -14,15 +14,15 @@
   </div>
 } @else {
   @if (cars$ | async; as cars) {
-    <p-accordion [value]="0">
+    <p-accordion [value]="cars.length">
       @for (
         car of cars$ | async;
         track car.id;
-        let index = $index;
+        let carsIndex = $index;
         let last = $last
       ) {
         <gvg-user-car
-          [panelIndex]="cars.length - 1 - index"
+          [panelIndex]="carsIndex + 1"
           [car]="car"
           (updating)="isManageCarsSidebarVisible = true"
           [lastToScrollTo]="last"
